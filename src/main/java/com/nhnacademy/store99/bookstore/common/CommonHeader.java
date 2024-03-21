@@ -1,10 +1,12 @@
 package com.nhnacademy.store99.bookstore.common;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.util.Objects;
 
+@Getter
 public class CommonHeader {
     private final boolean isSuccessful;
     private final HttpStatus httpStatus;
