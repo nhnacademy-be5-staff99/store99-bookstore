@@ -1,7 +1,7 @@
 <configuration>
     <!-- LogNCrashHttpAppender 선언 -->
     <appender name="logNCrashHttp" class="com.toast.java.logncrash.logback.LogNCrashHttpAppender">
-        <param name="appKey" value="${LOG_N_BACK_APP_KEY}"/>
+        <param name="appKey" value="${LOG_N_CRASH_APP_KEY}"/>
         <param name="logSource" value="${spring.profiles.active}"/>
         <param name="logType" value="store99"/>
     </appender>
@@ -10,7 +10,7 @@
     <appender name="LNCS-APPENDER" class="ch.qos.logback.classic.AsyncAppender">
         <!-- Logback의 AsyncAppender 옵션 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
+            <level>ERROR</level>
         </filter>
         <includeCallerData value="false"/>
         <queueSize value="2048"/>
@@ -30,10 +30,10 @@
         </encoder>
     </appender>
 
-    <root level="error">
+    <root level="ERROR">
         <appender-ref ref="LNCS-APPENDER"/>
     </root>
-    <root level="DEBUG">
+    <root level="ERROR">
         <appender-ref ref="CONSOLE"/>
     </root>
 </configuration>
