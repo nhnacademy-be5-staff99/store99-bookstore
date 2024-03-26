@@ -16,7 +16,7 @@ class BookstoreApplicationTests {
 	}
 
 	@Test
-	void test() {
+	void connectDatabase() {
 		String databaseName = jdbcTemplate.queryForObject("SELECT DATABASE()", String.class);
 		System.out.println(databaseName);
 	}
