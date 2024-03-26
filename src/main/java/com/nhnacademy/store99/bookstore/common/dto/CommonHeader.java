@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.common;
+package com.nhnacademy.store99.bookstore.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;
