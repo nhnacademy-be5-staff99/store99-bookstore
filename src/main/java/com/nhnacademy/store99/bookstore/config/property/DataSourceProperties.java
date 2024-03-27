@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.common.property;
+package com.nhnacademy.store99.bookstore.config.property;
 
 import com.nhnacademy.store99.bookstore.common.util.SecureKeyManagerUtil;
 import lombok.Getter;

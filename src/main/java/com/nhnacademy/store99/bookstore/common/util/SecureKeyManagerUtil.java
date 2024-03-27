@@ -1,7 +1,8 @@
 package com.nhnacademy.store99.bookstore.common.util;
 
-import com.nhnacademy.store99.bookstore.common.exception.SecureKeyMangerException;
-import com.nhnacademy.store99.bookstore.common.property.SecureKeyManagerProperties;
+import com.nhnacademy.store99.bookstore.secure_key_manager.exception.SecureKeyMangerException;
+import com.nhnacademy.store99.bookstore.secure_key_manager.property.SecureKeyManagerProperties;
+import com.nhnacademy.store99.bookstore.secure_key_manager.response.SecretResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -14,7 +15,6 @@ import java.security.cert.CertificateException;
 import java.time.Duration;
 import java.util.Objects;
 import javax.net.ssl.SSLContext;
-import lombok.Setter;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -87,27 +87,5 @@ public class SecureKeyManagerUtil {
 
     public boolean isEncrypted(String key) {
         return key.matches("^[a-zA-Z0-9]{32}$");
-    }
-
-    @Setter
-    private static class SecretResponse {
-        private Header header;
-        private Body body;
-
-        public String getSecret() {
-            return body.secret;
-        }
-
-        @Setter
-        private static class Header {
-            private int resultCode;
-            private String resultMessage;
-            private boolean isSuccessful;
-        }
-
-        @Setter
-        private static class Body {
-            private String secret;
-        }
     }
 }

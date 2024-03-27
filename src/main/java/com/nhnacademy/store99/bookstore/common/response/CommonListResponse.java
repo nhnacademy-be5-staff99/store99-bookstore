@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.common.dto;
+package com.nhnacademy.store99.bookstore.common.response;
 
 import java.util.List;
 import lombok.Builder;

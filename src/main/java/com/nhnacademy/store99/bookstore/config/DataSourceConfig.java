@@ -1,6 +1,6 @@
-package com.nhnacademy.store99.bookstore.common.config;
+package com.nhnacademy.store99.bookstore.config;
 
-import com.nhnacademy.store99.bookstore.common.property.DataSourceProperties;
+import com.nhnacademy.store99.bookstore.config.property.DataSourceProperties;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.dbcp2.BasicDataSource;

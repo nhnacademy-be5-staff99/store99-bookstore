@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.common.property;
+package com.nhnacademy.store99.bookstore.secure_key_manager.property;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
