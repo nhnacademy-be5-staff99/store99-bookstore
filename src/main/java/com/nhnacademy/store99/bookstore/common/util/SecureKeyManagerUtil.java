@@ -34,6 +34,7 @@ public class SecureKeyManagerUtil {
     public SecureKeyManagerUtil(SecureKeyManagerProperties secureKeyManagerProperties) {
         this.secureKeyManagerProperties = secureKeyManagerProperties;
 
+        // ssl rest template 생성
         try {
             sslRestTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofSeconds(5))
                     .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -42,9 +43,9 @@ public class SecureKeyManagerUtil {
                     .defaultHeader("X-TC-AUTHENTICATION-SECRET", secureKeyManagerProperties.getXTcAuthenticationSecret())
                     .build();
 
+            // 클라이언트 인증서를 로드하여 SSLContext 생성
             KeyStore clientStore = KeyStore.getInstance("PKCS12");
             InputStream inputStream = new ClassPathResource("store99.p12").getInputStream();
-
             clientStore.load(inputStream, secureKeyManagerProperties.getCertificatePassword().toCharArray());
             SSLContext sslContext = SSLContextBuilder.create()
                     .setProtocol("TLS")
@@ -52,11 +53,13 @@ public class SecureKeyManagerUtil {
                     .loadTrustMaterial(new TrustSelfSignedStrategy())
                     .build();
 
+            // SSLContext를 사용하여 SSLConnectionSocketFactory 생성
             SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext);
             CloseableHttpClient httpClient = HttpClients.custom()
                     .setSSLSocketFactory(sslConnectionSocketFactory)
                     .build();
 
+            // SSLConnectionSocketFactory를 사용하여 HttpComponentsClientHttpRequestFactory 생성
             HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
             sslRestTemplate.setRequestFactory(requestFactory);
         } catch(KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | KeyManagementException ex) {
