@@ -2,6 +2,18 @@ package com.nhnacademy.store99.bookstore.common.util;
 
 import com.nhnacademy.store99.bookstore.common.exception.SecureKeyMangerException;
 import com.nhnacademy.store99.bookstore.common.property.SecureKeyManagerProperties;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.time.Duration;
+import java.util.Objects;
+import javax.net.ssl.SSLContext;
 import lombok.Setter;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
@@ -17,15 +29,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.net.ssl.SSLContext;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.security.*;
-import java.security.cert.CertificateException;
-import java.time.Duration;
-import java.util.Objects;
-
 @Component
 public class SecureKeyManagerUtil {
     private final SecureKeyManagerProperties secureKeyManagerProperties;
@@ -40,7 +43,8 @@ public class SecureKeyManagerUtil {
                     .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                     .defaultHeader("X-TC-AUTHENTICATION-ID", secureKeyManagerProperties.getXTcAuthenticationId())
-                    .defaultHeader("X-TC-AUTHENTICATION-SECRET", secureKeyManagerProperties.getXTcAuthenticationSecret())
+                    .defaultHeader("X-TC-AUTHENTICATION-SECRET",
+                            secureKeyManagerProperties.getXTcAuthenticationSecret())
                     .build();
 
             // 클라이언트 인증서를 로드하여 SSLContext 생성
@@ -60,9 +64,11 @@ public class SecureKeyManagerUtil {
                     .build();
 
             // SSLConnectionSocketFactory를 사용하여 HttpComponentsClientHttpRequestFactory 생성
-            HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+            HttpComponentsClientHttpRequestFactory requestFactory =
+                    new HttpComponentsClientHttpRequestFactory(httpClient);
             sslRestTemplate.setRequestFactory(requestFactory);
-        } catch(KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | KeyManagementException ex) {
+        } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException |
+                 UnrecoverableKeyException | KeyManagementException ex) {
             throw new SecureKeyMangerException(ex.getMessage());
         }
     }
@@ -70,7 +76,8 @@ public class SecureKeyManagerUtil {
     // Secure Key Manager에 저장한 기밀 데이터를 조회합니다.
     public String loadConfidentialData(String key) {
         URI uri = UriComponentsBuilder
-                .fromUriString("https://api-keymanager.nhncloudservice.com/keymanager/v1.2/appkey/{appkey}/secrets/{keyid}")
+                .fromUriString(
+                        "https://api-keymanager.nhncloudservice.com/keymanager/v1.2/appkey/{appkey}/secrets/{keyid}")
                 .encode()
                 .buildAndExpand(secureKeyManagerProperties.getAppKey(), key)
                 .toUri();
