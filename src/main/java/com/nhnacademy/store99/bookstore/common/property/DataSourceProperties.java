@@ -26,7 +26,7 @@ public class DataSourceProperties {
     private boolean testOnBorrow;
 
     public void setUrl(final String url) {
-        if(secureKeyManagerUtil.isEncrypted(url)) {
+        if (secureKeyManagerUtil.isEncrypted(url)) {
             this.url = secureKeyManagerUtil.loadConfidentialData(url);
         } else {
             this.url = url;
@@ -34,7 +34,7 @@ public class DataSourceProperties {
     }
 
     public void setUsername(final String username) {
-        if(secureKeyManagerUtil.isEncrypted(username)) {
+        if (secureKeyManagerUtil.isEncrypted(username)) {
             this.username = secureKeyManagerUtil.loadConfidentialData(username);
         } else {
             this.username = username;
@@ -42,7 +42,7 @@ public class DataSourceProperties {
     }
 
     public void setPassword(final String password) {
-        if(secureKeyManagerUtil.isEncrypted(password)) {
+        if (secureKeyManagerUtil.isEncrypted(password)) {
             this.password = secureKeyManagerUtil.loadConfidentialData(password);
         } else {
             this.password = password;
