@@ -1,9 +1,8 @@
 package com.nhnacademy.store99.bookstore.common;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class CommonListResponse<T> {
