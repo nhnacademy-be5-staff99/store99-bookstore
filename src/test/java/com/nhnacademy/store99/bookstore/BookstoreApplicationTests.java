@@ -8,16 +8,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @SpringBootTest
 class BookstoreApplicationTests {
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
-	@Test
-	void connectDatabase() {
-		String databaseName = jdbcTemplate.queryForObject("SELECT DATABASE()", String.class);
-		System.out.println(databaseName);
-	}
+    @Test
+    void connectDatabase() {
+        String databaseName = jdbcTemplate.queryForObject("SELECT DATABASE()", String.class);
+        System.out.println(databaseName);
+    }
 }
