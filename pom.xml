@@ -129,7 +129,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-    </dependencies>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -146,13 +145,6 @@
             <version>1.2.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>nhn.logncrash</groupId>
-            <artifactId>toast-logncrash-logback-sdk</artifactId>
-            <version>3.0.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/libs/toast-logncrash-logback-sdk-3.0.5.jar</systemPath>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
