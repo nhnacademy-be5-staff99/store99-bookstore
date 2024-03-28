@@ -18,6 +18,12 @@
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>logncrash</id>
+            <url>file://${project.basedir}/src/main/resources/libs</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -109,11 +115,31 @@
             <artifactId>httpclient</artifactId>
             <version>4.5</version>
         </dependency>
-        <!--		<dependency>-->
-        <!--			<groupId>ch.qos.logback</groupId>-->
-        <!--			<artifactId>logback-core</artifactId>-->
-        <!--			<version>1.2.3</version>-->
-        <!--		</dependency>-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>nhn.logncrash</groupId>
+            <artifactId>toast-logncrash-logback-sdk</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20171018</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5</version>
+        </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
