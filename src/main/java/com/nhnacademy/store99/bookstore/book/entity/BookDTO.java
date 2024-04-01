@@ -2,7 +2,9 @@ package com.nhnacademy.store99.bookstore.book.entity;
 
 
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 public class BookDTO {
     private String bookIsbn13;
     private String bookIsbn11;
