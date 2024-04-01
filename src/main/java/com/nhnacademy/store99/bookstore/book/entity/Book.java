@@ -75,22 +75,27 @@ public class Book {
     @Column(name = "book_thumbnail_url")
     private String bookThumbnailUrl;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_view_count", nullable = false)
     private Integer bookViewCount = 0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_stock", nullable = false)
     private Integer bookStock = 0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_cnt_of_review", nullable = false)
     private Integer bookCntOfReview = 0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_avg_of_rate", nullable = false)
     private Double bookAvgOfRate = 0.0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

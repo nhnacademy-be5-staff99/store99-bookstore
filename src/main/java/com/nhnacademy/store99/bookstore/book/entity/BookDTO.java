@@ -12,7 +12,7 @@ public class BookDTO {
     private String bookContents;
     private String bookDescription;
     private String bookPublisher;
-    private LocalDateTime bookDate;
+    private LocalDateTime bookDateTime;
     private Integer bookPrice;
     private Integer bookSalePrice;
     private Boolean bookIsPacked;
