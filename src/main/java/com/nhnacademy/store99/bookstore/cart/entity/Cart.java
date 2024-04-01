@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,4 +40,7 @@ public class Cart {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
+    @NotNull
+    @Column(name = "cart_is_checked", nullable = false)
+    private Boolean cartIsChecked = false;
 }
