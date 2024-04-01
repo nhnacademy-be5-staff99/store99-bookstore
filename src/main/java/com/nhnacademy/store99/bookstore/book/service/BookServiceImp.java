@@ -16,7 +16,8 @@ public class BookServiceImp implements BookServiceInterface {
 
     @Override
     public BookDTO postBook(BookDTO bookDTO) {
-        bookRepository.save(this.injectBook(bookDTO));
+        Book book = injectBook(bookDTO);
+        bookRepository.save(book);
         return bookDTO;
     }
 
@@ -33,7 +34,7 @@ public class BookServiceImp implements BookServiceInterface {
                 .bookContents(bookDTO.getBookContents())
                 .bookDescription(bookDTO.getBookDescription())
                 .bookPublisher(bookDTO.getBookPublisher())
-                .bookDate(bookDTO.getBookDate())
+                .bookDate(bookDTO.getBookDateTime())
                 .bookPrice(bookDTO.getBookPrice())
                 .bookSalePrice(bookDTO.getBookSalePrice())
                 .bookIsPacked(bookDTO.getBookIsPacked())
