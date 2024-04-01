@@ -1,16 +1,44 @@
 package com.nhnacademy.store99.bookstore.book.service;
 
+import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.BookDTO;
-import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepositoryInterface;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BookServiceImp implements BookServiceInterface {
-    @Override
-    public CommonResponse postBook(BookDTO bookDTO) {
-        return null;
+    final private BookRepositoryInterface bookRepository;
+
+    public BookServiceImp(BookRepositoryInterface bookRepositoryInterface) {
+        this.bookRepository = bookRepositoryInterface;
     }
 
     @Override
-    public CommonResponse getBook(Long id) {
-        return null;
+    public BookDTO postBook(BookDTO bookDTO) {
+        bookRepository.save(this.injectBook(bookDTO));
+        return bookDTO;
+    }
+
+    @Override
+    public Optional<Book> getBook(Long id) {
+        return bookRepository.findById(id);
+    }
+
+    private Book injectBook(BookDTO bookDTO) {
+        return Book.builder()
+                .bookIsbn13(bookDTO.getBookIsbn13())
+                .bookIsbn11(bookDTO.getBookIsbn11())
+                .bookTitle(bookDTO.getBookTitle())
+                .bookContents(bookDTO.getBookContents())
+                .bookDescription(bookDTO.getBookDescription())
+                .bookPublisher(bookDTO.getBookPublisher())
+                .bookDate(bookDTO.getBookDate())
+                .bookPrice(bookDTO.getBookPrice())
+                .bookSalePrice(bookDTO.getBookSalePrice())
+                .bookIsPacked(bookDTO.getBookIsPacked())
+                .bookThumbnailUrl(bookDTO.getBookThumbnailUrl())
+                .bookStock(bookDTO.getBookStock())
+                .build();
     }
 }
