@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
-import com.nhnacademy.store99.bookstore.book.entity.BookDTO;
+import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -37,12 +37,12 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<CommonResponse> postBook(@RequestBody BookDTO bookDTO) {
+    public ResponseEntity<CommonResponse> postBook(@RequestBody BookRequest bookRequest) {
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.OK).build();
         CommonResponse commonResponse = CommonResponse.builder()
                 .header(commonHeader)
-                .result(bookService.postBook(bookDTO))
+                .result(bookService.postBook(bookRequest))
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
