@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book.service;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookDTO;
+import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepositoryInterface;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ public class BookServiceImp implements BookServiceInterface {
     }
 
     @Override
-    public BookDTO postBook(BookDTO bookDTO) {
-        Book book = injectBook(bookDTO);
+    public BookRequest postBook(BookRequest bookRequest) {
+        Book book = injectBook(bookRequest);
         bookRepository.save(book);
-        return bookDTO;
+        return bookRequest;
     }
 
     @Override
@@ -26,20 +26,20 @@ public class BookServiceImp implements BookServiceInterface {
         return bookRepository.findById(id);
     }
 
-    private Book injectBook(BookDTO bookDTO) {
+    private Book injectBook(BookRequest bookRequest) {
         return Book.builder()
-                .bookIsbn13(bookDTO.getBookIsbn13())
-                .bookIsbn11(bookDTO.getBookIsbn11())
-                .bookTitle(bookDTO.getBookTitle())
-                .bookContents(bookDTO.getBookContents())
-                .bookDescription(bookDTO.getBookDescription())
-                .bookPublisher(bookDTO.getBookPublisher())
-                .bookDate(bookDTO.getBookDateTime())
-                .bookPrice(bookDTO.getBookPrice())
-                .bookSalePrice(bookDTO.getBookSalePrice())
-                .bookIsPacked(bookDTO.getBookIsPacked())
-                .bookThumbnailUrl(bookDTO.getBookThumbnailUrl())
-                .bookStock(bookDTO.getBookStock())
+                .bookIsbn13(bookRequest.getBookIsbn13())
+                .bookIsbn11(bookRequest.getBookIsbn11())
+                .bookTitle(bookRequest.getBookTitle())
+                .bookContents(bookRequest.getBookContents())
+                .bookDescription(bookRequest.getBookDescription())
+                .bookPublisher(bookRequest.getBookPublisher())
+                .bookDate(bookRequest.getBookDateTime())
+                .bookPrice(bookRequest.getBookPrice())
+                .bookSalePrice(bookRequest.getBookSalePrice())
+                .bookIsPacked(bookRequest.getBookIsPacked())
+                .bookThumbnailUrl(bookRequest.getBookThumbnailUrl())
+                .bookStock(bookRequest.getBookStock())
                 .build();
     }
 }
