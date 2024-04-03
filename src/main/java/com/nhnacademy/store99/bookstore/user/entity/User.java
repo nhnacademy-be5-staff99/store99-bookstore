@@ -3,21 +3,14 @@ package com.nhnacademy.store99.bookstore.user.entity;
 import com.nhnacademy.store99.bookstore.auth.entity.Auth;
 import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
 import com.nhnacademy.store99.bookstore.grade.entity.Grade;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -27,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "users", schema = "staff99_bookstore")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long id;
 
@@ -57,8 +49,8 @@ public class User {
     @Column(name = "user_point", nullable = false)
     private Integer userPoint = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "consumer_id", nullable = false)
-    private Consumer consumer;
-
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Consumer consumers;
 }

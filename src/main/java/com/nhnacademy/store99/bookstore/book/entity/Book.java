@@ -1,19 +1,14 @@
 package com.nhnacademy.store99.bookstore.book.entity;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -27,13 +22,13 @@ public class Book {
     @Column(name = "book_id", nullable = false)
     private Long id;
 
-    @Size(max = 17)
-    @Column(name = "book_isbn13", length = 17)
+    @Size(max = 13)
+    @Column(name = "book_isbn13", length = 13)
     private String bookIsbn13;
 
-    @Size(max = 15)
-    @Column(name = "book_isbn11", length = 15)
-    private String bookIsbn11;
+    @Size(max = 10)
+    @Column(name = "book_isbn10", length = 10)
+    private String bookIsbn10;
 
     @Size(max = 255)
     @NotNull
@@ -100,5 +95,4 @@ public class Book {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
 }
