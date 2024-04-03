@@ -40,7 +40,7 @@ class BookControllerTest extends TestSupport {
     private BookRequest getBookReqeust() {
         BookRequest bookRequest = new BookRequest();
         bookRequest.setBookIsbn13("1234567890123");
-        bookRequest.setBookIsbn11("12345678901");
+        bookRequest.setBookIsbn10("1234567890");
         bookRequest.setBookTitle("testbook");
         bookRequest.setBookContents("book test contents");
         bookRequest.setBookDescription("book test Description");
@@ -57,7 +57,7 @@ class BookControllerTest extends TestSupport {
     private Optional<Book> injectBook(BookRequest bookRequest) {
         return Optional.ofNullable(Book.builder()
                 .bookIsbn13(bookRequest.getBookIsbn13())
-                .bookIsbn11(bookRequest.getBookIsbn11())
+                .bookIsbn10(bookRequest.getBookIsbn10())
                 .bookTitle(bookRequest.getBookTitle())
                 .bookContents(bookRequest.getBookContents())
                 .bookDescription(bookRequest.getBookDescription())

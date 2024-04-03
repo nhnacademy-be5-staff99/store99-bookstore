@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class BookRequest {
     private String bookIsbn13;
-    private String bookIsbn11;
+    private String bookIsbn10;
     private String bookTitle;
     private String bookContents;
     private String bookDescription;
