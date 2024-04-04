@@ -120,16 +120,14 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.restdocs</groupId>
-            <artifactId>spring-restdocs-mockmvc</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>nhn.logncrash</groupId>
             <artifactId>toast-logncrash-logback-sdk</artifactId>
             <version>3.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
@@ -146,10 +144,23 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+        <!-- spring rest docs start -->
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- spring rest docs end-->
     </dependencies>
 
     <build>
@@ -168,14 +179,15 @@
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
+
+            <!-- spring rest docs start -->
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>2.2.2</version>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>generate-docs</id>
-                        <!-- (3) -->
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>process-asciidoc</goal>
@@ -187,18 +199,16 @@
                     </execution>
                 </executions>
                 <dependencies>
-                    <!-- (4) -->
                     <dependency>
                         <groupId>org.springframework.restdocs</groupId>
                         <artifactId>spring-restdocs-asciidoctor</artifactId>
-                        <version>2.0.4.RELEASE</version>
+                        <version>${spring-restdocs.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>2.7</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -207,7 +217,6 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <!-- (2) -->
                             <outputDirectory>
                                 ${project.build.outputDirectory}/static/docs
                             </outputDirectory>
@@ -222,6 +231,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- spring rest docs end -->
         </plugins>
     </build>
 
