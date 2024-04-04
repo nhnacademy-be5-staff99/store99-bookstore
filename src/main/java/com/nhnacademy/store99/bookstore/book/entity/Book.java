@@ -1,19 +1,14 @@
 package com.nhnacademy.store99.bookstore.book.entity;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -75,27 +70,22 @@ public class Book {
     @Column(name = "book_thumbnail_url")
     private String bookThumbnailUrl;
 
-    @Builder.Default
     @NotNull
     @Column(name = "book_view_count", nullable = false)
     private Integer bookViewCount = 0;
 
-    @Builder.Default
     @NotNull
     @Column(name = "book_stock", nullable = false)
     private Integer bookStock = 0;
 
-    @Builder.Default
     @NotNull
     @Column(name = "book_cnt_of_review", nullable = false)
     private Integer bookCntOfReview = 0;
 
-    @Builder.Default
     @NotNull
     @Column(name = "book_avg_of_rate", nullable = false)
     private Double bookAvgOfRate = 0.0;
 
-    @Builder.Default
     @NotNull
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
