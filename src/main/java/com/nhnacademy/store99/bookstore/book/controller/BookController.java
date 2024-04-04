@@ -3,7 +3,9 @@ package com.nhnacademy.store99.bookstore.book.controller;
 import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
+import com.nhnacademy.store99.bookstore.common.response.CommonListResponse;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
+import java.util.Collections;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,18 @@ public class BookController {
         this.bookService = bookServiceInterface;
     }
 
+    @GetMapping("")
+    public ResponseEntity<CommonListResponse> getBooks() {
+        CommonHeader commonHeader = CommonHeader.builder()
+                .httpStatus(HttpStatus.OK)
+                .build();
+        CommonListResponse commonListResponse = CommonListResponse.builder()
+                .header(commonHeader)
+                .resultList(Collections.singletonList(bookService.getBooks()))
+                .build();
+        return ResponseEntity.ok(commonListResponse);
+    }
+
     @GetMapping("/{bookId}")
     public ResponseEntity<CommonResponse> getBook(@PathVariable("bookId") Long id) {
         CommonHeader commonHeader = CommonHeader.builder()
@@ -32,8 +46,6 @@ public class BookController {
                 .result(bookService.getBook(id).get())
                 .build();
         return ResponseEntity.ok(commonResponse);
-
-
     }
 
     @PostMapping
