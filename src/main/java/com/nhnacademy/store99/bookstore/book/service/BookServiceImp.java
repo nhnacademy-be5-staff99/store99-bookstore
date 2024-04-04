@@ -29,7 +29,7 @@ public class BookServiceImp implements BookServiceInterface {
     private Book injectBook(BookRequest bookRequest) {
         return Book.builder()
                 .bookIsbn13(bookRequest.getBookIsbn13())
-                .bookIsbn11(bookRequest.getBookIsbn11())
+                .bookIsbn10(bookRequest.getBookIsbn10())
                 .bookTitle(bookRequest.getBookTitle())
                 .bookContents(bookRequest.getBookContents())
                 .bookDescription(bookRequest.getBookDescription())
