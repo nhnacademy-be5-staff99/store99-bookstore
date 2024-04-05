@@ -12,6 +12,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,4 +39,8 @@ public class BookImage {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "book_image_type", nullable = false, length = 10)
+    private String bookImageType;
 }

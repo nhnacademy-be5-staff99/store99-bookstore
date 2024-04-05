@@ -27,13 +27,13 @@ public class Book {
     @Column(name = "book_id", nullable = false)
     private Long id;
 
-    @Size(max = 17)
-    @Column(name = "book_isbn13", length = 17)
+    @Size(max = 13)
+    @Column(name = "book_isbn13", length = 13)
     private String bookIsbn13;
 
-    @Size(max = 15)
-    @Column(name = "book_isbn11", length = 15)
-    private String bookIsbn11;
+    @Size(max = 10)
+    @Column(name = "book_isbn10", length = 10)
+    private String bookIsbn10;
 
     @Size(max = 255)
     @NotNull
@@ -75,22 +75,27 @@ public class Book {
     @Column(name = "book_thumbnail_url")
     private String bookThumbnailUrl;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_view_count", nullable = false)
     private Integer bookViewCount = 0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_stock", nullable = false)
     private Integer bookStock = 0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_cnt_of_review", nullable = false)
     private Integer bookCntOfReview = 0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_avg_of_rate", nullable = false)
     private Double bookAvgOfRate = 0.0;
 
+    @Builder.Default
     @NotNull
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -100,5 +105,4 @@ public class Book {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
 }
