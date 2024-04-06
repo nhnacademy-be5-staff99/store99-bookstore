@@ -7,7 +7,7 @@ public class AdminCheckResponse {
         this.isAdmin = isAdmin;
     }
 
-    public Boolean getAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 }
