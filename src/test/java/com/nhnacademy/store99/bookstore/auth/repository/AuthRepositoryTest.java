@@ -5,7 +5,6 @@ import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
 import com.nhnacademy.store99.bookstore.grade.entity.Grade;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,6 @@ class AuthRepositoryTest {
         User user = User.builder()
                 .userBirthdate(LocalDate.now())
                 .grade(persistedGrade)
-                .userLoginAt(LocalDateTime.now())
                 .auth(persistedUserAuth)
                 .consumers(persistedConsumer1)
                 .build();
@@ -69,7 +67,6 @@ class AuthRepositoryTest {
         User admin = User.builder()
                 .userBirthdate(LocalDate.now())
                 .grade(persistedGrade)
-                .userLoginAt(LocalDateTime.now())
                 .auth(persistedAdminAuth)
                 .consumers(persistedConsumer2)
                 .build();

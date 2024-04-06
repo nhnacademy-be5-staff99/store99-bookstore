@@ -37,7 +37,7 @@ public class User {
     @JoinColumn(name = "grade_id", nullable = false)
     private Grade grade;
 
-    @Column(name = "user_login_at", nullable = false)
+    @Column(name = "user_login_at")
     private LocalDateTime userLoginAt;
 
     @Builder.Default
