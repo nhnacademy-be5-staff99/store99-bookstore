@@ -28,8 +28,8 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
         return Optional.ofNullable(queryFactory
                 .select(Projections.constructor(UserAuthInfo.class,
                         user.id,
-                        consumer.consumerEmail,
                         consumer.consumerPassword,
+                        consumer.consumerEmail,
                         user.auth.authName))
                 .from(user)
                 .join(user.consumers, consumer)
