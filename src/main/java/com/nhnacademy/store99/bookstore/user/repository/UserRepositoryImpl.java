@@ -4,26 +4,28 @@ import com.nhnacademy.store99.bookstore.auth.entity.QAuth;
 import com.nhnacademy.store99.bookstore.consumer.entity.QConsumer;
 import com.nhnacademy.store99.bookstore.user.dto.UserAuthInfo;
 import com.nhnacademy.store99.bookstore.user.entity.QUser;
+import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 public class UserRepositoryImpl extends QuerydslRepositorySupport implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
-    public UserRepositoryImpl(Class<?> domainClass, JPAQueryFactory queryFactory) {
-        super(domainClass);
+    public UserRepositoryImpl(JPAQueryFactory queryFactory) {
+        super(User.class);
         this.queryFactory = queryFactory;
     }
 
     @Override
-    public UserAuthInfo getUserAuthInfo(String email) {
+    public Optional<UserAuthInfo> getUserAuthInfo(String email) {
         QUser user = QUser.user;
         QConsumer consumer = QConsumer.consumer;
         QAuth auth = QAuth.auth;
 
-        return queryFactory
+        return Optional.ofNullable(queryFactory
                 .select(Projections.constructor(UserAuthInfo.class,
                         user.id,
                         consumer.consumerEmail,
@@ -33,7 +35,7 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
                 .join(user.consumers, consumer)
                 .join(user.auth, auth)
                 .where(consumer.consumerEmail.eq(email))
-                .fetchOne();
+                .fetchOne());
 
     }
 
