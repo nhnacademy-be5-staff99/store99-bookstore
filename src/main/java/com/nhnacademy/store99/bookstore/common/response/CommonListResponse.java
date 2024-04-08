@@ -7,6 +7,8 @@ import lombok.Getter;
 /**
  * 리스트 공통 응답 객체
  *
+ * <p>헤더와 결과를 포함하는 응답 객체
+ *
  * @param <T>
  * @author seunggyu-kim
  */
