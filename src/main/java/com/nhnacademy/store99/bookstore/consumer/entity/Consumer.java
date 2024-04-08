@@ -29,10 +29,10 @@ public class Consumer {
     @Column(name = "consumer_email", nullable = false, length = 320, unique = true)
     private String consumerEmail;
 
-    @Column(name = "consumer_phone", nullable = false, length = 64)
+    @Column(name = "consumer_phone", nullable = false, length = 11)
     private String consumerPhone;
 
-    @Column(name = "consumer_password", nullable = false, length = 11)
+    @Column(name = "consumer_password", nullable = false, length = 64)
     private String consumerPassword;
 
 }
