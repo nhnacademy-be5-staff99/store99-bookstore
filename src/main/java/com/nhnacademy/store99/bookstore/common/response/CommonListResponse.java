@@ -4,6 +4,12 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 리스트 공통 응답 객체
+ *
+ * @param <T>
+ * @author seunggyu-kim
+ */
 @Getter
 public class CommonListResponse<T> {
     private final CommonHeader header;

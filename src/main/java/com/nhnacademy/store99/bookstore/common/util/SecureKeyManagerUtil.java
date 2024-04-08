@@ -29,15 +29,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * Secure key manager를 사용한 기밀 데이터 조회 유틸리티
+ *
+ * @author seunggyu-kim
+ */
 @Component
 public class SecureKeyManagerUtil {
     private final SecureKeyManagerProperties secureKeyManagerProperties;
     private final RestTemplate sslRestTemplate;
 
+    /**
+     * SSL RestTemplate 생성
+     */
     public SecureKeyManagerUtil(SecureKeyManagerProperties secureKeyManagerProperties) {
         this.secureKeyManagerProperties = secureKeyManagerProperties;
 
-        // ssl rest template 생성
         try {
             sslRestTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofSeconds(5))
                     .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -47,7 +54,7 @@ public class SecureKeyManagerUtil {
                             secureKeyManagerProperties.getXTcAuthenticationSecret())
                     .build();
 
-            // 클라이언트 인증서를 로드하여 SSLContext 생성
+            // 클라이언트 인증서를 로드하여 x 생성
             KeyStore clientStore = KeyStore.getInstance("PKCS12");
             InputStream inputStream = new ClassPathResource("store99.p12").getInputStream();
             clientStore.load(inputStream, secureKeyManagerProperties.getCertificatePassword().toCharArray());
@@ -73,7 +80,12 @@ public class SecureKeyManagerUtil {
         }
     }
 
-    // Secure Key Manager에 저장한 기밀 데이터를 조회합니다.
+    /**
+     * Secure Key Manager에 저장한 기밀 데이터를 조회합니다.
+     *
+     * @param key 기밀 데이터 키
+     * @return 기밀 데이터
+     */
     public String loadConfidentialData(String key) {
         URI uri = UriComponentsBuilder
                 .fromUriString(
@@ -85,6 +97,12 @@ public class SecureKeyManagerUtil {
         return Objects.requireNonNull(sslRestTemplate.getForObject(uri, SecretResponse.class)).getSecret();
     }
 
+    /**
+     * 입력 값이 Secure Key Manager에 저장된 기밀 데이터 키의 형식인지 검사합니다.
+     *
+     * @param key 검사할 값
+     * @return 기밀 데이터 키의 형식 여부
+     */
     public boolean isEncrypted(String key) {
         return key.matches("^[a-zA-Z0-9]{32}$");
     }

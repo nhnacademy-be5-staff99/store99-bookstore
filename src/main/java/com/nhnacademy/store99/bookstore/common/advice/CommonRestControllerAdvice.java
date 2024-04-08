@@ -8,8 +8,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Common RestControllerAdvice
+ * 공통 RestControllerAdvice
+ *
+ * @author seunggyu-kim
+ */
 @RestControllerAdvice
 public class CommonRestControllerAdvice {
+
+    /**
+     * NotFoundException Handler
+     *
+     * @param ex NotFoundException
+     * @return 404 NOT_FOUND
+     */
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<CommonResponse<String>> notFoundExceptionHandler(NotFoundException ex) {
         CommonHeader commonHeader =

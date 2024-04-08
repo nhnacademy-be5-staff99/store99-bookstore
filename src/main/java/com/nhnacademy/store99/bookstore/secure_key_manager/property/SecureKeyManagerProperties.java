@@ -5,6 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * Secure Key Manager 설정 정보
+ *
+ * @author seunggyu-kim
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
