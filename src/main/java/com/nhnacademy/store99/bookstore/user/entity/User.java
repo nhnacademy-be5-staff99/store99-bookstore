@@ -37,12 +37,14 @@ public class User {
     @JoinColumn(name = "grade_id", nullable = false)
     private Grade grade;
 
-    @Column(name = "user_login_at", nullable = false)
+    @Column(name = "user_login_at")
     private LocalDateTime userLoginAt;
 
+    @Builder.Default
     @Column(name = "user_is_inactive", nullable = false)
     private Boolean userIsInactive = false;
 
+    @Builder.Default
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -53,6 +55,7 @@ public class User {
     @JoinColumn(name = "auth_id", nullable = false)
     private Auth auth;
 
+    @Builder.Default
     @Column(name = "user_point", nullable = false)
     private Integer userPoint = 0;
 
