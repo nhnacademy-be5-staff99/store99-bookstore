@@ -7,19 +7,33 @@ import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.config.RestDocSupport;
 import com.nhnacademy.store99.bookstore.user.excepiton.UserNotFoundException;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-
+/**
+ * 관리자 여부 확인 컨트롤러 테스트
+ *
+ * @author seunggyu-kim
+ */
+@WebMvcTest(AdminCheckController.class)
 class AdminCheckControllerTest extends RestDocSupport {
     @MockBean
     private AdminCheckService adminCheckService;
 
+    /**
+     * 관리자 여부 확인 테스트
+     * <p>사용자가 관리자 권한을 갖고있는 경우
+     *
+     * @throws Exception
+     */
+    @DisplayName("관리자 여부 확인 - 관리자인 경우")
     @Test
     void checkAdmin_true() throws Exception {
         // given
@@ -44,6 +58,13 @@ class AdminCheckControllerTest extends RestDocSupport {
         Assertions.assertThat(response).isEqualTo(expected);
     }
 
+    /**
+     * 관리자 여부 확인 테스트
+     * <p>사용자가 관리자 권한을 갖고있지 않은 경우
+     *
+     * @throws Exception
+     */
+    @DisplayName("관리자 여부 확인 - 관리자가 아닌 경우")
     @Test
     void checkAdmin_false() throws Exception {
         // given
@@ -68,6 +89,13 @@ class AdminCheckControllerTest extends RestDocSupport {
         Assertions.assertThat(response).isEqualTo(expected);
     }
 
+    /**
+     * 관리자 여부 확인 테스트
+     * <p>사용자가 존재하지 않는 경우
+     *
+     * @throws Exception
+     */
+    @DisplayName("관리자 여부 확인 - 사용자가 존재하지 않는 경우")
     @Test
     void checkAdmin_userNotFound() throws Exception {
         // given

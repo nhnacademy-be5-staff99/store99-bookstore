@@ -18,6 +18,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * Review Entity
+ *
+ * @author seunggyu-kim
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

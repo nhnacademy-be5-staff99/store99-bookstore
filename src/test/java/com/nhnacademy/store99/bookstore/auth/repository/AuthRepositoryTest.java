@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+/**
+ * Auth Repository Test
+ *
+ * @author seunggyu-kim
+ */
 @DataJpaTest
 class AuthRepositoryTest {
     @Autowired
@@ -19,6 +24,9 @@ class AuthRepositoryTest {
     @Autowired
     private AuthRepository authRepository;
 
+    /**
+     * 사용자 권한 조회 기능 테스트
+     */
     @Test
     public void getAuth() {
         // given

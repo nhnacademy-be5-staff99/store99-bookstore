@@ -7,11 +7,21 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * DataSource 설정
+ *
+ * @author seunggyu-kim
+ */
 @RequiredArgsConstructor
 @Configuration
 public class DataSourceConfig {
     private final DataSourceProperties dataSourceProperties;
 
+    /**
+     * DataSource 설정
+     *
+     * @return DataSource
+     */
     @Bean
     public DataSource dataSource() {
         BasicDataSource basicDataSource = new BasicDataSource();
