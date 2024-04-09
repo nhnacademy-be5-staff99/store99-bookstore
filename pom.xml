@@ -162,7 +162,8 @@
         </dependency>
         <!-- spring rest docs end-->
 
-        <!-- Querydsl start -->
+
+        <!-- query dsl -->
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
@@ -182,7 +183,6 @@
             <version>1.6.1</version>
         </dependency>
 
-        <!-- Querydsl end -->
     </dependencies>
 
     <build>

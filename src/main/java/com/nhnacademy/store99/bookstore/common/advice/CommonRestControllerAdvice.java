@@ -5,6 +5,7 @@ import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 공통 RestControllerAdvice
  *
  * @author seunggyu-kim
+ * @author Ahyeon Song
  */
 @RestControllerAdvice
 public class CommonRestControllerAdvice {
@@ -31,4 +33,20 @@ public class CommonRestControllerAdvice {
                 commonResponse = CommonResponse.<String>builder().header(commonHeader).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(commonResponse);
     }
+
+    /**
+     * ValidationException Handler
+     *
+     * @param ex ValidationException
+     * @return 400 BAD_REQUEST
+     */
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    public ResponseEntity<CommonResponse<String>> validationExceptionHandler(MethodArgumentNotValidException ex) {
+        CommonHeader commonHeader =
+                CommonHeader.builder().httpStatus(HttpStatus.BAD_REQUEST).resultMessage(ex.getMessage()).build();
+        CommonResponse<String>
+                commonResponse = CommonResponse.<String>builder().header(commonHeader).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponse);
+    }
+
 }
