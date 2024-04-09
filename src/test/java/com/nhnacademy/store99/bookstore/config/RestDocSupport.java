@@ -2,9 +2,9 @@ package com.nhnacademy.store99.bookstore.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -17,11 +17,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
- * Controller 테스트를 위한 RestDocs 설정
+ * Rest docs를 편리하게 사용하기 위한 Support 클래스
  */
+@Disabled
 @Import(RestDocsConfig.class)
 @ExtendWith({RestDocumentationExtension.class})
-@WebMvcTest
 public abstract class RestDocSupport {
     @Autowired
     protected MockMvc mockMvc;

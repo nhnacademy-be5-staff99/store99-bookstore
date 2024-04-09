@@ -6,6 +6,11 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 
+/**
+ * Spring rest docs 설정
+ *
+ * @author seunggyu-kim
+ */
 @TestConfiguration
 public class RestDocsConfig {
     @Bean

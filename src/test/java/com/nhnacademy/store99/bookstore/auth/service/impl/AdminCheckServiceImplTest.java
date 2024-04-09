@@ -13,6 +13,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+/**
+ * 관리자 여부 확인 서비스 테스트
+ *
+ * @author seunggyu-kim
+ */
 @ExtendWith(MockitoExtension.class)
 class AdminCheckServiceImplTest {
     @InjectMocks
