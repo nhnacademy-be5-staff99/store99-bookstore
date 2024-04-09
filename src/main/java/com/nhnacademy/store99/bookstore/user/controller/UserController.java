@@ -5,6 +5,7 @@ import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.user.dto.AuthorizationRequest;
 import com.nhnacademy.store99.bookstore.user.dto.AuthorizationResponse;
 import com.nhnacademy.store99.bookstore.user.service.UserService;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse<AuthorizationResponse>> userLogin(@RequestBody AuthorizationRequest request) {
+    public ResponseEntity<CommonResponse<AuthorizationResponse>> userLogin(@Valid @RequestBody AuthorizationRequest request) {
         AuthorizationResponse response = userService.userLogin(request);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.OK)

@@ -5,7 +5,7 @@ import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.config.RestDocSupport;
-import com.nhnacademy.store99.bookstore.user.excepiton.UserNotFoundException;
+import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

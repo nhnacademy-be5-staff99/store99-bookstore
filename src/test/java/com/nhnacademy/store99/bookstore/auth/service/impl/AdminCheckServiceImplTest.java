@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.auth.service.impl;
 
 import com.nhnacademy.store99.bookstore.auth.repository.AuthRepository;
-import com.nhnacademy.store99.bookstore.user.excepiton.UserNotFoundException;
+import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

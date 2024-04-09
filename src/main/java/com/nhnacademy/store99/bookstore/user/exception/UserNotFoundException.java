@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.user.excepiton;
+package com.nhnacademy.store99.bookstore.user.exception;
 
 import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 
