@@ -2,7 +2,7 @@ package com.nhnacademy.store99.bookstore.user.repository;
 
 import com.nhnacademy.store99.bookstore.auth.entity.QAuth;
 import com.nhnacademy.store99.bookstore.consumer.entity.QConsumer;
-import com.nhnacademy.store99.bookstore.user.dto.UserAuthInfo;
+import com.nhnacademy.store99.bookstore.user.dto.UserAuthInfoByEmail;
 import com.nhnacademy.store99.bookstore.user.entity.QUser;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.querydsl.core.types.Projections;
@@ -20,13 +20,13 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
     }
 
     @Override
-    public Optional<UserAuthInfo> getUserAuthInfo(String email) {
+    public Optional<UserAuthInfoByEmail> getUserAuthInfoByEmail(String email) {
         QUser user = QUser.user;
         QConsumer consumer = QConsumer.consumer;
         QAuth auth = QAuth.auth;
 
         return Optional.ofNullable(queryFactory
-                .select(Projections.constructor(UserAuthInfo.class,
+                .select(Projections.constructor(UserAuthInfoByEmail.class,
                         user.id,
                         consumer.consumerPassword,
                         consumer.consumerEmail,

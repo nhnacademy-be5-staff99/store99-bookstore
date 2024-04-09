@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAuthInfo {
+public class UserAuthInfoByEmail {
     private Long id;
     private String consumerPassword;
     private String consumerEmail;
