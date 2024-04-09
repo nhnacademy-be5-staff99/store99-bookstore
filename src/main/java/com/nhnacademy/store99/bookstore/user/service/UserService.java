@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author Ahyeon Song
+ */
 @Slf4j
 @Service
 @Transactional
@@ -22,9 +25,8 @@ public class UserService {
     }
 
     /**
-     * 로그인 메소드
-     * <p>
-     * email 로 user 정보를 조회하고, 마지막 로그인 시간을 변경한다
+     * 실제 Db 에서 User 정보를 가져오는 로그인 메소드
+     * <p>email 로 user 정보를 조회하고, 마지막 로그인 시간을 변경
      *
      * @param request
      * @return AuthorizationResponse
@@ -32,7 +34,7 @@ public class UserService {
     public AuthorizationResponse userLogin(AuthorizationRequest request) {
         String email = request.getEmail();
 
-        // user table 에서 id, 권한 조회
+        // user table 에서 id, pw, 권한 조회
         Optional<UserAuthInfoByEmail> userAuthInfoByEmailOpt = userRepository.getUserAuthInfoByEmail(email);
 
         if (userAuthInfoByEmailOpt.isEmpty()) {

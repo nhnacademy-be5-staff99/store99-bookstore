@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * @author Ahyeon Song
+ */
 @NoRepositoryBean
 public interface UserRepositoryCustom {
     Optional<UserAuthInfoByEmail> getUserAuthInfoByEmail(String email);

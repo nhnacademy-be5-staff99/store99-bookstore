@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author Ahyeon Song
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

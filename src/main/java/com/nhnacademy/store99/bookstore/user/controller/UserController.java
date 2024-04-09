@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author Ahyeon Song
+ */
 @RestController
 @RequestMapping("/v1/user")
 public class UserController {
@@ -24,6 +27,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Auth Server 에서 로그인 요청 받아 User 정보 반환
+     * @param request (email)
+     * @return AuthorizationResponse (userId, password, email, auth)
+     */
     @PostMapping("/login")
     public ResponseEntity<CommonResponse<AuthorizationResponse>> userLogin(@Valid @RequestBody AuthorizationRequest request) {
         AuthorizationResponse response = userService.userLogin(request);

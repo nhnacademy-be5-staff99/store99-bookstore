@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+/**
+ * 유저 Db 접근을 위한 Query Dsl
+ * @author Ahyeon Song
+ */
 public class UserRepositoryImpl extends QuerydslRepositorySupport implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
@@ -19,6 +23,12 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
         this.queryFactory = queryFactory;
     }
 
+    /**
+     * Email 로 User 정보 조회
+     *
+     * @param email
+     * @return UserAuthInfoByEmail (userId, password, email, auth)
+     */
     @Override
     public Optional<UserAuthInfoByEmail> getUserAuthInfoByEmail(String email) {
         QUser user = QUser.user;
@@ -39,6 +49,12 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
 
     }
 
+    /**
+     * 로그인 성공 시 userId 에 해당하는 유저의 로그인 일시 최신화
+     *
+     * @param id
+     * @param loginAt
+     */
     @Override
     public void updateLoginAt(Long id, LocalDateTime loginAt) {
         QUser user = QUser.user;
