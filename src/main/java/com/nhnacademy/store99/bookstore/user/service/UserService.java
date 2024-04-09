@@ -40,7 +40,7 @@ public class UserService {
         }
 
         UserAuthInfoByEmail userAuthInfoByEmail = userAuthInfoByEmailOpt.get();
-        log.debug(userAuthInfoByEmail.toString());
+        log.debug("user auth info : {}", userAuthInfoByEmail);
 
         AuthorizationResponse response = new AuthorizationResponse();
         response.setUserId(userAuthInfoByEmail.getId());
