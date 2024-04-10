@@ -9,7 +9,7 @@ import com.nhnacademy.store99.bookstore.grade.entity.Grade;
 import com.nhnacademy.store99.bookstore.grade.repository.GradeRepository;
 import com.nhnacademy.store99.bookstore.user.dto.SignUpDto;
 import com.nhnacademy.store99.bookstore.user.entity.User;
-import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
+import com.nhnacademy.store99.bookstore.user.repository.SignUpRepository;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SignUpService {
 
-    private final UserRepository userRepository;
+    private final SignUpRepository userRepository;
     private final ConsumerRepository consumerRepository;
     private final AuthRepository authRepository;
     private final GradeRepository gradeRepository;
 
     @Autowired
-    public SignUpService(UserRepository userRepository, ConsumerRepository consumerRepository,
+    public SignUpService(SignUpRepository userRepository, ConsumerRepository consumerRepository,
                          AuthRepository authRepository, GradeRepository gradeRepository) {
         this.userRepository = userRepository;
         this.consumerRepository = consumerRepository;
