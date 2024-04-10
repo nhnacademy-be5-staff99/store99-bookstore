@@ -6,6 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * DataSource 설정 정보
+ *
+ * @author seunggyu-kim
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -25,6 +30,11 @@ public class DataSourceProperties {
     private String validationQuery;
     private boolean testOnBorrow;
 
+    /**
+     * url이 secureKey로 암호화 되어있는 경우 복호화하여 설정
+     *
+     * @param url
+     */
     public void setUrl(final String url) {
         if (secureKeyManagerUtil.isEncrypted(url)) {
             this.url = secureKeyManagerUtil.loadConfidentialData(url);
@@ -33,6 +43,11 @@ public class DataSourceProperties {
         }
     }
 
+    /**
+     * username이 secureKey로 암호화 되어있는 경우 복호화하여 설정
+     *
+     * @param username
+     */
     public void setUsername(final String username) {
         if (secureKeyManagerUtil.isEncrypted(username)) {
             this.username = secureKeyManagerUtil.loadConfidentialData(username);
@@ -41,6 +56,11 @@ public class DataSourceProperties {
         }
     }
 
+    /**
+     * password가 secureKey로 암호화 되어있는 경우 복호화하여 설정
+     *
+     * @param password
+     */
     public void setPassword(final String password) {
         if (secureKeyManagerUtil.isEncrypted(password)) {
             this.password = secureKeyManagerUtil.loadConfidentialData(password);
