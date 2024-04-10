@@ -1,5 +1,11 @@
 package com.nhnacademy.store99.bookstore.user.dto;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PasswordDto {
     private String password;
 
@@ -7,7 +13,4 @@ public class PasswordDto {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
