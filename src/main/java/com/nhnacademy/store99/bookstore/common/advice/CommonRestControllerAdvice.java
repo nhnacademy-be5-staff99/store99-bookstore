@@ -43,7 +43,7 @@ public class CommonRestControllerAdvice {
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<CommonResponse<String>> validationExceptionHandler(MethodArgumentNotValidException ex) {
         CommonHeader commonHeader =
-                CommonHeader.builder().httpStatus(HttpStatus.BAD_REQUEST).resultMessage(ex.getMessage()).build();
+                CommonHeader.builder().httpStatus(HttpStatus.BAD_REQUEST).resultMessage("형식에 맞지 않은 요청입니다.").build();
         CommonResponse<String>
                 commonResponse = CommonResponse.<String>builder().header(commonHeader).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponse);

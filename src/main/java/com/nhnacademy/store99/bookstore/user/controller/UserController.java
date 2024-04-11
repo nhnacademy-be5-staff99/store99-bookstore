@@ -29,11 +29,13 @@ public class UserController {
 
     /**
      * Auth Server 에서 로그인 요청 받아 User 정보 반환
+     *
      * @param request (email)
      * @return AuthorizationResponse (userId, password, email, auth)
      */
     @PostMapping("/login")
-    public ResponseEntity<CommonResponse<AuthorizationResponse>> userLogin(@Valid @RequestBody AuthorizationRequest request) {
+    public ResponseEntity<CommonResponse<AuthorizationResponse>> userLogin(
+            @Valid @RequestBody AuthorizationRequest request) {
         AuthorizationResponse response = userService.userLogin(request);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.OK)
