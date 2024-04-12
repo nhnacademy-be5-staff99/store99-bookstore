@@ -6,3 +6,4 @@
 :seclinks:
 
 include::admin-check.adoc[]
+include::login.adoc[]

@@ -6,21 +6,19 @@ import com.nhnacademy.store99.bookstore.user.dto.UserAuthInfoByEmail;
 import com.nhnacademy.store99.bookstore.user.entity.QUser;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 /**
  * 유저 Db 접근을 위한 Query Dsl
+ *
  * @author Ahyeon Song
  */
 public class UserRepositoryImpl extends QuerydslRepositorySupport implements UserRepositoryCustom {
-    private final JPAQueryFactory queryFactory;
 
-    public UserRepositoryImpl(JPAQueryFactory queryFactory) {
+    public UserRepositoryImpl() {
         super(User.class);
-        this.queryFactory = queryFactory;
     }
 
     /**
@@ -35,17 +33,17 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
         QConsumer consumer = QConsumer.consumer;
         QAuth auth = QAuth.auth;
 
-        return Optional.ofNullable(queryFactory
-                .select(Projections.constructor(UserAuthInfoByEmail.class,
-                        user.id,
-                        consumer.consumerPassword,
-                        consumer.consumerEmail,
-                        user.auth.authName))
-                .from(user)
-                .join(user.consumers, consumer)
-                .join(user.auth, auth)
-                .where(consumer.consumerEmail.eq(email))
-                .fetchOne());
+        return Optional.ofNullable(
+                from(user)
+                        .join(user.consumers, consumer)
+                        .join(user.auth, auth)
+                        .where(consumer.consumerEmail.eq(email))
+                        .select(Projections.constructor(UserAuthInfoByEmail.class,
+                                user.id,
+                                consumer.consumerPassword,
+                                consumer.consumerEmail,
+                                user.auth.authName))
+                        .fetchOne());
 
     }
 
@@ -59,8 +57,7 @@ public class UserRepositoryImpl extends QuerydslRepositorySupport implements Use
     public void updateLoginAt(Long id, LocalDateTime loginAt) {
         QUser user = QUser.user;
 
-        queryFactory
-                .update(user)
+        update(user)
                 .set(user.userLoginAt, loginAt)
                 .where(user.id.eq(id))
                 .execute();
