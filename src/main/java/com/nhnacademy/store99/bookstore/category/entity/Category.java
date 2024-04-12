@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
  *
  * @author seunggyu-kim
  */
+@EqualsAndHashCode
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "categories", schema = "staff99_bookstore")
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", nullable = false)
