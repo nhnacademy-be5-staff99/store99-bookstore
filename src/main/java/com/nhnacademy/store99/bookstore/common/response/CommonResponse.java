@@ -3,6 +3,14 @@ package com.nhnacademy.store99.bookstore.common.response;
 import lombok.Builder;
 import lombok.Getter;
 
+/**
+ * 단 건 공통 응답 객체
+ *
+ * <p>헤더와 결과를 포함하는 응답 객체
+ *
+ * @param <T>
+ * @author seunggyu-kim
+ */
 @Getter
 public class CommonResponse<T> {
     private final CommonHeader header;
