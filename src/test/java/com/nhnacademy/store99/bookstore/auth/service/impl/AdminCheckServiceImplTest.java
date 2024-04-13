@@ -69,6 +69,6 @@ class AdminCheckServiceImplTest {
         // when, then
         Assertions.assertThatThrownBy(() -> adminCheckService.isAdmin(userId))
                 .isInstanceOf(UserNotFoundException.class)
-                .hasMessage(String.format("User not found (userId: %d)", userId));
+                .hasMessage("User not found (userId: %d)", userId);
     }
 }

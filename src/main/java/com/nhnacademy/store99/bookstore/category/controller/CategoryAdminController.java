@@ -7,6 +7,7 @@ import com.nhnacademy.store99.bookstore.category.service.CategoryAdminService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import java.net.URI;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class CategoryAdminController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<CommonResponse<Void>> addCategory(@ModelAttribute AddCategoryRequest request) {
+    public ResponseEntity<CommonResponse<Void>> addCategory(@ModelAttribute @Valid AddCategoryRequest request) {
         Long categoryId = categoryAdminService.addCategoryAndGetId(request);
 
         CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.CREATED).build();
@@ -47,12 +48,12 @@ public class CategoryAdminController {
     }
 
     @PutMapping
-    public void modifyCategory(@ModelAttribute ModifyCategoryRequest request) {
+    public void modifyCategory(@ModelAttribute @Valid ModifyCategoryRequest request) {
         // TODO
     }
 
     @DeleteMapping
-    public void removeCategory(@ModelAttribute RemoveCategoryRequest request) {
+    public void removeCategory(@ModelAttribute @Valid RemoveCategoryRequest request) {
         // TODO
     }
 }

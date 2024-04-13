@@ -33,13 +33,10 @@ class CategoryAdminServiceImplTest {
 
     @DisplayName("카테고리 추가 성공")
     @Test
-    void addCategory() {
+    void addCategoryAndGetId() {
         // given
         long parentCategoryId = Mockito.anyLong();
-        AddCategoryRequest request = new AddCategoryRequest();
-        request.setCategoryName("New Category");
-        request.setCategoryDepth(2);
-        request.setParentCategoryId(parentCategoryId);
+        AddCategoryRequest request = new AddCategoryRequest("New Category", 2, parentCategoryId);
 
         Category parentCategory = Category.builder()
                 .id(parentCategoryId)
@@ -47,10 +44,18 @@ class CategoryAdminServiceImplTest {
                 .categoryDepth(1)
                 .build();
 
+        Category category = Category.builder()
+                .id(1L)
+                .categoryName("New Category")
+                .categoryDepth(2)
+                .parentCategory(parentCategory)
+                .build();
+
         BDDMockito.given(categoryRepository.findById(parentCategoryId)).willReturn(Optional.ofNullable(parentCategory));
+        BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(category);
 
         // when
-        categoryAdminService.addCategory(request);
+        categoryAdminService.addCategoryAndGetId(request);
 
         // then
         Mockito.verify(categoryRepository, Mockito.times(1)).save(Mockito.any(Category.class));
@@ -58,18 +63,15 @@ class CategoryAdminServiceImplTest {
 
     @DisplayName("카테고리 추가 실패 - 없는 부모 카테고리")
     @Test
-    void addCategoryWithNotFoundParent() {
+    void addCategoryAndGetIdWithNotFoundParent() {
         // given
         long parentCategoryId = Mockito.anyLong();
-        AddCategoryRequest request = new AddCategoryRequest();
-        request.setCategoryName("New Category");
-        request.setCategoryDepth(2);
-        request.setParentCategoryId(parentCategoryId);
+        AddCategoryRequest request = new AddCategoryRequest("New Category", 2, parentCategoryId);
 
         BDDMockito.given(categoryRepository.findById(parentCategoryId)).willReturn(Optional.empty());
 
         // when
-        Assertions.assertThatThrownBy(() -> categoryAdminService.addCategory(request))
+        Assertions.assertThatThrownBy(() -> categoryAdminService.addCategoryAndGetId(request))
                 .isInstanceOf(CategoryNotFoundException.class)
                 .hasMessage("Category not found (categoryId: %d)", parentCategoryId);
 
