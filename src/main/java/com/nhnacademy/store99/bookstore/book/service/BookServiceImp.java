@@ -32,10 +32,9 @@ public class BookServiceImp implements BookServiceInterface {
      * @return
      */
     @Override
-    public BookRequest postBook(BookRequest bookRequest) {
+    public Book postBook(BookRequest bookRequest) {
         Book book = injectBook(bookRequest);
-        bookRepository.save(book);
-        return bookRequest;
+        return bookRepository.save(book);
     }
 
     /**

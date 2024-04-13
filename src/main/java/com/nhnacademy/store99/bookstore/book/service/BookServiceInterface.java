@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface BookServiceInterface {
-    public BookRequest postBook(BookRequest bookDTO);
+    Book postBook(BookRequest bookDTO);
 
-    public Optional<Book> getBook(Long id);
+    Optional<Book> getBook(Long id);
 
-    public Page<Book> getBooks(int page);
+    Page<Book> getBooks(int page);
 }
