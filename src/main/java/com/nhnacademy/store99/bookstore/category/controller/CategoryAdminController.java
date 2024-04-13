@@ -3,7 +3,6 @@ package com.nhnacademy.store99.bookstore.category.controller;
 import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.ModifyCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.RemoveCategoryRequest;
-import com.nhnacademy.store99.bookstore.category.entity.Category;
 import com.nhnacademy.store99.bookstore.category.service.CategoryAdminService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -39,12 +38,12 @@ public class CategoryAdminController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseEntity<CommonResponse<Void>> addCategory(@ModelAttribute AddCategoryRequest request) {
-        Category category = categoryAdminService.addCategory(request);
+        Long categoryId = categoryAdminService.addCategoryAndGetId(request);
 
         CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.CREATED).build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
 
-        return ResponseEntity.created(URI.create("/admin/" + category.getId())).body(response);
+        return ResponseEntity.created(URI.create("/admin/v1/categories/" + categoryId)).body(response);
     }
 
     @PutMapping

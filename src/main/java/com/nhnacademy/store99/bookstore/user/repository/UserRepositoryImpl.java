@@ -4,23 +4,21 @@ import com.nhnacademy.store99.bookstore.auth.entity.QAuth;
 import com.nhnacademy.store99.bookstore.consumer.entity.QConsumer;
 import com.nhnacademy.store99.bookstore.user.dto.UserAuthInfoByEmail;
 import com.nhnacademy.store99.bookstore.user.entity.QUser;
-import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 /**
  * 유저 Db 접근을 위한 Query Dsl
+ *
  * @author Ahyeon Song
  */
-public class UserRepositoryImpl extends QuerydslRepositorySupport implements UserRepositoryCustom {
+public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
-    public UserRepositoryImpl(JPAQueryFactory queryFactory) {
-        super(User.class);
-        this.queryFactory = queryFactory;
+    public UserRepositoryImpl() {
+        this.queryFactory = null;
     }
 
     /**

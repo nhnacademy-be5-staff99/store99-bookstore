@@ -4,7 +4,7 @@ import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.ModifyCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.RemoveCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.response.CategoryForAdminResponse;
-import com.nhnacademy.store99.bookstore.category.entity.Category;
+import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.data.domain.Page;
 public interface CategoryAdminService {
     Page<CategoryForAdminResponse> getCategories();
 
-    Category addCategory(AddCategoryRequest request);
+    Long addCategoryAndGetId(AddCategoryRequest request) throws NotFoundException;
 
     void modifyCategory(ModifyCategoryRequest request);
 

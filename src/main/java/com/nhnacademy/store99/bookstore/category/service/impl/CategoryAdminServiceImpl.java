@@ -32,7 +32,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Transactional
     @Override
-    public Category addCategory(final AddCategoryRequest request) {
+    public Long addCategoryAndGetId(final AddCategoryRequest request) throws CategoryNotFoundException {
         Category parentCategory = null;
         if (Objects.nonNull(request.getParentCategoryId())) {
             parentCategory = categoryRepository.findById(request.getParentCategoryId())
@@ -45,7 +45,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
                 .parentCategory(parentCategory)
                 .build();
 
-        return categoryRepository.save(category);
+        return categoryRepository.save(category).getId();
     }
 
     @Override
