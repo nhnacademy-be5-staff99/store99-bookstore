@@ -15,6 +15,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 도서 엔티티
+ *
+ * @author 김승규
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

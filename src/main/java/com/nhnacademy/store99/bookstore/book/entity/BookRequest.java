@@ -5,6 +5,11 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 도서 통신 데이터
+ *
+ * @author yrrho2
+ */
 @Getter
 @Setter
 public class BookRequest {

@@ -12,6 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+/**
+ * 도서 서비스 구현체
+ *
+ * @author yrrho2
+ */
 @Service
 public class BookServiceImp implements BookServiceInterface {
     final private BookRepository bookRepository;
@@ -20,6 +25,12 @@ public class BookServiceImp implements BookServiceInterface {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * 도서 등록
+     *
+     * @param bookRequest
+     * @return
+     */
     @Override
     public BookRequest postBook(BookRequest bookRequest) {
         Book book = injectBook(bookRequest);
@@ -27,24 +38,38 @@ public class BookServiceImp implements BookServiceInterface {
         return bookRequest;
     }
 
+    /**
+     * id로 도서 조회
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Optional<Book> getBook(Long id) {
         return bookRepository.findById(id);
     }
 
-    @Override
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
-    }
-
+    /**
+     * 모든 도서를 page로 참조하기.
+     *
+     * @param page
+     * @return
+     */
     @Override
     public Page<Book> getBooks(int page) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdAt"));
+        // size=10. 한 페이지에 보여주는 book의 수.
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return bookRepository.findAll(pageable);
     }
 
+    /**
+     * BookRequest를 새로 만드는 Book 객체에 주입하기.
+     *
+     * @param bookRequest
+     * @return
+     */
     private Book injectBook(BookRequest bookRequest) {
         return Book.builder()
                 .bookIsbn13(bookRequest.getBookIsbn13())
