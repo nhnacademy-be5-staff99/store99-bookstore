@@ -1,5 +1,6 @@
 package com.nhnacademy.store99.bookstore.category.dto.request;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddCategoryRequest {
+    @NotNull
     private String categoryName;
 
     private Integer categoryDepth;

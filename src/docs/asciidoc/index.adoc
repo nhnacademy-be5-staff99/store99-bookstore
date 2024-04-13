@@ -6,3 +6,5 @@
 :seclinks:
 
 include::admin-check.adoc[]
+
+include::category/add-category.adoc[]
