@@ -1,6 +1,5 @@
 package com.nhnacademy.store99.bookstore.category.controller;
 
-import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
 import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.exception.CategoryNotFoundException;
 import com.nhnacademy.store99.bookstore.category.service.CategoryAdminService;
@@ -25,9 +24,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
  */
 @WebMvcTest(CategoryAdminController.class)
 class CategoryAdminControllerTest extends RestDocSupport {
-    @MockBean
-    private AdminCheckService adminCheckService;
-
     @MockBean
     private CategoryAdminService categoryAdminService;
 
