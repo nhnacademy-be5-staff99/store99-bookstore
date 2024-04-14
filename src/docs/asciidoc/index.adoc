@@ -7,4 +7,6 @@
 
 include::admin-check.adoc[]
 
+include::login.adoc[]
+
 include::category/add-category.adoc[]
