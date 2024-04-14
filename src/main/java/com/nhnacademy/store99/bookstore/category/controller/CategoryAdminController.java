@@ -13,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,13 +32,13 @@ public class CategoryAdminController {
     private final CategoryAdminService categoryAdminService;
 
     @GetMapping
-    public void viewAdminCategoryManagementPage() {
+    public void getCategories() {
         // TODO
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<CommonResponse<Void>> addCategory(@ModelAttribute @Valid AddCategoryRequest request) {
+    public ResponseEntity<CommonResponse<Void>> addCategory(@RequestBody @Valid AddCategoryRequest request) {
         Long categoryId = categoryAdminService.addCategoryAndGetId(request);
 
         CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.CREATED).build();
@@ -48,12 +48,12 @@ public class CategoryAdminController {
     }
 
     @PutMapping
-    public void modifyCategory(@ModelAttribute @Valid ModifyCategoryRequest request) {
+    public void modifyCategory(@RequestBody @Valid ModifyCategoryRequest request) {
         // TODO
     }
 
     @DeleteMapping
-    public void removeCategory(@ModelAttribute @Valid RemoveCategoryRequest request) {
+    public void removeCategory(@RequestBody @Valid RemoveCategoryRequest request) {
         // TODO
     }
 }
