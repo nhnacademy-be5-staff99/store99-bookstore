@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.auth.controller;
 
 import com.nhnacademy.store99.bookstore.auth.dto.response.AdminCheckResponse;
-import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.config.RestDocSupport;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,9 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
  */
 @WebMvcTest(AdminCheckController.class)
 class AdminCheckControllerTest extends RestDocSupport {
-    @MockBean
-    private AdminCheckService adminCheckService;
-
     /**
      * 관리자 여부 확인 테스트
      * <p>사용자가 관리자 권한을 갖고있는 경우
