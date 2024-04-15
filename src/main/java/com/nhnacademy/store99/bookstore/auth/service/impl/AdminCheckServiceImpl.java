@@ -2,7 +2,7 @@ package com.nhnacademy.store99.bookstore.auth.service.impl;
 
 import com.nhnacademy.store99.bookstore.auth.repository.AuthRepository;
 import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
-import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
+import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class AdminCheckServiceImpl implements AdminCheckService {
     @Override
     public Boolean isAdmin(final Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new UserNotFoundException(userId);
+            throw new AdminPermissionDeniedException();
         }
         return "ADMIN".equals(authRepository.getAuth(userId));
     }

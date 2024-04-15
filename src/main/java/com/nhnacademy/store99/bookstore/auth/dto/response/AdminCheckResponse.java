@@ -9,13 +9,13 @@ public class AdminCheckResponse {
     /**
      * 관리자 여부
      */
-    private final Boolean isAdmin;
+    private final boolean isAdmin;
 
-    public AdminCheckResponse(final Boolean isAdmin) {
+    public AdminCheckResponse(final boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
-    public Boolean getIsAdmin() {
+    public boolean isAdmin() {
         return isAdmin;
     }
 }
