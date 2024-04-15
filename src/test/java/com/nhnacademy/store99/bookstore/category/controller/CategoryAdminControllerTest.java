@@ -100,7 +100,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
                 .andReturn().getResponse().getContentAsString();
 
         // then
-        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).build();
+        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         String expectedResponse = objectMapper.writeValueAsString(response);
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
