@@ -11,6 +11,7 @@ import com.nhnacademy.store99.bookstore.category.service.CategoryAdminService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +27,8 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public Page<CategoryForAdminResponse> getCategories() {
-        return null;        // TODO
+    public Page<CategoryForAdminResponse> getCategories(Pageable pageable) {
+        return null; //categoryRepository.queryAllBy(pageable);
     }
 
     @Transactional

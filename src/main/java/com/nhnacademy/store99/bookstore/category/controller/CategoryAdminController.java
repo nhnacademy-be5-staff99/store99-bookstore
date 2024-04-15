@@ -3,12 +3,15 @@ package com.nhnacademy.store99.bookstore.category.controller;
 import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.ModifyCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.RemoveCategoryRequest;
+import com.nhnacademy.store99.bookstore.category.dto.response.CategoryForAdminResponse;
 import com.nhnacademy.store99.bookstore.category.service.CategoryAdminService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,8 +35,8 @@ public class CategoryAdminController {
     private final CategoryAdminService categoryAdminService;
 
     @GetMapping
-    public void getCategories() {
-        // TODO
+    public Page<CategoryForAdminResponse> getCategories(Pageable pageable) {
+        return categoryAdminService.getCategories(pageable);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
