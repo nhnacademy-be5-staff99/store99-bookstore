@@ -1,10 +1,12 @@
 package com.nhnacademy.store99.bookstore.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -31,6 +33,11 @@ public abstract class RestDocSupport {
 
     @Autowired
     protected RestDocumentationResultHandler restDoc;
+
+    // 관리자 여부 테스트 용으로 사용
+    // ex) BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(true);
+    @MockBean
+    protected AdminCheckService adminCheckService;
 
     /**
      * Spring Rest Docs를 사용하기 위한 설정

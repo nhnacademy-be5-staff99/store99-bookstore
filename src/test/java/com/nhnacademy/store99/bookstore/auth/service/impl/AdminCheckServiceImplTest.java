@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.auth.service.impl;
 
 import com.nhnacademy.store99.bookstore.auth.repository.AuthRepository;
-import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
+import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +68,6 @@ class AdminCheckServiceImplTest {
 
         // when, then
         Assertions.assertThatThrownBy(() -> adminCheckService.isAdmin(userId))
-                .isInstanceOf(UserNotFoundException.class)
-                .hasMessage(String.format("User not found (userId: %d)", userId));
+                .isInstanceOf(AdminPermissionDeniedException.class);
     }
 }
