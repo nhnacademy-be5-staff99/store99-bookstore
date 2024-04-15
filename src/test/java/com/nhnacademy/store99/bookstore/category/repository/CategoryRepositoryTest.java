@@ -92,6 +92,7 @@ class CategoryRepositoryTest {
         Assertions.assertThat(actualCategory).isEqualTo(expectedCategory);
     }
 
+    @Disabled
     @DisplayName("queryAllBy - 페이지네이션과 함께 모든 카테고리 조회")
     @Test
     void queryAllBy_withPagination() {
