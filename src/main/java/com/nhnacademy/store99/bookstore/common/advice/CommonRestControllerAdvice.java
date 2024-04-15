@@ -1,5 +1,6 @@
 package com.nhnacademy.store99.bookstore.common.advice;
 
+import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
 import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -67,6 +68,19 @@ public class CommonRestControllerAdvice {
         CommonResponse<Void>
                 commonResponse = CommonResponse.<Void>builder().header(commonHeader).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commonResponse);
+    }
+
+    /**
+     * 관리자 권한 없는 경우 Handler
+     *
+     * @param ex AdminPermissionDeniedException
+     * @return 403 FORBIDDEN
+     */
+    @ExceptionHandler(value = {AdminPermissionDeniedException.class})
+    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(AdminPermissionDeniedException ex) {
+        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
 }

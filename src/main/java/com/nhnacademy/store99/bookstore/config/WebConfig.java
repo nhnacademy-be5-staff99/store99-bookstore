@@ -1,6 +1,5 @@
 package com.nhnacademy.store99.bookstore.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
 import com.nhnacademy.store99.bookstore.common.interceptor.AdminCheckInterceptor;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +17,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     private final AdminCheckService adminCheckService;
-    private final ObjectMapper objectMapper;
 
     @Bean
     public AdminCheckInterceptor adminCheckInterceptor() {
-        return new AdminCheckInterceptor(adminCheckService, objectMapper);
+        return new AdminCheckInterceptor(adminCheckService);
     }
 
     @Override
