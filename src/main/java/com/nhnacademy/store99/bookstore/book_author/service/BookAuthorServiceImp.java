@@ -2,8 +2,8 @@ package com.nhnacademy.store99.bookstore.book_author.service;
 
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +16,14 @@ public class BookAuthorServiceImp implements BookAuthorService {
         this.bookAuthorRepository = bookAuthorRepository;
     }
 
-    public List<BookAuthor> getAuthorByBookId(Long id) {
-        return bookAuthorRepository.findBookAuthorsByAuthorId(id);
-    }
-
     @Override
-    public Optional<BookAuthor> getAuthorBook(Long id) {
-        return bookAuthorRepository.findById(id);
+    public BookAuthorResponse getAuthorBook(Long id) {
+        BookAuthor bookAuthor = bookAuthorRepository.findById(id).get();
+        return BookAuthorResponse.builder()
+                .authorName(bookAuthor.getAuthor().getAuthorName())
+                .authorId(bookAuthor.getAuthor().getId())
+                .bookId(bookAuthor.getBook().getId())
+                .build();
     }
 
     @Override

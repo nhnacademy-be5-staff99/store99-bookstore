@@ -35,7 +35,7 @@ public class BookAuthorController {
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).build();
         CommonResponse commonResponse = CommonResponse.builder()
                 .header(commonHeader)
-                .result(bookAuthorService.getAuthorBook(id).get())
+                .result(bookAuthorService.getAuthorBook(id))
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
