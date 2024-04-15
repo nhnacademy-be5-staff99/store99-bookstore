@@ -16,10 +16,9 @@ public interface LikeService {
      * 좋아요가 삭제될 때 작동하는 메소드입니다.
      *
      * @param likeId
-     * @return String
      * @author 이서연
      */
-    String deleteLike(Long likeId);
+    void deleteLike(Long likeId);
 
     /**
      * 좋아요 내역이 있는 지 검사하는 메소드 입니다.
@@ -38,7 +37,7 @@ public interface LikeService {
      * @return 권 당 좋아요 갯수
      * @author 이서연
      */
-    Long countByBookId(Long bookId);
+    Long countLikesByBookId(Long bookId);
 
     /**
      * 회원이 누른 좋아요 목록을 조회하는 메소드입니다.
@@ -49,5 +48,11 @@ public interface LikeService {
      * @author: 이서연
      */
 //    Page<BookInfoForLikeResponse> getAllByUser(Long userId, Pageable pageable);
+
+//    // 도서 번호와 회원 번호로 조회
+//    Optional<Like> getLikeByBookAndUser(Long bookId, Long userId);
+//
+//    // 전체 좋아요 조회
+//    Page<Like> getAllBy(Pageable pageable);
 
 }
