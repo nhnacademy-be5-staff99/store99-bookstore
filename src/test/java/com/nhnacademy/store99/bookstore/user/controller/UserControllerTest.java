@@ -43,7 +43,7 @@ class UserControllerTest extends RestDocSupport {
         BDDMockito.given(userService.userLogin(any(AuthorizationRequest.class))).willReturn(testResponse);
 
         //when
-        String response = mockMvc.perform(MockMvcRequestBuilders.post("/v1/user/login")
+        String response = mockMvc.perform(MockMvcRequestBuilders.post("/open/v1/user/login")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(MockMvcResultMatchers.status().isOk())
@@ -70,7 +70,7 @@ class UserControllerTest extends RestDocSupport {
         String content = objectMapper.writeValueAsString(testRequest);
 
         //when
-        String response = mockMvc.perform(MockMvcRequestBuilders.post("/v1/user/login")
+        String response = mockMvc.perform(MockMvcRequestBuilders.post("/open/v1/user/login")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(MockMvcResultMatchers.status().isBadRequest())
@@ -101,7 +101,7 @@ class UserControllerTest extends RestDocSupport {
                 .willThrow(new UserNotFoundByEmailException(testRequest.getEmail()));
 
         //when
-        String response = mockMvc.perform(MockMvcRequestBuilders.post("/v1/user/login")
+        String response = mockMvc.perform(MockMvcRequestBuilders.post("/open/v1/user/login")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(MockMvcResultMatchers.status().isNotFound())
