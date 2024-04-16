@@ -32,8 +32,6 @@ public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                                                   final Class selectedConverterType, final ServerHttpRequest request,
                                                                   final ServerHttpResponse response) {
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).resultMessage("Success").build();
-        CommonResponse<Object> commonResponse =
-                CommonResponse.builder().header(commonHeader).result(body).build();
-        return commonResponse;
+        return CommonResponse.builder().header(commonHeader).result(body).build();
     }
 }
