@@ -10,6 +10,15 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+/**
+ * 공통 응답 처리를 위한 ResponseBodyAdvice
+ * <p>
+ *     Controller에서 ommonResponse를 직접 선언하여 반환하지 않는 경우에, 200 OK로 CommonResponse를 만들어
+ *     ResponseEntity.ok에 감싸서 반환해준다.
+ * </p>
+ *
+ * @author seunggyu-kim
+ */
 @RestControllerAdvice
 public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
@@ -23,6 +32,8 @@ public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                                                   final Class selectedConverterType, final ServerHttpRequest request,
                                                                   final ServerHttpResponse response) {
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).resultMessage("Success").build();
-        return CommonResponse.builder().header(commonHeader).result(body).build();
+        CommonResponse<Object> commonResponse =
+                CommonResponse.builder().header(commonHeader).result(body).build();
+        return commonResponse;
     }
 }
