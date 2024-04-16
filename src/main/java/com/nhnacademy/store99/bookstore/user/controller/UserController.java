@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Ahyeon Song
  */
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/open/v1/user")
 public class UserController {
 
     private final UserService userService;

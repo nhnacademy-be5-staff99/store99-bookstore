@@ -1,6 +1,7 @@
 package com.nhnacademy.store99.bookstore.common.advice;
 
 import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
+import com.nhnacademy.store99.bookstore.common.exception.MissingUserIdHeaderException;
 import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -83,4 +84,10 @@ public class CommonRestControllerAdvice {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
+    @ExceptionHandler(value = {MissingUserIdHeaderException.class})
+    public ResponseEntity<CommonResponse<Void>> missingUserIdHeaderExceptionHandler(MissingUserIdHeaderException ex) {
+        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage(ex.getMessage()).build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
