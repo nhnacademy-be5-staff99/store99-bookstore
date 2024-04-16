@@ -78,15 +78,18 @@ public class CommonRestControllerAdvice {
      * @return 403 FORBIDDEN
      */
     @ExceptionHandler(value = {AdminPermissionDeniedException.class})
-    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(AdminPermissionDeniedException ex) {
-        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
+    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(
+            AdminPermissionDeniedException ex) {
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
     @ExceptionHandler(value = {MissingUserIdHeaderException.class})
     public ResponseEntity<CommonResponse<Void>> missingUserIdHeaderExceptionHandler(MissingUserIdHeaderException ex) {
-        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage(ex.getMessage()).build();
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage(ex.getMessage()).build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }

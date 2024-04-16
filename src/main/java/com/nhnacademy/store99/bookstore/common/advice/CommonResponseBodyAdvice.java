@@ -14,8 +14,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * 공통 응답 처리를 위한 ResponseBodyAdvice
  * <p>
- *     Controller에서 ommonResponse를 직접 선언하여 반환하지 않는 경우에, 200 OK로 CommonResponse를 만들어
- *     ResponseEntity.ok에 감싸서 반환해준다.
+ * Controller에서 ommonResponse를 직접 선언하여 반환하지 않는 경우에, 200 OK로 CommonResponse를 만들어
+ * ResponseEntity.ok에 감싸서 반환해준다.
  * </p>
  *
  * @author seunggyu-kim
