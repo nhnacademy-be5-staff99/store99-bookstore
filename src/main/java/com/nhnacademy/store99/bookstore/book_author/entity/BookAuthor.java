@@ -16,6 +16,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * BookAuthor Entity
+ *
+ * @author seunggyu-kim
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

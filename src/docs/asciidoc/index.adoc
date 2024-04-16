@@ -1,0 +1,12 @@
+= Store99st Bookstore API Documentation
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:seclinks:
+
+include::admin-check.adoc[]
+
+include::login.adoc[]
+
+include::category/add-category.adoc[]
