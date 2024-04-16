@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,12 +31,12 @@ public class BookAuthorController {
     }
 
 
-    @GetMapping("/book/{bookId}")
-    public ResponseEntity<CommonResponse> getBookAuthor(@PathVariable("bookId") Long id) {
+    @GetMapping("/book")
+    public ResponseEntity<CommonResponse> getBookAuthor(@RequestParam("bookId") Long bookId) {
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).build();
         CommonResponse commonResponse = CommonResponse.builder()
                 .header(commonHeader)
-                .result(bookAuthorService.getAuthorBook(id))
+                .result(bookAuthorService.getAuthorBook(bookId))
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
