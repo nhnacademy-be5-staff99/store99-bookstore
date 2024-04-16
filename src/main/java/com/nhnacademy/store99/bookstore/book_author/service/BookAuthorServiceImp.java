@@ -24,7 +24,7 @@ public class BookAuthorServiceImp implements BookAuthorService {
     /**
      * 도서의 id를 사용하여 작가 검색
      *
-     * @param bookId 도서id
+     * @param bookId 도서idㅐ
      * @return 도서id, 작가id, 도서정보를 반환
      */
     @Override

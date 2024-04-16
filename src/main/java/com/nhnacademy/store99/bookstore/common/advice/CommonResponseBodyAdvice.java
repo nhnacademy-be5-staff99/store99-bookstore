@@ -28,9 +28,9 @@ public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public CommonResponse<Object> beforeBodyWrite(final Object body, final MethodParameter returnType,
-                                                                  final MediaType selectedContentType,
-                                                                  final Class selectedConverterType, final ServerHttpRequest request,
-                                                                  final ServerHttpResponse response) {
+                                                  final MediaType selectedContentType,
+                                                  final Class selectedConverterType, final ServerHttpRequest request,
+                                                  final ServerHttpResponse response) {
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).resultMessage("Success").build();
         return CommonResponse.builder().header(commonHeader).result(body).build();
     }
