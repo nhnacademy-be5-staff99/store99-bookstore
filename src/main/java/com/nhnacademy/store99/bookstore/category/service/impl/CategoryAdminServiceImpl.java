@@ -28,7 +28,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public Page<CategoryForAdminResponse> getCategories(Pageable pageable) {
-        return null; //categoryRepository.queryAllBy(pageable);
+        return categoryRepository.findAll(pageable).map(CategoryForAdminResponse::from);
     }
 
     @Transactional
