@@ -2,6 +2,7 @@ package com.nhnacademy.store99.bookstore.config;
 
 import com.nhnacademy.store99.bookstore.auth.service.AdminCheckService;
 import com.nhnacademy.store99.bookstore.common.interceptor.AdminCheckInterceptor;
+import com.nhnacademy.store99.bookstore.common.interceptor.XUserIdCheckInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(adminCheckInterceptor()).addPathPatterns("/admin/**")
-                .excludePathPatterns("/admin/error/forbidden");
+        registry.addInterceptor(new XUserIdCheckInterceptor()).excludePathPatterns("/open/**").order(1);
+        registry.addInterceptor(adminCheckInterceptor()).addPathPatterns("/admin/**").order(2);
     }
 
 
