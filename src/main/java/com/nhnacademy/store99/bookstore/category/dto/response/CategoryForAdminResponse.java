@@ -1,6 +1,8 @@
 package com.nhnacademy.store99.bookstore.category.dto.response;
 
+import com.nhnacademy.store99.bookstore.category.entity.Category;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,17 @@ public class CategoryForAdminResponse {
 
     private Integer categoryDepth;
 
-//    private Long parentCategoryId;
+    private Long parentCategoryId;
 
     private LocalDateTime deletedAt;
+
+    public static CategoryForAdminResponse from(Category category) {
+        return new CategoryForAdminResponse(
+                category.getId(),
+                category.getCategoryName(),
+                category.getCategoryDepth(),
+                Objects.nonNull(category.getParentCategory()) ? category.getParentCategory().getId() : null,
+                category.getDeletedAt()
+        );
+    }
 }
