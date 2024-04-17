@@ -1,7 +1,7 @@
 = 로그인 API
 
 == 로그인 성공
-operation::user-controller-test/login-test[snippets="curl-request,http-request,http-response"]
+operation::user-controller-test/login-success-test[snippets="curl-request,http-request,http-response"]
 
 == 로그인 실패
 === 요청이 형식에 맞지 않음
