@@ -4,7 +4,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * 카테고리 수정 요청 DTO
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
  * @author seunggyu-kim
  */
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public class ModifyCategoryRequest {
     @NotNull
