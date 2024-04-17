@@ -3,7 +3,6 @@ package com.nhnacademy.store99.bookstore.category.service.impl;
 import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.response.CategoryForAdminResponse;
 import com.nhnacademy.store99.bookstore.category.entity.Category;
-import com.nhnacademy.store99.bookstore.category.exception.CategoryNotFoundException;
 import com.nhnacademy.store99.bookstore.category.repository.CategoryRepository;
 import java.util.List;
 import java.util.Optional;
@@ -72,54 +71,78 @@ class CategoryAdminServiceImplTest {
         Assertions.assertThat(actualCategoryPage).usingRecursiveComparison().isEqualTo(expectedCategoryPage);
     }
 
-    @DisplayName("카테고리 추가 성공")
+    @DisplayName("카테고리 추가 성공 - 부모 없음")
     @Test
-    void addCategoryAndGetId() {
+    void addCategoryAndGetIdWithNoParent() {
         // given
-        long parentCategoryId = Mockito.anyLong();
-        AddCategoryRequest request = new AddCategoryRequest("New Category", 2, parentCategoryId);
+        AddCategoryRequest request = new AddCategoryRequest("New Category", null);
+
+        Category category = Category.builder()
+                .id(1L)
+                .categoryName("New Category")
+                .categoryDepth(1)
+                .parentCategory(null)
+                .build();
+
+        BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(category);
+
+        // when
+        Long actual = categoryAdminService.addCategoryAndGetId(request);
+
+        // then
+        Assertions.assertThat(actual).isEqualTo(category.getId());
+    }
+
+    @DisplayName("카테고리 추가 성공 - 부모 있음")
+    @Test
+    void addCategoryAndGetIdWithParent() {
+        // given
+        AddCategoryRequest request = new AddCategoryRequest("New Category", 1L);
 
         Category parentCategory = Category.builder()
-                .id(parentCategoryId)
+                .id(1L)
                 .categoryName("Parent Category")
                 .categoryDepth(1)
                 .build();
 
         Category category = Category.builder()
-                .id(1L)
-                .categoryName("New Category")
-                .categoryDepth(2)
+                .id(10L)
+                .categoryName(request.getCategoryName())
+                .categoryDepth(parentCategory.getCategoryDepth() + 1)
                 .parentCategory(parentCategory)
                 .build();
 
-        BDDMockito.given(categoryRepository.findById(parentCategoryId)).willReturn(Optional.ofNullable(parentCategory));
+        BDDMockito.given(categoryRepository.findById(Mockito.anyLong())).willReturn(Optional.of(parentCategory));
         BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(category);
 
         // when
-        categoryAdminService.addCategoryAndGetId(request);
+        Long actual = categoryAdminService.addCategoryAndGetId(request);
 
         // then
-        Mockito.verify(categoryRepository, Mockito.times(1)).save(Mockito.any(Category.class));
+        Assertions.assertThat(actual).isEqualTo(category.getId());
     }
 
-    @DisplayName("카테고리 추가 실패 - 없는 부모 카테고리")
+    @DisplayName("카테고리 추가 성공 - 없는 부모 카테고리")
     @Test
     void addCategoryAndGetIdWithNotFoundParent() {
         // given
-        long parentCategoryId = Mockito.anyLong();
-        AddCategoryRequest request = new AddCategoryRequest("New Category", 2, parentCategoryId);
+        AddCategoryRequest request = new AddCategoryRequest("New Category", 1L);
 
-        BDDMockito.given(categoryRepository.findById(parentCategoryId)).willReturn(Optional.empty());
+        Category category = Category.builder()
+                .id(10L)
+                .categoryName(request.getCategoryName())
+                .categoryDepth(1)
+                .parentCategory(null)
+                .build();
+
+        BDDMockito.given(categoryRepository.findById(Mockito.anyLong())).willReturn(Optional.empty());
+        BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(category);
 
         // when
-        Assertions.assertThatThrownBy(() -> categoryAdminService.addCategoryAndGetId(request))
-                .isInstanceOf(CategoryNotFoundException.class)
-                .hasMessage("Category not found (categoryId: %d)", parentCategoryId);
-
+        Long actual = categoryAdminService.addCategoryAndGetId(request);
 
         // then
-        Mockito.verify(categoryRepository, Mockito.times(1)).findById(parentCategoryId);
-        Mockito.verify(categoryRepository, Mockito.never()).save(Mockito.any(Category.class));
+        Assertions.assertThat(actual).isEqualTo(category.getId());
     }
 
     @Test

@@ -80,7 +80,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
-    @DisplayName("카테고리 조회 실패 - 관리자 권한 없음")
+    @DisplayName("관리자 카테고리 조회 실패 - 관리자 권한 없음")
     @Test
     void getCategoriesWithNotAdmin() throws Exception {
         // given
@@ -106,9 +106,9 @@ class CategoryAdminControllerTest extends RestDocSupport {
     @Test
     void addCategory() throws Exception {
         // given
-        AddCategoryRequest request = new AddCategoryRequest("New category", 1, null);
+        AddCategoryRequest request = new AddCategoryRequest("New category", 1L);
         BDDMockito.given(categoryAdminService.addCategoryAndGetId(Mockito.any(AddCategoryRequest.class)))
-                .willReturn(1L);
+                .willReturn(2L);
         BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(true);
 
         // when
@@ -119,7 +119,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
                 .andExpectAll(
                         MockMvcResultMatchers.status().isCreated(),
                         MockMvcResultMatchers.header()
-                                .string("Location", Matchers.equalTo("/admin/v1/categories/1"))
+                                .string("Location", Matchers.equalTo("/admin/v1/categories/2"))
                 ).andReturn().getResponse().getContentAsString();
 
         // then
@@ -129,11 +129,11 @@ class CategoryAdminControllerTest extends RestDocSupport {
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
-    @DisplayName("카테고리 추가 실패 - 없는 부모 카테고리 입력")
+    @DisplayName("카테고리 추가 성공 - 없는 부모 카테고리 입력")
     @Test
     void addCategoryWithNotExistParentCategory() throws Exception {
         // given
-        AddCategoryRequest request = new AddCategoryRequest("New Category", 2, 99L);
+        AddCategoryRequest request = new AddCategoryRequest("New Category", 99L);
         BDDMockito.given(categoryAdminService.addCategoryAndGetId(Mockito.any(AddCategoryRequest.class)))
                 .willThrow(new CategoryNotFoundException(99L));
         BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(true);
@@ -158,7 +158,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
     @Test
     void addCategoryWithNotAdmin() throws Exception {
         // given
-        AddCategoryRequest request = new AddCategoryRequest("New Category", 2, 99L);
+        AddCategoryRequest request = new AddCategoryRequest("New Category", 99L);
         BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(false);
 
         // when
