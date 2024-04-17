@@ -56,7 +56,7 @@ class BookAuthorRepositoryTest {
 
     }
 
-    @DisplayName("결과 없는 작가 조회")
+    @DisplayName("결과 없는 작가 조회   ")
     @Test
     void voidBookAuthorTest() {
         // when
