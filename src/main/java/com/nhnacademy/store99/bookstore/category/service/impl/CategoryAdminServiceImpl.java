@@ -28,7 +28,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public Page<CategoryForAdminResponse> getCategories(Pageable pageable) {
-        return null; //categoryRepository.queryAllBy(pageable);
+        return categoryRepository.findAll(pageable).map(CategoryForAdminResponse::from);
     }
 
     @Transactional
@@ -36,13 +36,12 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     public Long addCategoryAndGetId(final AddCategoryRequest request) throws CategoryNotFoundException {
         Category parentCategory = null;
         if (Objects.nonNull(request.getParentCategoryId())) {
-            parentCategory = categoryRepository.findById(request.getParentCategoryId())
-                    .orElseThrow(() -> new CategoryNotFoundException(request.getParentCategoryId()));
+            parentCategory = categoryRepository.findById(request.getParentCategoryId()).orElse(null);
         }
 
         Category category = Category.builder()
                 .categoryName(request.getCategoryName())
-                .categoryDepth(request.getCategoryDepth())
+                .categoryDepth(Objects.nonNull(parentCategory) ? parentCategory.getCategoryDepth() + 1 : 1)
                 .parentCategory(parentCategory)
                 .build();
 
