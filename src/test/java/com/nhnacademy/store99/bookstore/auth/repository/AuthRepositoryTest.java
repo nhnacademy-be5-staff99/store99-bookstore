@@ -28,7 +28,7 @@ class AuthRepositoryTest {
      * 사용자 권한 조회 기능 테스트
      */
     @Test
-    public void getAuth() {
+    void getAuth() {
         // given
         Grade grade = Grade.builder()
                 .gradeName("BASIC")
