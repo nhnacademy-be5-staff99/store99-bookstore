@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_author.repository;
 
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author yrrho2
  */
-public interface BookAuthorRepository extends JpaRepository<BookAuthor, Long> {
-    List<BookAuthor> findBookAuthorsByAuthorId(Long id);
+public interface BookAuthorRepository extends JpaRepository<BookAuthor, Long>, BookAuthorRepositoryCustom {
+
 }

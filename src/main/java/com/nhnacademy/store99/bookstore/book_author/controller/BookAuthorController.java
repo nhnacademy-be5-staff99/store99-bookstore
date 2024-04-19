@@ -1,8 +1,10 @@
 package com.nhnacademy.store99.bookstore.book_author.controller;
 
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,19 @@ public class BookAuthorController {
 
     public BookAuthorController(BookAuthorService bookAuthorService) {
         this.bookAuthorService = bookAuthorService;
+    }
+
+    @GetMapping("")
+    public ResponseEntity<CommonResponse<List<BookAuthorDTO>>> getBookClassWithAuthorName(
+            @RequestParam(value = "id", defaultValue = "0") Long id) {
+        List<BookAuthorDTO> lst = bookAuthorService.getBookClassWithAuthorName(id);
+        CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).build();
+        CommonResponse<List<BookAuthorDTO>> commonResponse =
+                CommonResponse.<List<BookAuthorDTO>>builder()
+                        .header(commonHeader)
+                        .result(lst)
+                        .build();
+        return ResponseEntity.ok(commonResponse);
     }
 
     /**

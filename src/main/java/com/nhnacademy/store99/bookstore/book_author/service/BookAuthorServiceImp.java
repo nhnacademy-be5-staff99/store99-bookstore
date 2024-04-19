@@ -1,8 +1,12 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
+import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +41,28 @@ public class BookAuthorServiceImp implements BookAuthorService {
                 .build();
     }
 
+    @Override
+    public List<BookAuthorDTO> getBookClassWithAuthorName(Long id) {
+        Iterator<BookAuthor> it = bookAuthorRepository.getBookAuthorsByIdGreaterThan(id).iterator();
+        List<BookAuthorDTO> list = new ArrayList<>();
+        while (it.hasNext()) {
+            BookAuthor bookAuthorDTO = it.next();
+            list.add(BookAuthorDTO.builder()
+                    .Id(bookAuthorDTO.getId())
+                    .book(bookAuthorDTO.getBook())
+                    .author(bookAuthorDTO.getAuthor())
+                    .build()
+            );
+        }
+        return list;
+    }
+
+    @Override
+    public List<Author> test() {
+        return null;
+    }
+
+
     /**
      * 작가의 id를 사용하여 도서들을 조회합니다
      *
@@ -45,6 +71,6 @@ public class BookAuthorServiceImp implements BookAuthorService {
      */
     @Override
     public List<BookAuthor> getAuthorByAuthorId(Long authorId) {
-        return bookAuthorRepository.findBookAuthorsByAuthorId(authorId);
+        return null;
     }
 }
