@@ -1,6 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_author.controller;
 
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -38,6 +39,11 @@ public class BookAuthorController {
                         .result(lst)
                         .build();
         return ResponseEntity.ok(commonResponse);
+    }
+
+    @GetMapping("test")
+    public List<BookAuthorName> asdasd() {
+        return bookAuthorService.getTuple();
     }
 
     /**
