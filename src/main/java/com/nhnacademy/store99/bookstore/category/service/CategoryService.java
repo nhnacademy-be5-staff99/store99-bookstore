@@ -1,8 +1,7 @@
 package com.nhnacademy.store99.bookstore.category.service;
 
-import com.nhnacademy.store99.bookstore.category.dto.response.ActiveCategoryResponse;
-import java.util.List;
+import com.nhnacademy.store99.bookstore.category.dto.response.CategoryChildrenListAndRouteResponse;
 
 public interface CategoryService {
-    List<ActiveCategoryResponse> getActiveCategories(final Integer depth);
+    CategoryChildrenListAndRouteResponse getChildrenListAndRoute(final Long categoryId);
 }
