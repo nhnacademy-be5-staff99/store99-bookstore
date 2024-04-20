@@ -29,9 +29,9 @@ public class BookAuthorController {
     }
 
     @GetMapping("")
-    public ResponseEntity<CommonResponse<List<BookAuthorDTO>>> getBookClassWithAuthorName(
+    public ResponseEntity<CommonResponse<List<BookAuthorDTO>>> getBookAuthorsByIdGreaterThan(
             @RequestParam(value = "id", defaultValue = "0") Long id) {
-        List<BookAuthorDTO> lst = bookAuthorService.getBookClassWithAuthorName(id);
+        List<BookAuthorDTO> lst = bookAuthorService.getBookAuthorsByIdGreaterThan(id);
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).build();
         CommonResponse<List<BookAuthorDTO>> commonResponse =
                 CommonResponse.<List<BookAuthorDTO>>builder()
@@ -41,9 +41,9 @@ public class BookAuthorController {
         return ResponseEntity.ok(commonResponse);
     }
 
-    @GetMapping("test")
-    public List<BookAuthorName> asdasd() {
-        return bookAuthorService.getTuple();
+    @GetMapping("same")
+    public List<BookAuthorName> getSameIdBookAuthor() {
+        return bookAuthorService.getSameIdBookAuthor();
     }
 
     /**

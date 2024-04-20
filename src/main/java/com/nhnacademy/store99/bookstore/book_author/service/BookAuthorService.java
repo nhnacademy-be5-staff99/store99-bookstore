@@ -18,9 +18,9 @@ public interface BookAuthorService {
 
     BookAuthorResponse getAuthorBook(Long id);
 
-    List<BookAuthorDTO> getBookClassWithAuthorName(Long id);
+    List<BookAuthorDTO> getBookAuthorsByIdGreaterThan(Long id);
 
     List<Author> test();
 
-    List<BookAuthorName> getTuple();
+    List<BookAuthorName> getSameIdBookAuthor();
 }

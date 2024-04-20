@@ -1,13 +1,11 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
 import com.nhnacademy.store99.bookstore.author.entity.Author;
-import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
-import com.nhnacademy.store99.bookstore.book_author.response.TupleCustom;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +43,7 @@ public class BookAuthorServiceImp implements BookAuthorService {
     }
 
     @Override
-    public List<BookAuthorDTO> getBookClassWithAuthorName(Long id) {
+    public List<BookAuthorDTO> getBookAuthorsByIdGreaterThan(Long id) {
         Iterator<BookAuthor> it = bookAuthorRepository.getBookAuthorsByIdGreaterThan(id).iterator();
         List<BookAuthorDTO> list = new ArrayList<>();
         while (it.hasNext()) {
@@ -66,10 +64,8 @@ public class BookAuthorServiceImp implements BookAuthorService {
     }
 
     @Override
-    public List<BookAuthorName> getTuple() {
-        List<BookAuthorName> turtle = bookAuthorRepository.findBookAuthorByBookId(1L);
-        TupleCustom<Book, String> tuple = new TupleCustom<>();
-        return turtle;
+    public List<BookAuthorName> getSameIdBookAuthor() {
+        return bookAuthorRepository.findBookAuthorByBookId(2L);
     }
 
 
