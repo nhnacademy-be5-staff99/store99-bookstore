@@ -2,6 +2,7 @@ package com.nhnacademy.store99.bookstore.book_author.repository;
 
 import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -21,7 +22,8 @@ public interface BookAuthorRepositoryCustom {
 //    @Query(value = "SELECT distinct b as book, a.authorName as authorName " +
 //            "FROM Book as b inner join fetch BookAuthor as ba inner join fetch Author as a " +
 //            "WHERE ba.book.id = b.id AND ba.author.id = a.id")
-    //@EntityGraph(attributePaths = {"book", "author"})
+    List<BookAuthorAPIResponse> findBookAuthorsByIdGreaterThan(Long id);
+
 
     // 메소드 쿼리를 실행하고
     // 그 값을 레포지토리 구현채에서 사용하는건가????

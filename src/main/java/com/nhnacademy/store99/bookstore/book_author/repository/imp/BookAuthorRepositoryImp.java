@@ -6,14 +6,26 @@ import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
-import com.nhnacademy.store99.bookstore.book_author.response.QBookAuthorName;
+import com.querydsl.core.types.Projections;
 import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implements BookAuthorRepositoryCustom {
     public BookAuthorRepositoryImp() {
         super(BookAuthor.class);
+    }
+
+    @Override
+    public List<BookAuthorAPIResponse> findBookAuthorsByIdGreaterThan(Long id) {
+        QBook book = QBook.book;
+        QAuthor author = QAuthor.author;
+        QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
+
+        return null;
+//        return from(bookAuthor)
+//                .select(new QBookAuthorAPIResponse());
     }
 
     @Override
@@ -26,7 +38,8 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
                 .join(bookAuthor.author, author)
                 .where(bookAuthor.book.id.eq(book.id))
                 .where(bookAuthor.author.id.eq(author.id))
-                .select(new QBookAuthorName(bookAuthor.book.bookTitle, bookAuthor.author.authorName)).distinct()
+                .select(Projections.bean(BookAuthorName.class,
+                        book.bookTitle, author.authorName)).distinct()
                 .fetch();
 //        return from(bookAuthor)
 //                .select(bookAuthor.id, book.id)
