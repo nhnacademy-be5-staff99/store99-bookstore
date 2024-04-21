@@ -9,7 +9,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -290,7 +289,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
         given(adminCheckService.isAdmin(anyLong())).willReturn(true);
 
         // when
-        mockMvc.perform(patch("/admin/v1/categories/1/restore")
+        mockMvc.perform(put("/admin/v1/categories/1/restore")
                         .header("X-USER-ID", 1L))
                 .andExpect(status().isOk());
 
@@ -305,7 +304,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
         given(adminCheckService.isAdmin(anyLong())).willReturn(true);
 
         // when
-        mockMvc.perform(patch("/admin/v1/categories/1/restore"))
+        mockMvc.perform(put("/admin/v1/categories/1/restore"))
                 .andExpect(status().isBadRequest());
 
         // then
@@ -319,7 +318,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
         given(adminCheckService.isAdmin(anyLong())).willReturn(false);
 
         // when
-        mockMvc.perform(patch("/admin/v1/categories/1/restore")
+        mockMvc.perform(put("/admin/v1/categories/1/restore")
                         .header("X-USER-ID", 1L))
                 .andExpect(status().isForbidden());
 

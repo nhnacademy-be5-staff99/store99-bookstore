@@ -51,7 +51,7 @@ class CategoryServiceImplTest {
 
         // then
         List<ActiveCategoryIdAndNameDto> expectedRoute =
-                List.of(new ActiveCategoryIdAndNameDto(2L, "과학"), new ActiveCategoryIdAndNameDto(1L, "국내도서"));
+                List.of(new ActiveCategoryIdAndNameDto(1L, "국내도서"), new ActiveCategoryIdAndNameDto(2L, "과학"));
 
         SoftAssertions.assertSoftly(softly -> {
             assertThat(result.getNowCategoryRoute()).usingRecursiveComparison().isEqualTo(expectedRoute);
