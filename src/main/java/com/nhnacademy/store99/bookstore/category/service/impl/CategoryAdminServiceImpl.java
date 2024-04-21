@@ -2,7 +2,6 @@ package com.nhnacademy.store99.bookstore.category.service.impl;
 
 import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.request.ModifyCategoryRequest;
-import com.nhnacademy.store99.bookstore.category.dto.request.RemoveCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.response.CategoryForAdminResponse;
 import com.nhnacademy.store99.bookstore.category.entity.Category;
 import com.nhnacademy.store99.bookstore.category.exception.CategoryNotFoundException;
@@ -49,12 +48,23 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     }
 
     @Override
-    public void modifyCategory(final ModifyCategoryRequest request) {
-        // TODO
+    @Transactional
+    public void modifyCategory(final Long categoryId, final ModifyCategoryRequest request) {
+        categoryRepository.findById(categoryId).ifPresent(category -> {
+            Category parentCategory = categoryRepository.findById(request.getParentCategoryId()).orElse(null);
+            category.modify(request.getCategoryName(), parentCategory);
+        });
     }
 
     @Override
-    public void removeCategory(final RemoveCategoryRequest request) {
-        // TODO
+    @Transactional
+    public void removeCategory(final Long categoryId) {
+        categoryRepository.findById(categoryId).ifPresent(Category::delete);
+    }
+
+    @Override
+    @Transactional
+    public void restoreCategory(final Long categoryId) {
+        categoryRepository.findById(categoryId).ifPresent(Category::restore);
     }
 }

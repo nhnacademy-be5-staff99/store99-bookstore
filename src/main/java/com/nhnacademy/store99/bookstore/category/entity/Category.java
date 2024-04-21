@@ -50,4 +50,18 @@ public class Category {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public void restore() {
+        this.deletedAt = null;
+    }
+
+    public void modify(String categoryName, Category parentCategory) {
+        this.categoryName = categoryName;
+        this.parentCategory = parentCategory;
+        this.categoryDepth = parentCategory == null ? 1 : parentCategory.getCategoryDepth() + 1;
+    }
 }
