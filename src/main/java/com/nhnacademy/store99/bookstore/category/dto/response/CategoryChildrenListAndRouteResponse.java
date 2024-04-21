@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author seunggyu-kim
  */
+@ToString
 @Getter
 public class CategoryChildrenListAndRouteResponse {
     /**
@@ -23,7 +25,7 @@ public class CategoryChildrenListAndRouteResponse {
     @Setter
     public List<ActiveCategoryIdAndNameDto> childrenCategoryList;
 
-    public void setNowCategoryRoute(Category category) {
+    public void setNowCategoryRouteByCategory(Category category) {
         nowCategoryRoute = new ArrayList<>();
         nowCategoryRoute.add(new ActiveCategoryIdAndNameDto(category.getId(), category.getCategoryName()));
         while(category.getParentCategory() != null) {

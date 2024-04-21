@@ -1,6 +1,8 @@
 package com.nhnacademy.store99.bookstore.category.repository;
 
+import com.nhnacademy.store99.bookstore.category.dto.ActiveCategoryIdAndNameDto;
 import com.nhnacademy.store99.bookstore.category.entity.Category;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,5 +88,49 @@ class CategoryRepositoryTest {
                 .build();
 
         Assertions.assertThat(actualCategory).isEqualTo(expectedCategory);
+    }
+
+    @DisplayName("부모 카테고리 ID로 사용가능한 카테고리 목록 조회")
+    @Test
+    void getCategoriesByParentCategoryIdAndNotDeleted() {
+        // given
+        Category parentCategory = Category.builder()
+                .categoryName("Parent Category")
+                .categoryDepth(1)
+                .parentCategory(null)
+                .build();
+
+        categoryRepository.save(parentCategory);
+
+        Category childCategory = Category.builder()
+                .categoryName("Child Category")
+                .categoryDepth(2)
+                .parentCategory(parentCategory)
+                .build();
+
+        categoryRepository.save(childCategory);
+
+        // when
+        List<ActiveCategoryIdAndNameDto> actualCategories =
+                categoryRepository.getCategoriesByParentCategory_IdAndDeletedAtIsNull(parentCategory.getId());
+
+        // then
+        List<ActiveCategoryIdAndNameDto> expectedCategories = List.of(
+                new ActiveCategoryIdAndNameDto(childCategory.getId(), childCategory.getCategoryName())
+        );
+
+        Assertions.assertThat(actualCategories).hasSize(1);
+        Assertions.assertThat(actualCategories).usingRecursiveComparison().isEqualTo(expectedCategories);
+    }
+
+    @DisplayName("존재하지 않는 부모 카테고리 ID로 카테고리 조회")
+    @Test
+    void getCategoriesByNonExistentParentCategoryId() {
+        // when
+        List<ActiveCategoryIdAndNameDto> actualCategories =
+                categoryRepository.getCategoriesByParentCategory_IdAndDeletedAtIsNull(999L);
+
+        // then
+        Assertions.assertThat(actualCategories).isEmpty();
     }
 }

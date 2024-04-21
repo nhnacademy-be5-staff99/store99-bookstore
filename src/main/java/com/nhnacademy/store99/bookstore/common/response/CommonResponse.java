@@ -1,5 +1,6 @@
 package com.nhnacademy.store99.bookstore.common.response;
 
+
 import lombok.Builder;
 import lombok.Getter;
 
