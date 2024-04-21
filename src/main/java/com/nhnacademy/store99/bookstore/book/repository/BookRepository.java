@@ -11,5 +11,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author yrrho2
  */
 public interface BookRepository extends JpaRepository<Book, Long>, BookRepositoryCustom {
+
+    /**
+     * 모든 도서를 참조.
+     *
+     * @param pageable
+     * @return Book Page 객체
+     */
     Page<Book> findAll(Pageable pageable);
 }

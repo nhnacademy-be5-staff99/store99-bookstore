@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 도서 전반의 URL 컨트롤러
+ *
+ * @author yrrho2
+ */
 @RestController
 @RequestMapping("/open/v1/books")
 public class BookController {
@@ -32,11 +37,10 @@ public class BookController {
     }
 
 
-    // book 레포지토리에서 가져올예정.
+    // BookAuthor Service 사용.
     @GetMapping("")
     public Page<BookWithAuthor> getBooksPage() {
-        Page<BookWithAuthor> booksAuthorName = bookAuthorService.getBooksAuthorName();
-        return booksAuthorName;
+        return bookAuthorService.getBooksAuthorName();
     }
 
     @GetMapping("/old")
