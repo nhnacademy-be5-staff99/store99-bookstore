@@ -1,0 +1,7 @@
+= 현재 카테고리의 자식 목록과 경로 조회 API
+
+==== 정상적인 카테고리 ID
+operation::category-controller-test/get-active-categories-success[snippets="curl-request,http-request,http-response"]
+
+==== 존재하지 않는 카테고리 ID
+operation::category-controller-test/get-active-categories-with-non-existent-category-id[snippets="curl-request,http-request,http-response"]
