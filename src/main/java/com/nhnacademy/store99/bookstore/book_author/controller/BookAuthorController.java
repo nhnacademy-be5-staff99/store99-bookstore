@@ -49,7 +49,7 @@ public class BookAuthorController {
 
     @GetMapping("test")
     public List<BookAuthorAPIResponse> test() {
-        return bookAuthorService.test();
+        return bookAuthorService.getBookAuthorByBooks();
     }
 
     /**

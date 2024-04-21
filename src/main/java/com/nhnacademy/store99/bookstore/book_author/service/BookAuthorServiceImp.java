@@ -59,7 +59,10 @@ public class BookAuthorServiceImp implements BookAuthorService {
     }
 
     @Override
-    public List<BookAuthorAPIResponse> test() {
+    public List<BookAuthorAPIResponse> getBookAuthorByBooks() {
+        // 0L을 Id로 넣는이유
+        // 1부터 시작하는 BookAuthor Id를 전부 참조하여 가져오기 위함.
+
         return bookAuthorRepository.findBookAuthorsByIdGreaterThan(0L);
     }
 

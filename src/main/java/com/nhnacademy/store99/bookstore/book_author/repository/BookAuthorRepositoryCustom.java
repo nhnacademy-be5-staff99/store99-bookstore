@@ -16,7 +16,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface BookAuthorRepositoryCustom {
 
 
-    // 임시로 모든 데이터 출력. 나중에 도서제목검색결과에 작가 이름을 넣는식으로 해볼것.
+    // BookAuthor 테이블에 연결된 작가-도서 데이터 출력.
+    // 작가가 작성한 도서들을 반환함.
     List<BookAuthorAPIResponse> findBookAuthorsByIdGreaterThan(Long id);
 
 

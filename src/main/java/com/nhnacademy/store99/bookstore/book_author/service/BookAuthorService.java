@@ -20,7 +20,7 @@ public interface BookAuthorService {
 
     List<BookAuthorDTO> getBookAuthorsByIdGreaterThan(Long id);
 
-    List<BookAuthorAPIResponse> test();
+    List<BookAuthorAPIResponse> getBookAuthorByBooks();
 
     List<BookAuthorName> getSameIdBookAuthor();
 }
