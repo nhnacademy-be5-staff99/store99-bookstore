@@ -1,8 +1,8 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
-import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
@@ -59,8 +59,8 @@ public class BookAuthorServiceImp implements BookAuthorService {
     }
 
     @Override
-    public List<Author> test() {
-        return null;
+    public List<BookAuthorAPIResponse> test() {
+        return bookAuthorRepository.findBookAuthorsByIdGreaterThan(0L);
     }
 
     @Override

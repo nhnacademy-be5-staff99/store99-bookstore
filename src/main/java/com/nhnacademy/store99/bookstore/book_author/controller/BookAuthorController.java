@@ -1,5 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_author.controller;
 
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
@@ -44,6 +45,11 @@ public class BookAuthorController {
     @GetMapping("same")
     public List<BookAuthorName> getSameIdBookAuthor() {
         return bookAuthorService.getSameIdBookAuthor();
+    }
+
+    @GetMapping("test")
+    public List<BookAuthorAPIResponse> test() {
+        return bookAuthorService.test();
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
-import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
@@ -20,7 +20,7 @@ public interface BookAuthorService {
 
     List<BookAuthorDTO> getBookAuthorsByIdGreaterThan(Long id);
 
-    List<Author> test();
+    List<BookAuthorAPIResponse> test();
 
     List<BookAuthorName> getSameIdBookAuthor();
 }

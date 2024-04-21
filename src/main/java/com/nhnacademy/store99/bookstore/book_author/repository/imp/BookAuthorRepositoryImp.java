@@ -23,7 +23,11 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
 
-        return null;
+        return from(bookAuthor)
+                .join(bookAuthor.book, book)
+                .join(bookAuthor.author, author)
+                .select(Projections.bean(BookAuthorAPIResponse.class,
+                        bookAuthor.book, bookAuthor.author.authorName)).distinct().fetch();
 //        return from(bookAuthor)
 //                .select(new QBookAuthorAPIResponse());
     }
