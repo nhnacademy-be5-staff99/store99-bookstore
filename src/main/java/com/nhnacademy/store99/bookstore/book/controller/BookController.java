@@ -2,7 +2,10 @@ package com.nhnacademy.store99.bookstore.book.controller;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
+import com.nhnacademy.store99.bookstore.book.entity.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
+import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
+import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import org.springframework.data.domain.Page;
@@ -20,13 +23,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/open/v1/books")
 public class BookController {
     final private BookServiceInterface bookService;
+    final private BookAuthorService bookAuthorService;
 
-    public BookController(BookServiceInterface bookServiceInterface) {
+    public BookController(BookServiceInterface bookServiceInterface, BookAuthorRepository bookAuthorRepository,
+                          BookAuthorService bookAuthorService) {
         this.bookService = bookServiceInterface;
+        this.bookAuthorService = bookAuthorService;
     }
 
 
+    // book 레포지토리에서 가져올예정.
     @GetMapping("")
+    public Page<BookWithAuthor> getBooksPage() {
+        Page<BookWithAuthor> booksAuthorName = bookAuthorService.getBooksAuthorName();
+        return booksAuthorName;
+    }
+
+    @GetMapping("/old")
     public ResponseEntity<CommonResponse> getBooksPage(@RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Book> paging = this.bookService.getBooks(page);
         CommonHeader commonHeader = CommonHeader.builder()

@@ -1,12 +1,10 @@
 package com.nhnacademy.store99.bookstore.book.entity;
 
 
-import lombok.Builder;
-import lombok.Getter;
+import com.nhnacademy.store99.bookstore.author.entity.Author;
 
-@Getter
-@Builder
-public class BookWithAuthor {
-    Book book;
-    String authorName;
+public interface BookWithAuthor {
+    Book getBook();
+
+    Author getAuthor();
 }

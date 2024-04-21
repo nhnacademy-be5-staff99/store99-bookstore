@@ -14,5 +14,6 @@ public interface BookRepositoryCustom {
 //            "FROM Book as b inner join fetch BookAuthor as ba inner join fetch Author as a " +
 //            "WHERE ba.book.id = b.id AND ba.author.id = a.id")
 
-    //List<Book> getBooksByBook();
+
+//    List<BookWithAuthor> findBooksByIdGreaterThanEqual(Long id);
 }

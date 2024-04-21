@@ -2,7 +2,6 @@ package com.nhnacademy.store99.bookstore.book.service;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
-import com.nhnacademy.store99.bookstore.book.entity.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +37,6 @@ public class BookServiceImp implements BookServiceInterface {
         return bookRepository.save(book);
     }
 
-    @Override
-    public Page<BookWithAuthor> getBooksAuthorName() {
-        return null;
-    }
 
     /**
      * id로 도서 조회
