@@ -4,9 +4,9 @@ public interface BookAuthorName {
 
     String getBookBookTitle();
 
-    String getAuthorAuthorName();
-
     void setBookBookTitle(String bookTitle);
+
+    String getAuthorAuthorName();
 
     void setAuthorAuthorName(String authorName);
 }
