@@ -18,7 +18,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping(params = "categoryId")
-    public CategoryChildrenListAndRouteResponse getActiveCategories(@RequestParam Long categoryId) {
+    public CategoryChildrenListAndRouteResponse getCategoryChildrenListAndRoute(@RequestParam Long categoryId) {
         return categoryService.getChildrenListAndRoute(categoryId);
     }
 }

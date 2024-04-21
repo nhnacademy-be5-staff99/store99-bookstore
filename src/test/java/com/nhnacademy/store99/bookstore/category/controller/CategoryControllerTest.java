@@ -33,7 +33,7 @@ class CategoryControllerTest extends RestDocSupport {
 
     @DisplayName("현재 카테고리의 자식 목록과 경로 조회 성공 - 정상적인 카테고리 ID")
     @Test
-    void getActiveCategoriesSuccess() throws Exception {
+    void getCategoryChildrenListAndRouteSuccess() throws Exception {
         // given
         Long categoryId = 1L;
         Category category1 = Category.builder().id(categoryId).categoryName("국내도서").categoryDepth(1).build();
@@ -69,7 +69,7 @@ class CategoryControllerTest extends RestDocSupport {
 
     @DisplayName("현재 카테고리의 자식 목록과 경로 조회 성공 - 존재하지 않는 카테고리 ID")
     @Test
-    void getActiveCategoriesWithNonExistentCategoryId() throws Exception {
+    void getCategoryChildrenListAndRouteWithNonExistentCategoryId() throws Exception {
         // given
         Long categoryId = 999L;
         CategoryChildrenListAndRouteResponse expectedResponseBody = new CategoryChildrenListAndRouteResponse();
