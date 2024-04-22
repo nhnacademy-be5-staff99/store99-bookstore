@@ -1,10 +1,13 @@
 package com.nhnacademy.store99.bookstore.like.service.impl;
 
+import com.nhnacademy.store99.bookstore.book.entity.Book;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.like.dto.request.LikeRequest;
 import com.nhnacademy.store99.bookstore.like.entity.Like;
 import com.nhnacademy.store99.bookstore.like.repository.LikeRepository;
 import com.nhnacademy.store99.bookstore.like.service.LikeService;
-import java.time.LocalDateTime;
+import com.nhnacademy.store99.bookstore.user.entity.User;
+import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,22 +15,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
 
-    public LikeServiceImpl(LikeRepository likeRepository) {
+    public LikeServiceImpl(LikeRepository likeRepository, BookRepository bookRepository,
+                           UserRepository userRepository) {
         this.likeRepository = likeRepository;
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     @Transactional
     public void addLike(LikeRequest likeRequest) {
-
-        if (isLiked(likeRequest.getBook().getId(), likeRequest.getUser().getId())) {
+        if (isLiked(likeRequest.getBookId(), likeRequest.getUserId())) {
             throw new IllegalStateException("Already pressed the like!!");
         }
+        Book likeBook = bookRepository.findById(likeRequest.getBookId()).orElseThrow();
+        User likeUser = userRepository.findById(likeRequest.getUserId()).orElseThrow();
+
         Like newLike = Like.builder()
-                .createdAt(LocalDateTime.now())
-                .book(likeRequest.getBook())
-                .user(likeRequest.getUser())
+                .book(likeBook)
+                .user(likeUser)
                 .build();
 
         likeRepository.save(newLike);
@@ -47,7 +56,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public boolean isLiked(Long bookId, Long userId) {
-        return likeRepository.existByBookIdAndUserId(bookId, userId);
+        return likeRepository.existsByBookIdAndUserId(bookId, userId);
     }
 
 
