@@ -36,6 +36,12 @@ public class BookAuthorServiceImp implements BookAuthorService {
 
 
     // BookAuthor? Book? 어디에 두어야할까
+
+    /**
+     * id 0이상의 도서들을 작가 list와 묶어서 반환
+     *
+     * @return Book+List<Author> Page
+     */
     @Override
     public Page<BookPageDTO> getBooksAuthorName() {
         List<BookWithAuthor> book = bookAuthorRepository.findBooksByIdGreaterThanEqual(0L);
@@ -64,7 +70,7 @@ public class BookAuthorServiceImp implements BookAuthorService {
             );
         }
 
-        // map을 통신하면 좋겠지만 page객체는 List만 넣어야 한다.
+        // map을 통신하면 좋겠지만 page에는 List만 넣어야 했다.
         return new PageImpl<>(booksPage);
     }
 
