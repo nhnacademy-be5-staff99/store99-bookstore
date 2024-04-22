@@ -13,7 +13,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      * @return 존재 여부에 따른 boolean 값 반환
      * @author 이서연
      */
-    Boolean existByBookIdAndUserId(Long bookId, Long userId);
+    Boolean existsByBookIdAndUserId(Long bookId, Long userId);
 
     /**
      * 도서 별 좋아요 수를 조회하는 메소드 입니다.
