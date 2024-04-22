@@ -31,6 +31,6 @@ public class Author {
     @Column(name = "author_name")
     private String authorName;
 
-    @Column(name = "author_type")
+    @Column(name = "author_type", nullable = false, length = 50)
     private String authorType;
 }
