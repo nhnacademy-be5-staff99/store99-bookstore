@@ -27,6 +27,7 @@ public class CategoryChildrenListAndRouteResponse {
         nowCategoryRoute = new LinkedList<>();
         while(category != null) {
             nowCategoryRoute.addFirst(new ActiveCategoryIdAndNameDto(category.getId(), category.getCategoryName()));
+            if(category.getCategoryDepth() == 1) break;
             category = category.getParentCategory();
         }
     }
