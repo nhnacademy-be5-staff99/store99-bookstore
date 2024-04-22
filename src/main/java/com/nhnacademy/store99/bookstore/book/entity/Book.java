@@ -45,7 +45,7 @@ public class Book {
     @Column(name = "book_title", nullable = false)
     private String bookTitle;
 
-    @Size(max = 255)
+    @Lob
     @NotNull
     @Column(name = "book_contents", nullable = false)
     private String bookContents;
