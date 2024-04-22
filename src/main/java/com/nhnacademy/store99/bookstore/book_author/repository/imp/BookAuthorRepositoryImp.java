@@ -31,6 +31,10 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
 
+        // 도서들을 paging해서 size개정도 가져오고
+        // 이 도서들의 작가들이 포함된 쿼리를 찾아보자
+        // where 절 서브쿼리로 한번 ㄱㄱ
+
         return from(bookAuthor)
                 .join(bookAuthor.book, book)
                 .join(bookAuthor.author, author)
