@@ -1,5 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
+import com.nhnacademy.store99.bookstore.author.entity.Author;
+import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
@@ -7,9 +9,12 @@ import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIRespon
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
+import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -29,11 +34,38 @@ public class BookAuthorServiceImp implements BookAuthorService {
         this.bookAuthorRepository = bookAuthorRepository;
     }
 
+
+    // BookAuthor? Book? 어디에 두어야할까
     @Override
-    public Page<BookWithAuthor> getBooksAuthorName() {
+    public Page<BookPageDTO> getBooksAuthorName() {
         List<BookWithAuthor> book = bookAuthorRepository.findBooksByIdGreaterThanEqual(0L);
-        Page<BookWithAuthor> page = new PageImpl<>(book);
-        return page;
+        List<BookPageDTO> booksPage = new ArrayList<>();
+        Map<Book, List<Author>> booksMap = new HashMap<>();
+
+        // Book -List<Author> Map을 만듬.
+        for (BookWithAuthor bookWithAuthor : book) {
+            if (!booksMap.containsKey(bookWithAuthor.getBook())) {
+                ArrayList<Author> list = new ArrayList<>();
+                list.add(bookWithAuthor.getAuthor());
+                booksMap.put(bookWithAuthor.getBook(), list);
+            } else {
+                List<Author> list = booksMap.get(bookWithAuthor.getBook());
+                list.add(bookWithAuthor.getAuthor());
+                booksMap.replace(bookWithAuthor.getBook(), list);
+            }
+        }
+
+        // Map-> Book-List<Author> DTO로 변환후 통신.
+        for (Book itBook : booksMap.keySet()) {
+            booksPage.add(BookPageDTO.builder()
+                    .book(itBook)
+                    .authors(booksMap.get(itBook))
+                    .build()
+            );
+        }
+
+        // map을 통신하면 좋겠지만 page객체는 List만 넣어야 한다.
+        return new PageImpl<>(booksPage);
     }
 
     /**

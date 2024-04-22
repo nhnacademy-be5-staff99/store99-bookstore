@@ -2,9 +2,9 @@ package com.nhnacademy.store99.bookstore.book.controller;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
-import com.nhnacademy.store99.bookstore.book.entity.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
+import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -39,7 +39,7 @@ public class BookController {
 
     // BookAuthor Service 사용.
     @GetMapping("")
-    public Page<BookWithAuthor> getBooksPage() {
+    public Page<BookPageDTO> getBooksPage() {
         return bookAuthorService.getBooksAuthorName();
     }
 
