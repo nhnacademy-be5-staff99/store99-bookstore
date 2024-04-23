@@ -1,16 +1,14 @@
 package com.nhnacademy.store99.bookstore.category.repository;
 
-import com.nhnacademy.store99.bookstore.category.dto.response.CategoryForAdminResponse;
+import com.nhnacademy.store99.bookstore.category.dto.ActiveCategoryIdAndNameDto;
 import com.nhnacademy.store99.bookstore.category.entity.Category;
+import java.util.List;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 /**
  * @author seunggyu-kim
@@ -92,35 +90,47 @@ class CategoryRepositoryTest {
         Assertions.assertThat(actualCategory).isEqualTo(expectedCategory);
     }
 
-    @Disabled
-    @DisplayName("queryAllBy - 페이지네이션과 함께 모든 카테고리 조회")
+    @DisplayName("부모 카테고리 ID로 사용가능한 카테고리 목록 조회")
     @Test
-    void queryAllBy_withPagination() {
+    void getCategoriesByParentCategoryIdAndNotDeleted() {
         // given
-        Category category1 = Category.builder()
-                .categoryName("카테고리1")
+        Category parentCategory = Category.builder()
+                .categoryName("Parent Category")
                 .categoryDepth(1)
                 .parentCategory(null)
                 .build();
-        category1 = categoryRepository.save(category1);
 
-        Category category2 = Category.builder()
-                .categoryName("카테고리2")
+        categoryRepository.save(parentCategory);
+
+        Category childCategory = Category.builder()
+                .categoryName("Child Category")
                 .categoryDepth(2)
-                .parentCategory(category1)
+                .parentCategory(parentCategory)
                 .build();
-        category2 = categoryRepository.save(category2);
 
-        Pageable pageable = PageRequest.of(0, 10);
+        categoryRepository.save(childCategory);
 
         // when
-        CategoryForAdminResponse category = categoryRepository.queryById(category1.getId());
+        List<ActiveCategoryIdAndNameDto> actualCategories =
+                categoryRepository.getCategoriesByParentCategory_IdAndDeletedAtIsNull(parentCategory.getId());
 
         // then
-//        Assertions.assertThat(categories.getTotalElements()).isEqualTo(2);
-//        Assertions.assertThat(categories.getContent()).extracting("categoryName").containsExactly("카테고리1", "카테고리2");
-//        categoryRepository.findAll().forEach(System.out::println);
+        List<ActiveCategoryIdAndNameDto> expectedCategories = List.of(
+                new ActiveCategoryIdAndNameDto(childCategory.getId(), childCategory.getCategoryName())
+        );
 
-        System.out.println(category);
+        Assertions.assertThat(actualCategories).hasSize(1);
+        Assertions.assertThat(actualCategories).usingRecursiveComparison().isEqualTo(expectedCategories);
+    }
+
+    @DisplayName("존재하지 않는 부모 카테고리 ID로 카테고리 조회")
+    @Test
+    void getCategoriesByNonExistentParentCategoryId() {
+        // when
+        List<ActiveCategoryIdAndNameDto> actualCategories =
+                categoryRepository.getCategoriesByParentCategory_IdAndDeletedAtIsNull(999L);
+
+        // then
+        Assertions.assertThat(actualCategories).isEmpty();
     }
 }
