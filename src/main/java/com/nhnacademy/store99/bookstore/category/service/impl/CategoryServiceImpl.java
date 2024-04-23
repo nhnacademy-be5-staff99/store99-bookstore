@@ -20,7 +20,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryChildrenListAndRouteResponse getChildrenListAndRoute(final Long categoryId) {
         CategoryChildrenListAndRouteResponse response = new CategoryChildrenListAndRouteResponse();
         categoryRepository.findById(categoryId).ifPresent(response::setNowCategoryRouteByCategory);
-        response.setChildrenCategoryList(categoryRepository.getCategoriesByParentCategory_IdAndDeletedAtIsNull(categoryId));
+        response.setChildrenCategoryList(
+                categoryRepository.getCategoriesByParentCategory_IdAndDeletedAtIsNull(categoryId));
         return response;
     }
 }
