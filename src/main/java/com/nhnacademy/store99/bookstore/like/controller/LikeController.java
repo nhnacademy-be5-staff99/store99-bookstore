@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +54,20 @@ public class LikeController {
         CommonResponse<String> commonResponse = CommonResponse.<String>builder()
                 .header(commonHeader)
                 .result(response)
+                .build();
+        return ResponseEntity.ok(commonResponse);
+    }
+
+    @GetMapping("/likeCnt")
+    public ResponseEntity<CommonResponse<Long>> getCnt(@RequestBody @Valid Long bookId) {
+        Long cnt = likeService.countLikesByBookId(bookId);
+        CommonHeader commonHeader = CommonHeader.builder()
+                .httpStatus(HttpStatus.OK)
+                .resultMessage("Success")
+                .build();
+        CommonResponse<Long> commonResponse = CommonResponse.<Long>builder()
+                .header(commonHeader)
+                .result(cnt)
                 .build();
         return ResponseEntity.ok(commonResponse);
     }
