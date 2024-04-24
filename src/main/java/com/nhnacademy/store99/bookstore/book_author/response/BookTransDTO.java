@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class TransDTO {
+public class BookTransDTO {
 
     private Long BookId;
 
@@ -46,7 +46,6 @@ public class TransDTO {
 
     private LocalDateTime BookUpdatedAt;
 
-    //    @Builder.Default
     private List<AuthorDTO> authorsDTOList;
 
     @Getter

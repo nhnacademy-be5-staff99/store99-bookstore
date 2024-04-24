@@ -9,7 +9,7 @@ import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
-import com.nhnacademy.store99.bookstore.book_author.response.TransDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
@@ -38,7 +38,7 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
     }
 
     @Override
-    public Page<TransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
+    public Page<BookTransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
@@ -51,20 +51,20 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
         List<Long> bookIds = books.stream().map(Book::getId).collect(Collectors.toList());
 
 
-        Map<Long, List<TransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
+        Map<Long, List<BookTransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
                 .where(bookAuthor.book.id.in(bookIds))
                 .join(bookAuthor.author, author)
                 .transform(GroupBy.groupBy(bookAuthor.book.id)
                         .as(GroupBy.list(
-                                        Projections.constructor(TransDTO.AuthorDTO.class,
+                                        Projections.constructor(BookTransDTO.AuthorDTO.class,
                                                 author.authorName, author.authorType)
                                 )
                         )
                 );
 
-        List<TransDTO> bookResponse = books.stream().map(b -> {
-            List<TransDTO.AuthorDTO> authors = authorsMap.getOrDefault(b.getId(), Collections.emptyList());
-            return new TransDTO(
+        List<BookTransDTO> bookResponse = books.stream().map(b -> {
+            List<BookTransDTO.AuthorDTO> authors = authorsMap.getOrDefault(b.getId(), Collections.emptyList());
+            return new BookTransDTO(
                     b.getId(),
                     b.getBookIsbn13(),
                     b.getBookIsbn10(),
