@@ -7,8 +7,11 @@ import com.nhnacademy.store99.bookstore.like.service.LikeService;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 이서연
  */
 @RestController
+@RequestMapping("/v1/likes")
 public class LikeController {
 
     private final LikeService likeService;
@@ -25,7 +29,7 @@ public class LikeController {
         this.likeService = likeService;
     }
 
-    @PostMapping("/v1/likes")
+    @PostMapping
     public ResponseEntity<CommonResponse<Void>> postAddLike(@RequestBody @Valid LikeRequest req) {
         likeService.addLike(req);
         CommonHeader commonHeader = CommonHeader.builder()
@@ -37,6 +41,20 @@ public class LikeController {
                 .build();
         return ResponseEntity.ok(commonResponse);
 
+    }
+
+    @DeleteMapping("/{likeId}")
+    public ResponseEntity<CommonResponse<String>> postDeleteLike(@RequestBody @Valid @PathVariable Long likeId) {
+        String response = likeService.deleteLike(likeId);
+        CommonHeader commonHeader = CommonHeader.builder()
+                .httpStatus(HttpStatus.OK)
+                .resultMessage("Successfully delete like")
+                .build();
+        CommonResponse<String> commonResponse = CommonResponse.<String>builder()
+                .header(commonHeader)
+                .result(response)
+                .build();
+        return ResponseEntity.ok(commonResponse);
     }
 
 
