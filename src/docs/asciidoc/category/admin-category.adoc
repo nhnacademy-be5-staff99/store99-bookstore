@@ -32,5 +32,56 @@ operation::category-admin-controller-test/get-categories[snippets="curl-request,
 
 operation::category-admin-controller-test/get-categories-with-not-admin[snippets="curl-request,http-request,http-response"]
 
+== 카테고리 수정
 
+=== 성공
 
+==== 카테고리 수정 성공
+
+operation::category-admin-controller-test/modify-category-successfully[snippets="curl-request,http-request,http-response"]
+
+=== 실패
+
+==== 카테고리 수정 실패 - 사용자 ID 없음
+
+operation::category-admin-controller-test/modify-category-fails-when-user-id-is-missing[snippets="curl-request,http-request,http-response"]
+
+==== 카테고리 수정 실패 - 관리자 권한 없음
+
+operation::category-admin-controller-test/modify-category-fails-when-not-admin[snippets="curl-request,http-request,http-response"]
+
+== 카테고리 삭제
+
+=== 성공
+
+==== 카테고리 삭제 성공
+
+operation::category-admin-controller-test/remove-category-successfully[snippets="curl-request,http-request,http-response"]
+
+=== 실패
+
+==== 카테고리 삭제 실패 - 사용자 ID 없음
+
+operation::category-admin-controller-test/remove-category-fails-when-user-id-is-missing[snippets="curl-request,http-request,http-response"]
+
+==== 카테고리 삭제 실패 - 관리자 권한 없음
+
+operation::category-admin-controller-test/remove-category-fails-when-not-admin[snippets="curl-request,http-request,http-response"]
+
+== 카테고리 삭제 복구
+
+=== 성공
+
+==== 카테고리 삭제 복구 성공
+
+operation::category-admin-controller-test/restore-category-successfully[snippets="curl-request,http-request,http-response"]
+
+=== 실패
+
+==== 카테고리 삭제 복구 실패 - 사용자 ID 없음
+
+operation::category-admin-controller-test/restore-category-fails-when-user-id-is-missing[snippets="curl-request,http-request,http-response"]
+
+==== 카테고리 삭제 복구 실패 - 관리자 권한 없음
+
+operation::category-admin-controller-test/restore-category-fails-when-not-admin[snippets="curl-request,http-request,http-response"]

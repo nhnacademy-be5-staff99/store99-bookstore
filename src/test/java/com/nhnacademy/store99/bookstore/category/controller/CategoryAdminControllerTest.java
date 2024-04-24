@@ -1,6 +1,21 @@
 package com.nhnacademy.store99.bookstore.category.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.nhnacademy.store99.bookstore.category.dto.request.AddCategoryRequest;
+import com.nhnacademy.store99.bookstore.category.dto.request.ModifyCategoryRequest;
 import com.nhnacademy.store99.bookstore.category.dto.response.CategoryForAdminResponse;
 import com.nhnacademy.store99.bookstore.category.exception.CategoryNotFoundException;
 import com.nhnacademy.store99.bookstore.category.service.CategoryAdminService;
@@ -8,12 +23,8 @@ import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.config.RestDocSupport;
 import java.util.List;
-import org.assertj.core.api.Assertions;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -21,8 +32,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
  * @author seunggyu-kim
@@ -36,7 +45,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
     @Test
     void getCategories() throws Exception {
         // given
-        BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(true);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
         List<CategoryForAdminResponse> categoCategoryForAdminResponseList = List.of(
                 CategoryForAdminResponse.builder().id(1L).categoryName("국내도서").categoryDepth(1).build(),
                 CategoryForAdminResponse.builder().id(2L).categoryName("과학").categoryDepth(2).parentCategoryId(1L)
@@ -59,16 +68,16 @@ class CategoryAdminControllerTest extends RestDocSupport {
                         .parentCategoryId(2L).build()
         );
         Page<CategoryForAdminResponse> expectedCategoryPage = new PageImpl<>(categoCategoryForAdminResponseList);
-        BDDMockito.given(categoryAdminService.getCategories(Mockito.any(Pageable.class)))
+        given(categoryAdminService.getCategories(any(Pageable.class)))
                 .willReturn(expectedCategoryPage);
 
         // when
-        String actualResponse = mockMvc.perform(MockMvcRequestBuilders.get("/admin/v1/categories")
+        String actualResponse = mockMvc.perform(get("/admin/v1/categories")
                         .header("X-USER-ID", 1L)
                         .accept(MediaType.APPLICATION_JSON)
                         .param("page", "0")
                         .param("size", "10"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
         // then
@@ -77,29 +86,29 @@ class CategoryAdminControllerTest extends RestDocSupport {
                 CommonResponse.<Page<CategoryForAdminResponse>>builder().header(header).result(expectedCategoryPage)
                         .build();
         String expectedResponse = objectMapper.writeValueAsString(response);
-        Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
     @DisplayName("관리자 카테고리 조회 실패 - 관리자 권한 없음")
     @Test
     void getCategoriesWithNotAdmin() throws Exception {
         // given
-        BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(false);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(false);
 
         // when
-        String actualResponse = mockMvc.perform(MockMvcRequestBuilders.get("/admin/v1/categories")
+        String actualResponse = mockMvc.perform(get("/admin/v1/categories")
                         .header("X-USER-ID", 1L)
                         .accept(MediaType.APPLICATION_JSON)
                         .param("page", "0")
                         .param("size", "10"))
-                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(status().isForbidden())
                 .andReturn().getResponse().getContentAsString();
 
         // then
         CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         String expectedResponse = objectMapper.writeValueAsString(response);
-        Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
     @DisplayName("카테고리 추가 성공")
@@ -107,26 +116,26 @@ class CategoryAdminControllerTest extends RestDocSupport {
     void addCategory() throws Exception {
         // given
         AddCategoryRequest request = new AddCategoryRequest("New category", 1L);
-        BDDMockito.given(categoryAdminService.addCategoryAndGetId(Mockito.any(AddCategoryRequest.class)))
+        given(categoryAdminService.addCategoryAndGetId(any(AddCategoryRequest.class)))
                 .willReturn(2L);
-        BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(true);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
 
         // when
-        String actualResponse = mockMvc.perform(MockMvcRequestBuilders.post("/admin/v1/categories")
+        String actualResponse = mockMvc.perform(post("/admin/v1/categories")
                         .header("X-USER-ID", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpectAll(
-                        MockMvcResultMatchers.status().isCreated(),
-                        MockMvcResultMatchers.header()
-                                .string("Location", Matchers.equalTo("/admin/v1/categories/2"))
+                        status().isCreated(),
+                        header()
+                                .string("Location", equalTo("/admin/v1/categories/2"))
                 ).andReturn().getResponse().getContentAsString();
 
         // then
         CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.CREATED).build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         String expectedResponse = objectMapper.writeValueAsString(response);
-        Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
     @DisplayName("카테고리 추가 성공 - 없는 부모 카테고리 입력")
@@ -134,16 +143,16 @@ class CategoryAdminControllerTest extends RestDocSupport {
     void addCategoryWithNotExistParentCategory() throws Exception {
         // given
         AddCategoryRequest request = new AddCategoryRequest("New Category", 99L);
-        BDDMockito.given(categoryAdminService.addCategoryAndGetId(Mockito.any(AddCategoryRequest.class)))
+        given(categoryAdminService.addCategoryAndGetId(any(AddCategoryRequest.class)))
                 .willThrow(new CategoryNotFoundException(99L));
-        BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(true);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
 
         // when
-        String actualResponse = mockMvc.perform(MockMvcRequestBuilders.post("/admin/v1/categories")
+        String actualResponse = mockMvc.perform(post("/admin/v1/categories")
                         .header("X-USER-ID", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(status().isNotFound())
                 .andReturn().getResponse().getContentAsString();
 
         // then
@@ -151,7 +160,7 @@ class CategoryAdminControllerTest extends RestDocSupport {
                 .resultMessage("Category not found (categoryId: 99)").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         String expectedResponse = objectMapper.writeValueAsString(response);
-        Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
     @DisplayName("카테고리 추가 실패 - 관리자 권한 없음")
@@ -159,14 +168,14 @@ class CategoryAdminControllerTest extends RestDocSupport {
     void addCategoryWithNotAdmin() throws Exception {
         // given
         AddCategoryRequest request = new AddCategoryRequest("New Category", 99L);
-        BDDMockito.given(adminCheckService.isAdmin(Mockito.anyLong())).willReturn(false);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(false);
 
         // when
-        String actualResponse = mockMvc.perform(MockMvcRequestBuilders.post("/admin/v1/categories")
+        String actualResponse = mockMvc.perform(post("/admin/v1/categories")
                         .header("X-USER-ID", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(status().isForbidden())
                 .andReturn().getResponse().getContentAsString();
 
         // then
@@ -174,16 +183,147 @@ class CategoryAdminControllerTest extends RestDocSupport {
                 CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         String expectedResponse = objectMapper.writeValueAsString(response);
-        Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
+    @DisplayName("카테고리 수정 성공")
     @Test
-    void modifyCategory() {
-        // TODO
+    void modifyCategorySuccessfully() throws Exception {
+        // given
+        ModifyCategoryRequest request = new ModifyCategoryRequest("Modified Category", 1L);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
+
+        // when
+        mockMvc.perform(put("/admin/v1/categories/1")
+                        .header("X-USER-ID", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+
+        // then
+        verify(categoryAdminService).modifyCategory(anyLong(), any(ModifyCategoryRequest.class));
     }
 
+    @DisplayName("카테고리 수정 실패 - 사용자 ID 없음")
     @Test
-    void removeCategory() {
-        // TODO
+    void modifyCategoryFailsWhenUserIdIsMissing() throws Exception {
+        // given
+        ModifyCategoryRequest request = new ModifyCategoryRequest("Modified Category", 1L);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
+
+        // when
+        mockMvc.perform(put("/admin/v1/categories/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
+        // then
+        verify(categoryAdminService, never()).modifyCategory(anyLong(), any(ModifyCategoryRequest.class));
+    }
+
+    @DisplayName("카테고리 수정 실패 - 관리자 권한 없음")
+    @Test
+    void modifyCategoryFailsWhenNotAdmin() throws Exception {
+        // given
+        ModifyCategoryRequest request = new ModifyCategoryRequest("Modified Category", 1L);
+        given(adminCheckService.isAdmin(anyLong())).willReturn(false);
+
+        // when
+        mockMvc.perform(put("/admin/v1/categories/1")
+                        .header("X-USER-ID", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
+
+        // then
+        verify(categoryAdminService, never()).modifyCategory(anyLong(), any(ModifyCategoryRequest.class));
+    }
+
+    @DisplayName("카테고리 삭제 성공")
+    @Test
+    void removeCategorySuccessfully() throws Exception {
+        // given
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
+
+        // when
+        mockMvc.perform(delete("/admin/v1/categories/1")
+                        .header("X-USER-ID", 1L))
+                .andExpect(status().isOk());
+
+        // then
+        verify(categoryAdminService).removeCategory(1L);
+    }
+
+    @DisplayName("카테고리 삭제 실패 - 사용자 ID 없음")
+    @Test
+    void removeCategoryFailsWhenUserIdIsMissing() throws Exception {
+        // given
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
+
+        // when
+        mockMvc.perform(delete("/admin/v1/categories/1"))
+                .andExpect(status().isBadRequest());
+
+        // then
+        verify(categoryAdminService, never()).removeCategory(anyLong());
+    }
+
+    @DisplayName("카테고리 삭제 실패 - 관리자 권한 없음")
+    @Test
+    void removeCategoryFailsWhenNotAdmin() throws Exception {
+        // given
+        given(adminCheckService.isAdmin(anyLong())).willReturn(false);
+
+        // when
+        mockMvc.perform(delete("/admin/v1/categories/1")
+                        .header("X-USER-ID", 1L))
+                .andExpect(status().isForbidden());
+
+        // then
+        verify(categoryAdminService, never()).removeCategory(anyLong());
+    }
+
+    @DisplayName("카테고리 삭제 복구 성공")
+    @Test
+    void restoreCategorySuccessfully() throws Exception {
+        // given
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
+
+        // when
+        mockMvc.perform(put("/admin/v1/categories/1/restore")
+                        .header("X-USER-ID", 1L))
+                .andExpect(status().isOk());
+
+        // then
+        verify(categoryAdminService).restoreCategory(1L);
+    }
+
+    @DisplayName("카테고리 삭제 복구 실패 - 사용자 ID 없음")
+    @Test
+    void restoreCategoryFailsWhenUserIdIsMissing() throws Exception {
+        // given
+        given(adminCheckService.isAdmin(anyLong())).willReturn(true);
+
+        // when
+        mockMvc.perform(put("/admin/v1/categories/1/restore"))
+                .andExpect(status().isBadRequest());
+
+        // then
+        verify(categoryAdminService, never()).restoreCategory(anyLong());
+    }
+
+    @DisplayName("카테고리 삭제 복구 실패 - 관리자 권한 없음")
+    @Test
+    void restoreCategoryFailsWhenNotAdmin() throws Exception {
+        // given
+        given(adminCheckService.isAdmin(anyLong())).willReturn(false);
+
+        // when
+        mockMvc.perform(put("/admin/v1/categories/1/restore")
+                        .header("X-USER-ID", 1L))
+                .andExpect(status().isForbidden());
+
+        // then
+        verify(categoryAdminService, never()).restoreCategory(anyLong());
     }
 }

@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.category.dto.request;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,15 +12,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ModifyCategoryRequest {
-    @NotNull
-    private Long id;
-
-    @NotNull
+    @NotBlank
     private String categoryName;
-
-    @Max(10)
-    @NotNull
-    private Integer categoryDepth;
 
     private Long parentCategoryId;
 }
