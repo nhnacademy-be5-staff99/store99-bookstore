@@ -8,6 +8,7 @@ import com.nhnacademy.store99.bookstore.like.repository.LikeRepository;
 import com.nhnacademy.store99.bookstore.like.service.LikeService;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +36,12 @@ public class LikeServiceImpl implements LikeService {
         User likeUser = userRepository.findById(likeRequest.getUserId()).orElseThrow();
 
         Like newLike = Like.builder()
+                .createdAt(LocalDateTime.now())
                 .book(likeBook)
                 .user(likeUser)
                 .build();
 
         likeRepository.save(newLike);
-
     }
 
     @Override
