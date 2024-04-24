@@ -28,7 +28,9 @@ public class Author {
     @Column(name = "author_id", nullable = false)
     private Long id;
 
-    @Column(name = "author_name")
+    @Column(name = "author_name", nullable = false)
     private String authorName;
 
+    @Column(name = "author_type", nullable = false, length = 50)
+    private String authorType;
 }

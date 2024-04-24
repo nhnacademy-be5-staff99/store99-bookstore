@@ -26,9 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(new XUserIdCheckInterceptor()).excludePathPatterns("/open/**").order(1);
-        registry.addInterceptor(adminCheckInterceptor()).addPathPatterns("/admin/**").order(2);
+        registry.addInterceptor(new XUserIdCheckInterceptor()).excludePathPatterns("/open/**", "/error").order(1);
+        registry.addInterceptor(adminCheckInterceptor()).addPathPatterns("/admin/**")
+                .order(2);
     }
-
-
 }
