@@ -45,13 +45,14 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     @Transactional
-    public void deleteLike(Long likeId) {
+    public String deleteLike(Long likeId) {
         Like like = likeRepository.findById(likeId).orElse(null);
         assert like != null;
         if (!isLiked(like.getBook().getId(), like.getUser().getId())) {
             throw new IllegalStateException("Noting deleted the like!");
         }
         likeRepository.deleteById(likeId);
+        return null;
     }
 
     @Override
