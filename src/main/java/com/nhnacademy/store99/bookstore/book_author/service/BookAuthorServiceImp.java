@@ -2,7 +2,6 @@ package com.nhnacademy.store99.bookstore.book_author.service;
 
 import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.response.BookFinalDTO;
 import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
@@ -11,6 +10,7 @@ import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -123,7 +123,7 @@ public class BookAuthorServiceImp implements BookAuthorService {
 
 
     @Override
-    public Page<BookFinalDTO> getBookFinalDTO(Pageable pageable) {
+    public Page<BookTransDTO> getBookTransDTO(Pageable pageable) {
         return bookAuthorRepository.findBooksByIdGreaterThan(0L, pageable);
     }
 

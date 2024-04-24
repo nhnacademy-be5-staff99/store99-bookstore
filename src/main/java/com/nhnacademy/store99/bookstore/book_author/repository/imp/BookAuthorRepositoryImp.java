@@ -1,14 +1,18 @@
 package com.nhnacademy.store99.bookstore.book_author.repository.imp;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.types.Projections.list;
+
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
+import com.nhnacademy.store99.bookstore.author.response.AuthorDTO;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookFinalDTO;
 import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
+import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
@@ -32,11 +36,11 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
 
 
     @Override
-    public Page<BookFinalDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
+    public Page<BookTransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-        List<BookFinalDTO> list = from(bookAuthor)
+        List<BookTransDTO> list = from(bookAuthor)
                 .join(bookAuthor.book, book)
                 .join(bookAuthor.author, author)
                 .where(bookAuthor.book.in(
@@ -45,8 +49,9 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
                                 .offset(pageable.getOffset())
                                 .limit(pageable.getPageSize())
                 ))
-                .select(Projections.bean(
-                        BookFinalDTO.class,
+                .orderBy(book.id.asc())
+                .select(bookAuthor)
+                .transform(groupBy(bookAuthor.book.id).list(Projections.constructor(BookTransDTO.class,
                         bookAuthor.book.id,
                         bookAuthor.book.bookIsbn13,
                         bookAuthor.book.bookIsbn10,
@@ -62,19 +67,19 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
                         bookAuthor.book.bookCntOfReview,
                         bookAuthor.book.bookAvgOfRate,
                         bookAuthor.book.createdAt,
-                        bookAuthor.author.authorName,
-                        bookAuthor.author.authorType
-                ))
-                .fetch();
-        JPQLQuery<BookFinalDTO> page = from(bookAuthor)
+                        list(Projections.constructor(AuthorDTO.class, bookAuthor.author.authorName,
+                                bookAuthor.author.authorType))
+                )));
+        JPQLQuery<BookTransDTO> page = (JPQLQuery<BookTransDTO>) from(bookAuthor)
                 .join(bookAuthor.book, book)
                 .join(bookAuthor.author, author)
                 .where(bookAuthor.book.in(
                         JPAExpressions.select(book).from(book)
                                 .where(book.createdAt.isNull())
                 ))
-                .select(Projections.bean(
-                        BookFinalDTO.class,
+                .orderBy(book.id.asc())
+                .select(bookAuthor)
+                .transform(groupBy(bookAuthor.book.id).list(Projections.constructor(BookTransDTO.class,
                         bookAuthor.book.id,
                         bookAuthor.book.bookIsbn13,
                         bookAuthor.book.bookIsbn10,
@@ -90,9 +95,9 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
                         bookAuthor.book.bookCntOfReview,
                         bookAuthor.book.bookAvgOfRate,
                         bookAuthor.book.createdAt,
-                        bookAuthor.author.authorName,
-                        bookAuthor.author.authorType
-                ));
+                        list(Projections.constructor(AuthorDTO.class, bookAuthor.author.authorName,
+                                bookAuthor.author.authorType))
+                )));
         return PageableExecutionUtils.getPage(list, pageable, page::fetchCount);
 
     }

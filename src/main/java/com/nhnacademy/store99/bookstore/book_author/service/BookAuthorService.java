@@ -1,12 +1,12 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
-import com.nhnacademy.store99.bookstore.book.response.BookFinalDTO;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface BookAuthorService {
 
-    Page<BookFinalDTO> getBookFinalDTO(Pageable pageable);
+    Page<BookTransDTO> getBookTransDTO(Pageable pageable);
 
     List<BookAuthor> getAuthorByAuthorId(Long id);
 
