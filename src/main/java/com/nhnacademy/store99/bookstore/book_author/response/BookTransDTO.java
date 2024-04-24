@@ -16,35 +16,35 @@ public class BookTransDTO {
 
     private Long BookId;
 
-    private String BookBookIsbn13;
+    private String BookIsbn13;
 
-    private String BookBookIsbn10;
+    private String BookIsbn10;
 
-    private String BookBookTitle;
+    private String BookTitle;
 
-    private String BookBookContents;
+    private String BookContents;
 
-    private String BookBookPublisher;
+    private String BookPublisher;
 
-    private LocalDateTime BookBookDate;
+    private LocalDateTime BookDate;
 
-    private Integer BookBookPrice;
+    private Integer BookPrice;
 
-    private Integer BookBookSalePrice;
+    private Integer BookSalePrice;
 
-    private Boolean BookBookIsPacked;
+    private Boolean BookIsPacked;
 
-    private String BookBookThumbnailUrl;
+    private String BookThumbnailUrl;
 
-    private Integer BookBookStock;
+    private Integer BookStock;
 
-    private Integer BookBookCntOfReview;
+    private Integer BookCntOfReview;
 
-    private Double BookBookAvgOfRate;
+    private Double BookAvgOfRate;
 
-    private LocalDateTime BookCreatedAt;
+    private LocalDateTime CreatedAt;
 
-    private LocalDateTime BookUpdatedAt;
+    private LocalDateTime UpdatedAt;
 
     private List<AuthorDTO> authorsDTOList;
 
