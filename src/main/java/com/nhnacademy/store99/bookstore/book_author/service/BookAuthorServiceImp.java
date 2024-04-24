@@ -2,7 +2,8 @@ package com.nhnacademy.store99.bookstore.book_author.service;
 
 import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookWithAuthor;
+import com.nhnacademy.store99.bookstore.book.response.BookFinalDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,6 +121,11 @@ public class BookAuthorServiceImp implements BookAuthorService {
         return bookAuthorRepository.findBookAuthorByBookId(2L);
     }
 
+
+    @Override
+    public Page<BookFinalDTO> getBookFinalDTO(Pageable pageable) {
+        return bookAuthorRepository.findBooksByIdGreaterThan(0L, pageable);
+    }
 
     /**
      * 작가의 id를 사용하여 도서들을 조회합니다

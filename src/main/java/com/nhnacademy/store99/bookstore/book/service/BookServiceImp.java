@@ -1,8 +1,8 @@
 package com.nhnacademy.store99.bookstore.book.service;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
+import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

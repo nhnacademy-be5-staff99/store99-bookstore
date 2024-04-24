@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.book.entity;
+package com.nhnacademy.store99.bookstore.book.response;
 
 
 import java.time.LocalDateTime;

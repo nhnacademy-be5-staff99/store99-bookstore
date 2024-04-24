@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book.service;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 

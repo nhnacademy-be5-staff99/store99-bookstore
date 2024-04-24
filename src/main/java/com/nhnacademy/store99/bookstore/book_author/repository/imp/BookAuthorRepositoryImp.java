@@ -1,16 +1,22 @@
 package com.nhnacademy.store99.bookstore.book_author.repository.imp;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
-import com.nhnacademy.store99.bookstore.book.entity.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
+import com.nhnacademy.store99.bookstore.book.response.BookFinalDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.data.support.PageableExecutionUtils;
 
 /**
  * <h2>도서-작가 레포지토리 인터페이스 구현체 </h2>
@@ -24,6 +30,72 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
         super(BookAuthor.class);
     }
 
+
+    @Override
+    public Page<BookFinalDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
+        QBook book = QBook.book;
+        QAuthor author = QAuthor.author;
+        QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
+        List<BookFinalDTO> list = from(bookAuthor)
+                .join(bookAuthor.book, book)
+                .join(bookAuthor.author, author)
+                .where(bookAuthor.book.in(
+                        JPAExpressions.select(book).from(book)
+                                .where(book.createdAt.isNull())
+                                .offset(pageable.getOffset())
+                                .limit(pageable.getPageSize())
+                ))
+                .select(Projections.bean(
+                        BookFinalDTO.class,
+                        bookAuthor.book.id,
+                        bookAuthor.book.bookIsbn13,
+                        bookAuthor.book.bookIsbn10,
+                        bookAuthor.book.bookTitle,
+                        bookAuthor.book.bookContents,
+                        bookAuthor.book.bookPublisher,
+                        bookAuthor.book.bookDate,
+                        bookAuthor.book.bookPrice,
+                        bookAuthor.book.bookSalePrice,
+                        bookAuthor.book.bookIsPacked,
+                        bookAuthor.book.bookThumbnailUrl,
+                        bookAuthor.book.bookStock,
+                        bookAuthor.book.bookCntOfReview,
+                        bookAuthor.book.bookAvgOfRate,
+                        bookAuthor.book.createdAt,
+                        bookAuthor.author.authorName,
+                        bookAuthor.author.authorType
+                ))
+                .fetch();
+        JPQLQuery<BookFinalDTO> page = from(bookAuthor)
+                .join(bookAuthor.book, book)
+                .join(bookAuthor.author, author)
+                .where(bookAuthor.book.in(
+                        JPAExpressions.select(book).from(book)
+                                .where(book.createdAt.isNull())
+                ))
+                .select(Projections.bean(
+                        BookFinalDTO.class,
+                        bookAuthor.book.id,
+                        bookAuthor.book.bookIsbn13,
+                        bookAuthor.book.bookIsbn10,
+                        bookAuthor.book.bookTitle,
+                        bookAuthor.book.bookContents,
+                        bookAuthor.book.bookPublisher,
+                        bookAuthor.book.bookDate,
+                        bookAuthor.book.bookPrice,
+                        bookAuthor.book.bookSalePrice,
+                        bookAuthor.book.bookIsPacked,
+                        bookAuthor.book.bookThumbnailUrl,
+                        bookAuthor.book.bookStock,
+                        bookAuthor.book.bookCntOfReview,
+                        bookAuthor.book.bookAvgOfRate,
+                        bookAuthor.book.createdAt,
+                        bookAuthor.author.authorName,
+                        bookAuthor.author.authorType
+                ));
+        return PageableExecutionUtils.getPage(list, pageable, page::fetchCount);
+
+    }
 
     @Override
     public List<BookWithAuthor> findBooksByIdGreaterThanEqual(Long id) {

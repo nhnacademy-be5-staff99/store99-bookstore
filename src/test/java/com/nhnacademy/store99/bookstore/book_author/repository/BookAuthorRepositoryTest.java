@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 
 import com.nhnacademy.store99.bookstore.author.entity.Author;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import java.time.LocalDateTime;
 import java.util.List;

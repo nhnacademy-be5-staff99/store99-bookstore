@@ -1,7 +1,8 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookFinalDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
 import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
@@ -9,6 +10,7 @@ import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,11 @@ public class BookController {
         this.bookAuthorService = bookAuthorService;
     }
 
+
+    @GetMapping("/new")
+    public Page<BookFinalDTO> getBooksFinal(Pageable pageable) {
+        return bookAuthorService.getBookFinalDTO(pageable);
+    }
 
     // BookAuthor Service 사용.
     @GetMapping("")

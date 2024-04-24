@@ -3,7 +3,7 @@ package com.nhnacademy.store99.bookstore.book.controller;
 
 import com.nhnacademy.store99.bookstore.book.TestSupport;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.entity.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceImp;
 import java.time.LocalDateTime;
 import java.util.Optional;
