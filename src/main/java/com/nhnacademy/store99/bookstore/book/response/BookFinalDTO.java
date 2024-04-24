@@ -58,9 +58,5 @@ public interface BookFinalDTO {
     LocalDateTime getBookCreatedAt();
 
     LocalDateTime getBookUpdatedAt();
-
     
-    String getAuthorAuthorName();
-
-    String getAuthorAuthorType();
 }

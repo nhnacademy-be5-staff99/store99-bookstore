@@ -6,7 +6,7 @@ import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.TransDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface BookAuthorService {
 
-    Page<BookTransDTO> getBookTransDTO(Pageable pageable);
+    Page<TransDTO> getBookTransDTO(Pageable pageable);
 
     List<BookAuthor> getAuthorByAuthorId(Long id);
 

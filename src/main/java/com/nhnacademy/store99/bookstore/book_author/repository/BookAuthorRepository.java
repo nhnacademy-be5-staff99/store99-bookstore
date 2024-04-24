@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author yrrho2
  */
-public interface BookAuthorRepository extends JpaRepository<BookAuthor, Long>, BookAuthorRepositoryCustom {
+public interface BookAuthorRepository extends JpaRepository<BookAuthor, Long> {
 
     // Named Query 메소드 테스트용.
     List<BookAuthor> findBookAuthorsByAuthorId(Long id);

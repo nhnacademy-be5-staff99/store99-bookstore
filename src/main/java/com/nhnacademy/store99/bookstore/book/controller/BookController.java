@@ -5,7 +5,7 @@ import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
 import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.TransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
@@ -39,8 +39,8 @@ public class BookController {
     }
 
 
-    @GetMapping("/")
-    public Page<BookTransDTO> getBooksFinal(Pageable pageable) {
+    @GetMapping("")
+    public Page<TransDTO> getBooksFinal(Pageable pageable) {
         return bookAuthorService.getBookTransDTO(pageable);
     }
 

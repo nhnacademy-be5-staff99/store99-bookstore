@@ -4,25 +4,23 @@ import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.TransDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.repository.NoRepositoryBean;
 
 /**
  * 도서 작가 레포지토리
  *
  * @author yrrho2
  */
-@NoRepositoryBean
 public interface BookAuthorRepositoryCustom {
 
     // 도서 DTO + 작가 이름,역할, 삭제==null
     // 위와같은 쿼리를 가진 최종 응답을 만들자
 
-    Page<BookTransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable);
+    Page<TransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable);
 
 
     List<BookWithAuthor> findBooksByIdGreaterThanEqual(Long id);

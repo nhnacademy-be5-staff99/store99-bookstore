@@ -5,17 +5,20 @@ import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
+import com.nhnacademy.store99.bookstore.book_author.repository.imp.BookAuthorRepositoryImp;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookPageDTO;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book_author.response.TransDTO;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +32,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true)
 @Service
+@RequiredArgsConstructor
 public class BookAuthorServiceImp implements BookAuthorService {
+
     private final BookAuthorRepository bookAuthorRepository;
 
-    public BookAuthorServiceImp(BookAuthorRepository bookAuthorRepository) {
-        this.bookAuthorRepository = bookAuthorRepository;
-    }
-
-
-    // BookAuthor? Book? 어디에 두어야할까
+    @Qualifier("bookAuthorRepositoryImp")
+    private final BookAuthorRepositoryImp bookAuthorRepositoryImp;
 
     /**
      * id 0이상의 도서들을 작가 list와 묶어서 반환
@@ -46,7 +47,7 @@ public class BookAuthorServiceImp implements BookAuthorService {
      */
     @Override
     public Page<BookPageDTO> getBooksAuthorName() {
-        List<BookWithAuthor> book = bookAuthorRepository.findBooksByIdGreaterThanEqual(0L);
+        List<BookWithAuthor> book = bookAuthorRepositoryImp.findBooksByIdGreaterThanEqual(0L);
         List<BookPageDTO> booksPage = new ArrayList<>();
         Map<Book, List<Author>> booksMap = new HashMap<>();
 
@@ -94,7 +95,7 @@ public class BookAuthorServiceImp implements BookAuthorService {
 
     @Override
     public List<BookAuthorDTO> getBookAuthorsByIdGreaterThan(Long id) {
-        Iterator<BookAuthor> it = bookAuthorRepository.getBookAuthorsByIdGreaterThan(id).iterator();
+        Iterator<BookAuthor> it = bookAuthorRepositoryImp.getBookAuthorsByIdGreaterThan(id).iterator();
         List<BookAuthorDTO> list = new ArrayList<>();
         while (it.hasNext()) {
             BookAuthor bookAuthorDTO = it.next();
@@ -113,18 +114,18 @@ public class BookAuthorServiceImp implements BookAuthorService {
         // 0L을 Id로 넣는이유
         // 1부터 시작하는 BookAuthor Id를 전부 참조하여 가져오기 위함.
 
-        return bookAuthorRepository.findBookAuthorsByIdGreaterThan(0L);
+        return bookAuthorRepositoryImp.findBookAuthorsByIdGreaterThan(0L);
     }
 
     @Override
     public List<BookAuthorName> getSameIdBookAuthor() {
-        return bookAuthorRepository.findBookAuthorByBookId(2L);
+        return bookAuthorRepositoryImp.findBookAuthorByBookId(2L);
     }
 
 
     @Override
-    public Page<BookTransDTO> getBookTransDTO(Pageable pageable) {
-        return bookAuthorRepository.findBooksByIdGreaterThan(0L, pageable);
+    public Page<TransDTO> getBookTransDTO(Pageable pageable) {
+        return bookAuthorRepositoryImp.findBooksByIdGreaterThan(0L, pageable);
     }
 
     /**
