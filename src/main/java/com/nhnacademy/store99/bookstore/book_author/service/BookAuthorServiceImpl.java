@@ -5,7 +5,7 @@ import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepository;
-import com.nhnacademy.store99.bookstore.book_author.repository.imp.BookAuthorRepositoryImp;
+import com.nhnacademy.store99.bookstore.book_author.repository.impl.BookAuthorRepositoryImpl;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorDTO;
 import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
@@ -34,12 +34,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
-public class BookAuthorServiceImp implements BookAuthorService {
+public class BookAuthorServiceImpl implements BookAuthorService {
 
     private final BookAuthorRepository bookAuthorRepository;
 
-    @Qualifier("bookAuthorRepositoryImp")
-    private final BookAuthorRepositoryImp bookAuthorRepositoryImp;
+    @Qualifier("bookAuthorRepositoryImpl")
+    private final BookAuthorRepositoryImpl bookAuthorRepositoryImp;
 
     /**
      * id 0이상의 도서들을 작가 list와 묶어서 반환
