@@ -26,7 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class BookAuthorServiceImpTest {
 
     @InjectMocks
-    private BookAuthorServiceImp bookAuthorService;
+    private BookAuthorServiceImpl bookAuthorService;
     @Mock
     private BookAuthorRepository bookAuthorRepository;
 

@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
  * @author yrrho2
  */
 @Service
-public class BookServiceImp implements BookServiceInterface {
+public class BookServiceImpl implements BookServiceInterface {
     final private BookRepository bookRepository;
 
-    public BookServiceImp(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -33,8 +33,9 @@ public class BookServiceImp implements BookServiceInterface {
      */
     @Override
     public Book postBook(BookRequest bookRequest) {
-        Book book = injectBook(bookRequest);
-        return bookRepository.save(book);
+//        Book book = injectBook(bookRequest);
+//        return bookRepository.save(book);
+        return null;
     }
 
 
@@ -70,20 +71,20 @@ public class BookServiceImp implements BookServiceInterface {
      * @param bookRequest
      * @return
      */
-    private Book injectBook(BookRequest bookRequest) {
-        return Book.builder()
-                .bookIsbn13(bookRequest.getBookIsbn13())
-                .bookIsbn10(bookRequest.getBookIsbn10())
-                .bookTitle(bookRequest.getBookTitle())
-                .bookContents(bookRequest.getBookContents())
-                .bookDescription(bookRequest.getBookDescription())
-                .bookPublisher(bookRequest.getBookPublisher())
-                .bookDate(bookRequest.getBookDateTime())
-                .bookPrice(bookRequest.getBookPrice())
-                .bookSalePrice(bookRequest.getBookSalePrice())
-                .bookIsPacked(bookRequest.getBookIsPacked())
-                .bookThumbnailUrl(bookRequest.getBookThumbnailUrl())
-                .bookStock(bookRequest.getBookStock())
-                .build();
-    }
+//    private Book injectBook(BookRequest bookRequest) {
+//        return Book.builder()
+//                .bookIsbn13(bookRequest.getBookIsbn13())
+//                .bookIsbn10(bookRequest.getBookIsbn10())
+//                .bookTitle(bookRequest.getBookTitle())
+//                .bookContents(bookRequest.getBookContents())
+//                .bookDescription(bookRequest.getBookDescription())
+//                .bookPublisher(bookRequest.getBookPublisher())
+//                .bookDate(bookRequest.getBookDateTime())
+//                .bookPrice(bookRequest.getBookPrice())
+//                .bookSalePrice(bookRequest.getBookSalePrice())
+//                .bookIsPacked(bookRequest.getBookIsPacked())
+//                .bookThumbnailUrl(bookRequest.getBookThumbnailUrl())
+//                .bookStock(bookRequest.getBookStock())
+//                .build();
+//    }
 }

@@ -6,7 +6,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(BookServiceImp.class)
+@WebMvcTest(BookServiceImpl.class)
 class BookServiceImpTest {
     @Mock
     BookRepository bookRepository;

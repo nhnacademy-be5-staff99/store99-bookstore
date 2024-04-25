@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.book.repository.imp;
+package com.nhnacademy.store99.bookstore.book.repository.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepositoryCustom;
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
  *
  * @author yrrho2
  */
-public class BookRepositoryImp extends QuerydslRepositorySupport implements BookRepositoryCustom {
-    public BookRepositoryImp() {
+public class BookRepositoryImpl extends QuerydslRepositorySupport implements BookRepositoryCustom {
+    public BookRepositoryImpl() {
         super(Book.class);
     }
 
