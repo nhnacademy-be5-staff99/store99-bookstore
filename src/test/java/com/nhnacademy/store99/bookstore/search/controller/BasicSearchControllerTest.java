@@ -76,13 +76,14 @@ class BasicSearchControllerTest extends RestDocSupport {
                                         .authorName("송아현")
                                         .authorType("AUTHOR")
                                         .build()))
+                        .bookPublisher("출판출판사")
                         .bookDate(LocalDateTime.parse("2024-04-25T09:00:00"))
                         .bookPrice(999990)
                         .bookSalePrice(99990)
                         .bookCntOfReview(9999)
                         .build(),
                 BasicSearchResponse.builder()
-                        .bookTitle("김으로 끝나는 책김책김")
+                        .bookTitle("삼각김밥... 먹고싶다!")
                         .bookThumbnailUrl("null.jpg")
                         .bookAuthorInfos(List.of(
                                 BasicSearchResponse.BookAuthorInfo.builder()
@@ -93,6 +94,7 @@ class BasicSearchControllerTest extends RestDocSupport {
                                         .authorName("김아현")
                                         .authorType("TRANSLATOR")
                                         .build()))
+                        .bookPublisher("스프링 출판사")
                         .bookDate(LocalDateTime.parse("2024-04-25T09:00:00"))
                         .bookPrice(999990)
                         .bookSalePrice(99990)
