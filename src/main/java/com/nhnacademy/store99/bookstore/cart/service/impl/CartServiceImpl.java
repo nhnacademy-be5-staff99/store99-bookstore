@@ -1,13 +1,12 @@
 package com.nhnacademy.store99.bookstore.cart.service.impl;
 
-import com.nhnacademy.store99.bookstore.book.exception.BookNotFoundException;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
 import com.nhnacademy.store99.bookstore.cart.entity.Cart;
+import com.nhnacademy.store99.bookstore.cart.exception.CartBadRequestException;
 import com.nhnacademy.store99.bookstore.cart.repository.CartRepository;
 import com.nhnacademy.store99.bookstore.cart.service.CartService;
 import com.nhnacademy.store99.bookstore.common.thread_local.XUserIdThreadLocal;
-import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +37,10 @@ public class CartServiceImpl implements CartService {
             return;
         }
 
-        // NotFound? BadRequest?
         Cart cart = Cart.builder()
                 .cartAmount(request.getQuantity())
-                .user(userRepository.findById(xUserId).orElseThrow(() -> new UserNotFoundException(xUserId)))
-                .book(bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException(bookId)))
+                .user(userRepository.findById(xUserId).orElseThrow(() -> CartBadRequestException.UserNotFound(xUserId)))
+                .book(bookRepository.findById(bookId).orElseThrow(() -> CartBadRequestException.BookNotFound(bookId)))
                 .build();
 
         cartRepository.save(cart);

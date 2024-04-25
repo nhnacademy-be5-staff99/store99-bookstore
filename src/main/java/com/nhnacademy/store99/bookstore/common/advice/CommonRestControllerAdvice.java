@@ -1,6 +1,7 @@
 package com.nhnacademy.store99.bookstore.common.advice;
 
 import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
+import com.nhnacademy.store99.bookstore.common.exception.BadRequestException;
 import com.nhnacademy.store99.bookstore.common.exception.MissingUserIdHeaderException;
 import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
@@ -78,15 +79,18 @@ public class CommonRestControllerAdvice {
      * @return 403 FORBIDDEN
      */
     @ExceptionHandler(value = {AdminPermissionDeniedException.class})
-    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(AdminPermissionDeniedException ex) {
-        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
+    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(
+            AdminPermissionDeniedException ex) {
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
-    @ExceptionHandler(value = {MissingUserIdHeaderException.class})
-    public ResponseEntity<CommonResponse<Void>> missingUserIdHeaderExceptionHandler(MissingUserIdHeaderException ex) {
-        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage(ex.getMessage()).build();
+    @ExceptionHandler(value = {MissingUserIdHeaderException.class, BadRequestException.class})
+    public ResponseEntity<CommonResponse<Void>> missingUserIdHeaderExceptionHandler(Exception ex) {
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.BAD_REQUEST).resultMessage(ex.getMessage()).build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
