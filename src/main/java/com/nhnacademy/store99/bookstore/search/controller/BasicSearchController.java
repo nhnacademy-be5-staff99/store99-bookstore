@@ -2,7 +2,6 @@ package com.nhnacademy.store99.bookstore.search.controller;
 
 import com.nhnacademy.store99.bookstore.search.dto.BasicSearchResponse;
 import com.nhnacademy.store99.bookstore.search.service.SearchService;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +31,9 @@ public class BasicSearchController {
      *
      * <p>ex) /open/v1/search?content=자바
      */
-    @GetMapping(params = "content")
-    public Page<BasicSearchResponse> getSearchResult(@Valid @RequestParam String content, Pageable pageable) {
+    @GetMapping
+    public Page<BasicSearchResponse> getSearchResult(@RequestParam(value = "content", defaultValue = "") String content,
+                                                     Pageable pageable) {
         return searchService.getSearchResult(content, pageable);
     }
 

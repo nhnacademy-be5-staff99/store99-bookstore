@@ -3,6 +3,7 @@ package com.nhnacademy.store99.bookstore.search.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Getter;
  *
  * @author Ahyeon Song
  */
+@Builder
 @Getter
 @AllArgsConstructor
 public class BasicSearchResponse {
@@ -23,6 +25,7 @@ public class BasicSearchResponse {
     private Integer bookSalePrice;
     private Integer bookCntOfReview;
 
+    @Builder
     @Getter
     @AllArgsConstructor
     public static class BookAuthorInfo {
