@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -125,7 +126,9 @@ public class BookAuthorServiceImp implements BookAuthorService {
 
     @Override
     public Page<BookTransDTO> getBookTransDTO(Pageable pageable) {
-        return bookAuthorRepositoryImp.findBooksByIdGreaterThan(0L, pageable);
+        Page<BookTransDTO> page = bookAuthorRepositoryImp.findBooksByIdGreaterThan(0L, pageable);
+        List<BookTransDTO> list = page.getContent().stream().distinct().collect(Collectors.toList());
+        return new PageImpl<>(list, page.getPageable(), list.size());
     }
 
     /**

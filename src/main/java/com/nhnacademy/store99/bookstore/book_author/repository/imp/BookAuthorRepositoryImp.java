@@ -45,7 +45,7 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
 
         JPQLQuery<Book> bookQuery = from(book)
                 .leftJoin(bookAuthor).on(book.id.eq(bookAuthor.book.id))
-                .leftJoin(author).on(bookAuthor.author.id.eq(author.id));
+                .leftJoin(author).on(bookAuthor.author.id.eq(author.id)).distinct();
 
         List<Book> books = Objects.requireNonNull(getQuerydsl()).applyPagination(pageable, bookQuery).fetch();
         List<Long> bookIds = books.stream().map(Book::getId).collect(Collectors.toList());

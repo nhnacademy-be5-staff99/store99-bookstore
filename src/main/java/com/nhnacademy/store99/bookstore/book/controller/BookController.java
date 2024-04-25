@@ -65,14 +65,10 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     public ResponseEntity<CommonResponse> getBook(@PathVariable("bookId") Long id) {
-        CommonHeader commonHeader = CommonHeader.builder()
-                .httpStatus(HttpStatus.OK)
-                .build();
-        CommonResponse commonResponse = CommonResponse.builder()
-                .header(commonHeader)
-                .result(bookService.getBook(id).get())
-                .build();
-        return ResponseEntity.ok(commonResponse);
+//        Optional<Book> asd = bookService.getBook();
+//
+//        return ResponseEntity.ok(commonResponse);
+        return null;
     }
 
     @PostMapping
