@@ -45,7 +45,9 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
 
         JPQLQuery<Book> bookQuery = from(book)
                 .leftJoin(bookAuthor).on(book.id.eq(bookAuthor.book.id))
-                .leftJoin(author).on(bookAuthor.author.id.eq(author.id)).distinct();
+                .leftJoin(author).on(bookAuthor.author.id.eq(author.id))
+                .where(bookAuthor.book.id.eq(book.id))
+                .where(bookAuthor.author.id.eq(author.id)).distinct();
 
         List<Book> books = Objects.requireNonNull(getQuerydsl()).applyPagination(pageable, bookQuery).fetch();
         List<Long> bookIds = books.stream().map(Book::getId).collect(Collectors.toList());
@@ -90,117 +92,6 @@ public class BookAuthorRepositoryImp extends QuerydslRepositorySupport implement
         return new PageImpl<>(bookResponse, pageable, fetchCount);
     }
 
-
-//
-//    @Override
-//    public Page<BookFinalDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
-//        QBook book = QBook.book;
-//        QAuthor author = QAuthor.author;
-//        QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-//
-////        JPQLQuery<Book> bookQuery = from(book)
-////                .leftJoin(bookAuthor).on(book.id.eq(bookAuthor.book.id))
-////                .leftJoin(author).on(bookAuthor.author.id.eq(author.id));
-////
-////        List<Book> books = Objects.requireNonNull(getQuerydsl()).applyPagination(pageable, bookQuery).fetch();
-////        List<Long> bookIds = books.stream().map(Book::getId).collect(Collectors.toList());
-////
-////        Map<Long, List<BookTransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
-////                .where(bookAuthor.book.id.in(bookIds))
-////                .join(bookAuthor.author, author)
-////                .transform(GroupBy.groupBy(bookAuthor.book.id)
-////                        .as(GroupBy.list(
-////                                        Projections.constructor(BookTransDTO.AuthorDTO.class,
-////                                                author.authorName, author.authorType)
-////                                )
-////                        )
-////                );
-////
-////        List<BookTransDTO> bookResponse = books.stream().map(b -> {
-////            List<BookTransDTO.AuthorDTO> authors = authorsMap.getOrDefault(b.getId(), Collections.emptyList());
-////            return new BookTransDTO(
-////                    b.getId(),
-////                    b.getBookIsbn13(),
-////                    b.getBookIsbn10(),
-////                    b.getBookTitle(),
-////                    b.getBookContents(),
-////                    b.getBookPublisher(),
-////                    b.getBookDate(),
-////                    b.getBookPrice(),
-////                    b.getBookSalePrice(),
-////                    b.getBookIsPacked(),
-////                    b.getBookThumbnailUrl(),
-////                    b.getBookStock(),
-////                    b.getBookCntOfReview(),
-////                    b.getBookAvgOfRate(),
-////                    b.getCreatedAt(),
-////                    b.getUpdatedAt(),
-////                    authors
-////            );
-////        }).collect(Collectors.toList());
-//
-//        List<BookFinalDTO> list = from(bookAuthor)
-//                .join(bookAuthor.book, book)
-//                .join(bookAuthor.author, author)
-//                .where(bookAuthor.book.in(
-//                        JPAExpressions.select(book).from(book)
-//                                .where(book.createdAt.isNull())
-//                                .offset(pageable.getOffset())
-//                                .limit(pageable.getPageSize())
-//                ))
-//                .orderBy(book.id.asc())
-//                .select(Projections.bean(BookFinalDTO.class,
-//                        bookAuthor.book.id,
-//                        bookAuthor.book.bookIsbn13,
-//                        bookAuthor.book.bookIsbn10,
-//                        bookAuthor.book.bookTitle,
-//                        bookAuthor.book.bookContents,
-//                        bookAuthor.book.bookPublisher,
-//                        bookAuthor.book.bookDate,
-//                        bookAuthor.book.bookPrice,
-//                        bookAuthor.book.bookSalePrice,
-//                        bookAuthor.book.bookIsPacked,
-//                        bookAuthor.book.bookThumbnailUrl,
-//                        bookAuthor.book.bookStock,
-//                        bookAuthor.book.bookCntOfReview,
-//                        bookAuthor.book.bookAvgOfRate,
-//                        bookAuthor.book.createdAt,
-//                        bookAuthor.book.updatedAt
-//                )).fetch();
-////        List<BookTransDTO> page = from(bookAuthor)
-////                .join(bookAuthor.book, book)
-////                .join(bookAuthor.author, author)
-////                .where(bookAuthor.book.in(
-////                        JPAExpressions.select(book).from(book)
-////                                .where(book.createdAt.isNull())
-////                ))
-////                .orderBy(book.id.asc())
-////                .select(bookAuthor)
-////                .transform(GroupBy.groupBy(bookAuthor.book.id)
-////                        .list(Projections.bean(BookTransDTO.class,
-////                                bookAuthor.book.id,
-////                                bookAuthor.book.bookIsbn13,
-////                                bookAuthor.book.bookIsbn10,
-////                                bookAuthor.book.bookTitle,
-////                                bookAuthor.book.bookContents,
-////                                bookAuthor.book.bookPublisher,
-////                                bookAuthor.book.bookDate,
-////                                bookAuthor.book.bookPrice,
-////                                bookAuthor.book.bookSalePrice,
-////                                bookAuthor.book.bookIsPacked,
-////                                bookAuthor.book.bookThumbnailUrl,
-////                                bookAuthor.book.bookStock,
-////                                bookAuthor.book.bookCntOfReview,
-////                                bookAuthor.book.bookAvgOfRate,
-////                                bookAuthor.book.createdAt,
-////                                GroupBy.list(Projections.bean(BookTransDTO.AuthorDTO.class,
-////                                        bookAuthor.author.authorName,
-////                                        bookAuthor.author.authorType))
-////                        )));
-//        return PageableExecutionUtils.getPage(list, pageable, null);
-////        long fetchCount = getQuerydsl().applyPagination(pageable, bookQuery).fetchCount();
-////        return new PageImpl<>(bookResponse, pageable, fetchCount);
-//    }
 
     @Override
     public List<BookWithAuthor> findBooksByIdGreaterThanEqual(Long id) {
