@@ -65,34 +65,4 @@ class BookAuthorControllerTest {
         String expected = objectMapper.writeValueAsString(commonResponse);
         Assertions.assertThat(response).isEqualTo(expected);
     }
-
-    /**
-     * 책 한권의 id에서 작가 확인
-     */
-    @DisplayName("도서의 저자 조회")
-    @Test
-    void TestGetBookAuthor() throws Exception {
-        // given
-        Long bookId = Mockito.anyLong();
-        BookAuthorResponse anyResponse = BookAuthorResponse.builder().build();
-        BDDMockito.given(bookAuthorService.getAuthorBook(bookId)).willReturn(anyResponse);
-
-        // when
-        String response = mockMvc.perform(
-                        MockMvcRequestBuilders.get("/open/v1/books/author/book")
-                                .param("bookId", String.valueOf(bookId)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn().getResponse().getContentAsString();
-
-        //then
-        CommonHeader commonHeader = CommonHeader.builder()
-                .httpStatus(HttpStatus.OK).resultMessage("OK").build();
-        CommonResponse<BookAuthorResponse> commonResponse = CommonResponse
-                .<BookAuthorResponse>builder()
-                .header(commonHeader)
-                .result(anyResponse).build();
-
-        String expected = objectMapper.writeValueAsString(commonResponse);
-        Assertions.assertThat(response).isEqualTo(expected);
-    }
 }

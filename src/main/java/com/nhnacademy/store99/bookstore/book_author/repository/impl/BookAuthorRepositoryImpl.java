@@ -3,12 +3,10 @@ package com.nhnacademy.store99.bookstore.book_author.repository.impl;
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookWithAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
-import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorAPIResponse;
-import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorName;
+import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
@@ -92,75 +90,32 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         return new PageImpl<>(bookResponse, pageable, fetchCount);
     }
 
-
     @Override
-    public List<BookWithAuthor> findBooksByIdGreaterThanEqual(Long id) {
+    public List<BookAuthorResponse> getAuthorsById(Long bookId) {
         QBook book = QBook.book;
-        QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
+        QAuthor author = QAuthor.author;
+
+        List<BookTransDTO.AuthorDTO> authorDTOList = from(bookAuthor)
+                .where(bookAuthor.book.id.in(bookId))
+                .join(bookAuthor.author, author)
+                .select(
+                        Projections.constructor(BookTransDTO.AuthorDTO.class,
+                                author.authorName, author.authorType)
+                ).fetch();
+
 
         return from(bookAuthor)
-                .join(bookAuthor.book, book)
-                .join(bookAuthor.author, author)
+                .where(bookAuthor.book.id.eq(bookId))
                 .where(bookAuthor.book.id.eq(book.id))
                 .where(bookAuthor.author.id.eq(author.id))
-                .select(Projections.bean(BookWithAuthor.class,
-                        bookAuthor.book, bookAuthor.author))
-                .fetch();
+                .leftJoin(bookAuthor.book, book)
+                .leftJoin(bookAuthor.author, author)
+                .select(
+                        Projections.constructor(BookAuthorResponse.class,
+                                author.authorName,
+                                author.authorType
+                        )
+                ).fetch();
     }
-
-    /**
-     * 파라미터보다 큰 id를 가진 BookAuthor 테이블을 참조하여
-     * BookAuthorAPIResponse List를 반환
-     *
-     * @param id BookAuhtor의 id
-     * @return Book객체와 author.name의 List반환.
-     */
-    @Override
-    public List<BookAuthorAPIResponse> findBookAuthorsByIdGreaterThan(Long id) {
-        QBook book = QBook.book;
-        QAuthor author = QAuthor.author;
-        QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-
-        return from(bookAuthor)
-                .join(bookAuthor.book, book)
-                .join(bookAuthor.author, author)
-                .select(Projections.bean(BookAuthorAPIResponse.class,
-                        bookAuthor.book, bookAuthor.author.authorName)).distinct().fetch();
-    }
-
-
-    // BookId를 입력받아 해당되는 작가를 출력
-    // 테스트용
-    @Override
-    public List<BookAuthorName> findBookAuthorByBookId(Long id) {
-        QBook book = QBook.book;
-        QAuthor author = QAuthor.author;
-        QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-        return from(bookAuthor)
-                .join(bookAuthor.book, book)
-                .join(bookAuthor.author, author)
-                .where(bookAuthor.book.id.eq(book.id))
-                .where(bookAuthor.author.id.eq(author.id))
-                .select(Projections.bean(BookAuthorName.class,
-                        book.bookTitle, author.authorName)).distinct()
-                .fetch();
-    }
-
-
-    // 입력받은 bookId보다 큰 BookAuthor객체 반환
-    // EntityGraph를 사용한 Fetch Join 테스트용
-    @Override
-    public List<BookAuthor> getBookAuthorsByIdGreaterThan(Long bookId) {
-        QBook book = QBook.book;
-        QAuthor author = QAuthor.author;
-        QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-
-        return from(bookAuthor)
-                .join(bookAuthor.book, book)
-                .join(bookAuthor.author, author)
-                .where(bookAuthor.id.gt(bookId))
-                .select(bookAuthor).distinct().fetch();
-    }
-
 }
