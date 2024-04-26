@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * 공통 응답 처리를 위한 ResponseBodyAdvice
  * <p>
- *     Controller에서 ommonResponse를 직접 선언하여 반환하지 않는 경우에, 200 OK로 CommonResponse를 만들어
- *     ResponseEntity.ok에 감싸서 반환해준다.
+ * Controller에서 ommonResponse를 직접 선언하여 반환하지 않는 경우에, 200 OK로 CommonResponse를 만들어
+ * ResponseEntity.ok에 감싸서 반환해준다.
  * </p>
  *
  * @author seunggyu-kim
@@ -28,9 +28,9 @@ public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public CommonResponse<Object> beforeBodyWrite(final Object body, final MethodParameter returnType,
-                                                                  final MediaType selectedContentType,
-                                                                  final Class selectedConverterType, final ServerHttpRequest request,
-                                                                  final ServerHttpResponse response) {
+                                                  final MediaType selectedContentType,
+                                                  final Class selectedConverterType, final ServerHttpRequest request,
+                                                  final ServerHttpResponse response) {
         CommonHeader commonHeader = CommonHeader.builder().httpStatus(HttpStatus.OK).resultMessage("Success").build();
         return CommonResponse.builder().header(commonHeader).result(body).build();
     }
