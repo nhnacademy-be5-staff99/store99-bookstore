@@ -60,13 +60,20 @@ public class LikeServiceImpl implements LikeService {
         return likeRepository.existsByBookIdAndUserId(bookId, userId);
     }
 
-
+    /**
+     * 도서 별 좋아요 수를 조회하는 메소드 입니다.
+     *
+     * @param bookId
+     * @return 권 당 좋아요 갯수
+     * @author 이서연
+     */
     @Override
-    public Long countLikesByBookId(Long bookId) {
-        return likeRepository.countByBookId(bookId);
+    public Long countByBookId(Long bookId) {
+        Long cnt = likeRepository.countByBookId(bookId);
+        return cnt;
     }
 
-//    @Override
+    //    @Override
 //    @Transactional
 //    public Page<BookInfoForLikeResponse> getAllByUser(Long userId, Pageable pageable) {
 //        likeRepository.findAllByUserId(userId, pageable).getPageable();
