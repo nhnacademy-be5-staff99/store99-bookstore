@@ -13,7 +13,7 @@ public class XUserIdCheckInterceptor implements HandlerInterceptor {
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
             throws Exception {
         String xUserIdHeader = request.getHeader("X-USER-ID");
-        if(Objects.isNull(xUserIdHeader)) {
+        if (Objects.isNull(xUserIdHeader)) {
             throw new MissingUserIdHeaderException();
         }
         XUserIdThreadLocal.setXUserId(Long.parseLong(xUserIdHeader));
