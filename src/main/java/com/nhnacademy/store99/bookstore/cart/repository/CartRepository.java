@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * @author seunggyu-kim
  */
-public interface CartRepository extends JpaRepository<Cart, Long> {
+public interface CartRepository extends JpaRepository<Cart, Long>, CartRepositoryCustom {
     Optional<Cart> findByUser_IdAndBook_Id(Long userId, Long bookId);
 }

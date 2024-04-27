@@ -2,12 +2,14 @@ package com.nhnacademy.store99.bookstore.cart.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
+import com.nhnacademy.store99.bookstore.cart.dto.response.CartItemResponse;
 import com.nhnacademy.store99.bookstore.cart.entity.Cart;
 import com.nhnacademy.store99.bookstore.cart.exception.CartBadRequestException;
 import com.nhnacademy.store99.bookstore.cart.repository.CartRepository;
 import com.nhnacademy.store99.bookstore.cart.service.CartService;
 import com.nhnacademy.store99.bookstore.common.thread_local.XUserIdThreadLocal;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,12 +33,14 @@ public class CartServiceImpl implements CartService {
         Long bookId = request.getBookId();
         Optional<Cart> cartOptional = cartRepository.findByUser_IdAndBook_Id(xUserId, bookId);
 
+        // 이미 장바구니에 있는 경우
         if (cartOptional.isPresent()) {
             Cart cart = cartOptional.get();
             cart.addCartAmount(request.getQuantity());
             return;
         }
 
+        // 장바구니에 없는 경우
         Cart cart = Cart.builder()
                 .cartAmount(request.getQuantity())
                 .user(userRepository.findById(xUserId).orElseThrow(() -> CartBadRequestException.UserNotFound(xUserId)))
@@ -44,5 +48,11 @@ public class CartServiceImpl implements CartService {
                 .build();
 
         cartRepository.save(cart);
+    }
+
+    @Override
+    public List<CartItemResponse> getCartItemsByUser() {
+        Long userId = XUserIdThreadLocal.getXUserId();
+        return cartRepository.getCartItemsByUser(userId);
     }
 }
