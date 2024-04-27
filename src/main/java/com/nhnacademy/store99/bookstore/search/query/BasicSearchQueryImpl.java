@@ -65,6 +65,7 @@ public class BasicSearchQueryImpl extends QuerydslRepositorySupport implements B
             List<BasicSearchResponse.BookAuthorInfo> authorInfos =
                     authorsMap.getOrDefault(b.getId(), Collections.emptyList());
             return new BasicSearchResponse(
+                    b.getId(),
                     b.getBookTitle(),
                     b.getBookThumbnailUrl(),
                     authorInfos,

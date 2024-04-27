@@ -33,6 +33,7 @@ class BasicSearchServiceTest {
         // exist
         List<BasicSearchResponse> existSearchList = List.of(
                 BasicSearchResponse.builder()
+                        .bookId(1L)
                         .bookTitle("AI 2024 - 트렌드 & 활용백과")
                         .bookThumbnailUrl("https://image.aladin.co.kr/product/32628/53/cover/k822935456_1.jpg")
                         .bookAuthorInfos(List.of(
@@ -47,6 +48,7 @@ class BasicSearchServiceTest {
                         .bookCntOfReview(0)
                         .build(),
                 BasicSearchResponse.builder()
+                        .bookId(2L)
                         .bookTitle("컴퓨터 밑바닥의 비밀 - 컴퓨터 시스템의 본질을 알면 코드의 실마리가 보인다")
                         .bookThumbnailUrl("https://image.aladin.co.kr/product/33564/48/cover/k602939885_1.jpg")
                         .bookAuthorInfos(List.of(
@@ -65,6 +67,7 @@ class BasicSearchServiceTest {
                         .bookCntOfReview(0)
                         .build(),
                 BasicSearchResponse.builder()
+                        .bookId(3L)
                         .bookTitle("김으로 시작하는 책")
                         .bookThumbnailUrl("null.jpg")
                         .bookAuthorInfos(List.of(
@@ -78,6 +81,7 @@ class BasicSearchServiceTest {
                         .bookCntOfReview(9999)
                         .build(),
                 BasicSearchResponse.builder()
+                        .bookId(4L)
                         .bookTitle("김으로 끝나는 책김책김")
                         .bookThumbnailUrl("null.jpg")
                         .bookAuthorInfos(List.of(
@@ -100,6 +104,7 @@ class BasicSearchServiceTest {
         // given
         List<BasicSearchResponse> givenSearchList = List.of(
                 BasicSearchResponse.builder()
+                        .bookId(1L)
                         .bookTitle("AI 2024 - 트렌드 & 활용백과")
                         .bookThumbnailUrl("https://image.aladin.co.kr/product/32628/53/cover/k822935456_1.jpg")
                         .bookAuthorInfos(List.of(
@@ -114,6 +119,7 @@ class BasicSearchServiceTest {
                         .bookCntOfReview(0)
                         .build(),
                 BasicSearchResponse.builder()
+                        .bookId(2L)
                         .bookTitle("컴퓨터 밑바닥의 비밀 - 컴퓨터 시스템의 본질을 알면 코드의 실마리가 보인다")
                         .bookThumbnailUrl("https://image.aladin.co.kr/product/33564/48/cover/k602939885_1.jpg")
                         .bookAuthorInfos(List.of(
@@ -132,6 +138,7 @@ class BasicSearchServiceTest {
                         .bookCntOfReview(0)
                         .build(),
                 BasicSearchResponse.builder()
+                        .bookId(3L)
                         .bookTitle("김으로 시작하는 책")
                         .bookThumbnailUrl("null.jpg")
                         .bookAuthorInfos(List.of(
@@ -145,6 +152,7 @@ class BasicSearchServiceTest {
                         .bookCntOfReview(9999)
                         .build(),
                 BasicSearchResponse.builder()
+                        .bookId(4L)
                         .bookTitle("김으로 끝나는 책김책김")
                         .bookThumbnailUrl("null.jpg")
                         .bookAuthorInfos(List.of(
