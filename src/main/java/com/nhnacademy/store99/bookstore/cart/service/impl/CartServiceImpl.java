@@ -2,14 +2,12 @@ package com.nhnacademy.store99.bookstore.cart.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
-import com.nhnacademy.store99.bookstore.cart.dto.response.CartItemResponse;
 import com.nhnacademy.store99.bookstore.cart.entity.Cart;
 import com.nhnacademy.store99.bookstore.cart.exception.CartBadRequestException;
 import com.nhnacademy.store99.bookstore.cart.repository.CartRepository;
 import com.nhnacademy.store99.bookstore.cart.service.CartService;
 import com.nhnacademy.store99.bookstore.common.thread_local.XUserIdThreadLocal;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,14 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
     @Override
-    @Transactional
     public void addBookToCart(final CartItemRequest request) {
         Long xUserId = XUserIdThreadLocal.getXUserId();
         Long bookId = request.getBookId();
@@ -48,11 +45,5 @@ public class CartServiceImpl implements CartService {
                 .build();
 
         cartRepository.save(cart);
-    }
-
-    @Override
-    public List<CartItemResponse> getCartItemsByUser() {
-        Long userId = XUserIdThreadLocal.getXUserId();
-        return cartRepository.getCartItemsByUser(userId);
     }
 }

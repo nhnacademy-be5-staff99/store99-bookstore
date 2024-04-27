@@ -2,6 +2,7 @@ package com.nhnacademy.store99.bookstore.cart.controller;
 
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
 import com.nhnacademy.store99.bookstore.cart.dto.response.CartItemResponse;
+import com.nhnacademy.store99.bookstore.cart.service.CartQueryService;
 import com.nhnacademy.store99.bookstore.cart.service.CartService;
 import java.util.List;
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
+    private final CartQueryService cartQueryService;
 
     @PostMapping("/books")
     @ResponseStatus(HttpStatus.CREATED)
@@ -31,6 +33,6 @@ public class CartController {
 
     @GetMapping("/books")
     public List<CartItemResponse> getCartItemsByUser() {
-        return cartService.getCartItemsByUser();
+        return cartQueryService.getCartItemsByUser();
     }
 }
