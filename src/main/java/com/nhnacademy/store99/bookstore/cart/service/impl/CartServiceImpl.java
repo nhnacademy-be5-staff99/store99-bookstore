@@ -25,7 +25,7 @@ public class CartServiceImpl implements CartService {
     private final BookRepository bookRepository;
 
     @Override
-    public void addBookToCart(final CartItemRequest request) {
+    public void addBookToCart(final CartItemRequest request) throws CartBadRequestException {
         Long xUserId = XUserIdThreadLocal.getXUserId();
         Long bookId = request.getBookId();
         Optional<Cart> cartOptional = cartRepository.findByUser_IdAndBook_Id(xUserId, bookId);
