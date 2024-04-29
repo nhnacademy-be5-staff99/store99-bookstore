@@ -8,4 +8,6 @@ import com.nhnacademy.store99.bookstore.cart.exception.CartBadRequestException;
  */
 public interface CartService {
     void addBookToCart(final CartItemRequest request) throws CartBadRequestException;
+
+    void modifyBookQuantityInCart(final CartItemRequest request) throws CartBadRequestException;
 }

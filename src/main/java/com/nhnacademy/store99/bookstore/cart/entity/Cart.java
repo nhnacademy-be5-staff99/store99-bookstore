@@ -53,4 +53,8 @@ public class Cart {
     public void addCartAmount(Integer amount) {
         this.cartAmount += amount;
     }
+
+    public void modifyCartAmount(Integer amount) {
+        this.cartAmount = amount;
+    }
 }

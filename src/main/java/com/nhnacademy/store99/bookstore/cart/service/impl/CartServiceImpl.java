@@ -46,4 +46,14 @@ public class CartServiceImpl implements CartService {
 
         cartRepository.save(cart);
     }
+
+    @Override
+    public void modifyBookQuantityInCart(final CartItemRequest request) throws CartBadRequestException {
+        Long xUserId = XUserIdThreadLocal.getXUserId();
+        Long bookId = request.getBookId();
+        Cart cart = cartRepository.findByUser_IdAndBook_Id(xUserId, bookId)
+                .orElseThrow(() -> new CartBadRequestException("장바구니에 없는 도서를 수정하려고 합니다."));
+
+        cart.modifyCartAmount(request.getQuantity());
+    }
 }

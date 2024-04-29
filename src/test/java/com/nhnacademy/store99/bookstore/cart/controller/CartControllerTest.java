@@ -7,6 +7,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
@@ -50,7 +51,12 @@ class CartControllerTest extends RestDocSupport {
 
         // then
         verify(cartService).addBookToCart(any(CartItemRequest.class));
-        assertThat(actualResponse).isEmpty();
+
+        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.CREATED).resultMessage("Success").build();
+        CommonResponse<List<CartItemResponse>> response =
+                CommonResponse.<List<CartItemResponse>>builder().header(header).build();
+        String expectedResponse = objectMapper.writeValueAsString(response);
+        assertThat(actualResponse).isEqualTo(expectedResponse);
     }
 
     @Test
@@ -106,4 +112,59 @@ class CartControllerTest extends RestDocSupport {
         String expectedResponse = objectMapper.writeValueAsString(response);
         assertThat(actualResponse).isEqualTo(expectedResponse);
     }
+
+    @Test
+    @DisplayName("Modify book quantity in cart successfully")
+    void modifyBookQuantityInCartSuccessfully() throws Exception {
+        // given
+        CartItemRequest request = new CartItemRequest(1L, 5);
+
+        // when
+        mockMvc.perform(put("/v1/cart/books")
+                        .header("X-USER-ID", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+
+        // then
+        verify(cartService).modifyBookQuantityInCart(any(CartItemRequest.class));
+    }
+
+    @Test
+    @DisplayName("Modify book quantity in cart failure - nonexistent book ID")
+    void modifyBookQuantityInCartFailure() throws Exception {
+        // given
+        CartItemRequest request = new CartItemRequest(1L, 5);
+        doThrow(CartBadRequestException.BookNotFound(1L)).when(cartService)
+                .modifyBookQuantityInCart(any(CartItemRequest.class));
+
+        // when
+        mockMvc.perform(put("/v1/cart/books")
+                        .header("X-USER-ID", 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
+        // then
+        verify(cartService).modifyBookQuantityInCart(any(CartItemRequest.class));
+    }
+
+//    @Test
+//    @DisplayName("Modify book quantity in cart failure - invalid quantity")
+//    void modifyBookQuantityInCartFailureInvalidQuantity() throws Exception {
+//        // given
+//        CartItemRequest request = new CartItemRequest(1L, -5);
+//        doThrow(CartBadRequestException.InvalidQuantity()).when(cartService)
+//                .modifyBookQuantityInCart(any(CartItemRequest.class));
+//
+//        // when
+//        mockMvc.perform(put("/v1/cart/books")
+//                        .header("X-USER-ID", 1L)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(request)))
+//                .andExpect(status().isBadRequest());
+//
+//        // then
+//        verify(cartService).modifyBookQuantityInCart(any(CartItemRequest.class));
+//    }
 }

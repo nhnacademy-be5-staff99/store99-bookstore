@@ -8,31 +8,37 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author seunggyu-kimpost
  */
 @RestController
-@RequestMapping("/v1/cart")
+@RequestMapping("/v1/cart/books")
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
     private final CartQueryService cartQueryService;
 
-    @PostMapping("/books")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addBookToCart(@RequestBody @Valid CartItemRequest request) {
+    @PostMapping
+    public ResponseEntity<Void> addBookToCart(@RequestBody @Valid CartItemRequest request) {
         cartService.addBookToCart(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/books")
+    @GetMapping
     public List<CartItemResponse> getCartItemsByUser() {
         return cartQueryService.getCartItemsByUser();
+    }
+
+    @PutMapping
+    public void modifyBookQuantityInCart(@RequestBody @Valid CartItemRequest request) {
+        cartService.modifyBookQuantityInCart(request);
     }
 }
