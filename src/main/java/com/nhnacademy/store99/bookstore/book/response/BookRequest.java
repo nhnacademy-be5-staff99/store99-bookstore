@@ -21,6 +21,7 @@ public class BookRequest {
     private String BookIsbn10;
     private String BookTitle;
     private String BookContents;
+    private String BookDescription;
     private String BookPublisher;
     private LocalDateTime BookDate;
     private Integer BookPrice;
@@ -46,6 +47,4 @@ public class BookRequest {
             AuthorType = authorType;
         }
     }
-
-
 }
