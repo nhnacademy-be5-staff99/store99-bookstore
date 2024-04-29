@@ -32,8 +32,8 @@ public class Address {
     @Column(name = "address_id", nullable = false)
     private Long id;
 
-    @Column(name = "address", nullable = false)
-    private String address;
+    @Column(name = "address_general", nullable = false)
+    private String addressGeneral;
 
     @Column(name = "address_detail", nullable = false)
     private String addressDetail;
@@ -43,6 +43,9 @@ public class Address {
 
     @Column(name = "address_code", nullable = false)
     private Integer addressCode;
+
+    @Column(name = "is_default_address", nullable = false)
+    private Boolean isDefaultAddress;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
