@@ -52,8 +52,17 @@ public class CartServiceImpl implements CartService {
         Long xUserId = XUserIdThreadLocal.getXUserId();
         Long bookId = request.getBookId();
         Cart cart = cartRepository.findByUser_IdAndBook_Id(xUserId, bookId)
-                .orElseThrow(() -> new CartBadRequestException("장바구니에 없는 도서를 수정하려고 합니다."));
+                .orElseThrow(() -> new CartBadRequestException("Modify failed. Cart not found."));
 
         cart.modifyCartAmount(request.getQuantity());
+    }
+
+    @Override
+    public void removeBookInCart(final Long bookId) throws CartBadRequestException {
+        Long xUserId = XUserIdThreadLocal.getXUserId();
+        Cart cart = cartRepository.findByUser_IdAndBook_Id(xUserId, bookId)
+                .orElseThrow(() -> new CartBadRequestException("Remove failed. Cart not found."));
+
+        cartRepository.delete(cart);
     }
 }

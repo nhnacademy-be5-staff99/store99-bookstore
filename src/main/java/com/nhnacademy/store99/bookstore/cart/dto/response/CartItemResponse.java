@@ -3,6 +3,9 @@ package com.nhnacademy.store99.bookstore.cart.dto.response;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
+/**
+ * @author seunggyu-kimpost
+ */
 @Getter
 public class CartItemResponse {
     private final Long bookId;

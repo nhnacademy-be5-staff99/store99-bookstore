@@ -10,4 +10,6 @@ public interface CartService {
     void addBookToCart(final CartItemRequest request) throws CartBadRequestException;
 
     void modifyBookQuantityInCart(final CartItemRequest request) throws CartBadRequestException;
+
+    void removeBookInCart(final Long bookId) throws CartBadRequestException;
 }

@@ -3,6 +3,9 @@ package com.nhnacademy.store99.bookstore.cart.exception;
 
 import com.nhnacademy.store99.bookstore.common.exception.BadRequestException;
 
+/**
+ * @author seunggyu-kimpost
+ */
 public class CartBadRequestException extends BadRequestException {
     public CartBadRequestException(String message) {
         super(String.format("Bad request in Cart: %s", message));
