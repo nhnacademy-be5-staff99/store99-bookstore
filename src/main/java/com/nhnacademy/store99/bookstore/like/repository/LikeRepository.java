@@ -22,7 +22,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      * @return 권 당 좋아요 갯수
      * @author 이서연
      */
-    Long countByBookId(Long bookId);
+    Long countLikesByBookId(Long bookId);
 
     /**
      * 회원이 누른 좋아요 목록을 조회하는 메소드입니다.
