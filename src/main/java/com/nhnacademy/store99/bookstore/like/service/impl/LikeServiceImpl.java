@@ -69,8 +69,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     public Long countByBookId(Long bookId) {
-        Long cnt = likeRepository.countByBookId(bookId);
-        return cnt;
+        return likeRepository.countLikesByBookId(bookId);
     }
 
     //    @Override

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -59,7 +60,7 @@ public class LikeController {
     }
 
     @GetMapping("/likeCnt")
-    public ResponseEntity<CommonResponse<Long>> getLikeBook(@RequestBody @PathVariable @Valid Long bookId) {
+    public ResponseEntity<CommonResponse<Long>> getLikeBook(@RequestParam(value = "bookId") @Valid Long bookId) {
         Long cnt = likeService.countByBookId(bookId);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.OK)
