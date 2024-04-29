@@ -15,14 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
-    private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
-    public LikeServiceImpl(LikeRepository likeRepository, BookRepository bookRepository,
-                           UserRepository userRepository) {
+    public LikeServiceImpl(LikeRepository likeRepository,
+                           UserRepository userRepository,
+                           BookRepository bookRepository) {
         this.likeRepository = likeRepository;
-        this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.bookRepository = bookRepository;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class LikeServiceImpl implements LikeService {
      * @author 이서연
      */
     @Override
-    public Long countByBookId(Long bookId) {
+    public Long countLikesByBookId(Long bookId) {
         return likeRepository.countLikesByBookId(bookId);
     }
 
