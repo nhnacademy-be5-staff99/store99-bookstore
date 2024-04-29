@@ -36,7 +36,6 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     public BookRequest getBook(@PathVariable("bookId") Long bookId) {
-//        return null;
 
         // 도서-작가 리스트객체 받아오기
         List<BookRequest.AuthorDTO> bookAuthorResponses = bookAuthorService.getAuthorBook(bookId);
