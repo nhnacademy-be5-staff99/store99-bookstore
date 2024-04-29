@@ -16,6 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BasicSearchResponse {
 
+    private Long bookId;
     private String bookTitle;
     private String bookThumbnailUrl;
     private List<BookAuthorInfo> bookAuthorInfos;
