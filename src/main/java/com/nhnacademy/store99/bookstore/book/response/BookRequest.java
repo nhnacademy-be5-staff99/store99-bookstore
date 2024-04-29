@@ -29,7 +29,6 @@ public class BookRequest {
     private Integer BookStock;
     private Integer BookCntOfReview;
     private Double BookAvgOfRate;
-    private Long FileId;
     private String BookImageURL;
     private String BookImageName;
     private List<BookRequest.AuthorDTO> authorsDTOList;

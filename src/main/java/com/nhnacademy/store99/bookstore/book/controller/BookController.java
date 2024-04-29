@@ -1,5 +1,6 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
+import com.nhnacademy.store99.bookstore.book.repository.impl.BookRepositoryImpl;
 import com.nhnacademy.store99.bookstore.book.response.BookRequest;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     final private BookAuthorService bookAuthorService;
     final private BookImageRepositoryImpl bookImageRepository;
+    final private BookRepositoryImpl bookRepository;
 
 
     @GetMapping("")
@@ -43,7 +45,12 @@ public class BookController {
         BookImageDTO bookImageDTO = bookImageRepository.getBookImageData(bookId);
 
         // BookRequest 도서 기타 정보 받아오기
-        BookRequest bookRequest = null;
+        BookRequest bookRequest = bookRepository.getBookDataById(bookId);
+
+        bookRequest.setBookId(bookId);
+        bookRequest.setAuthorsDTOList(bookAuthorResponses);
+        bookRequest.setBookImageName(bookImageDTO.getBookImageName());
+        bookRequest.setBookImageURL(bookImageDTO.getBookImageURL());
 
         return bookRequest;
     }
