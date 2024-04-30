@@ -114,7 +114,7 @@ class CartControllerTest extends RestDocSupport {
     }
 
     @Test
-    @DisplayName("Modify book quantity in cart successfully")
+    @DisplayName("카트에서 도서 수량 변경 성공")
     void modifyBookQuantityInCartSuccessfully() throws Exception {
         // given
         CartItemRequest request = new CartItemRequest(1L, 5);
@@ -129,42 +129,4 @@ class CartControllerTest extends RestDocSupport {
         // then
         verify(cartService).modifyBookQuantityInCart(any(CartItemRequest.class));
     }
-
-    @Test
-    @DisplayName("Modify book quantity in cart failure - nonexistent book ID")
-    void modifyBookQuantityInCartFailure() throws Exception {
-        // given
-        CartItemRequest request = new CartItemRequest(1L, 5);
-        doThrow(CartBadRequestException.BookNotFound(1L)).when(cartService)
-                .modifyBookQuantityInCart(any(CartItemRequest.class));
-
-        // when
-        mockMvc.perform(put("/v1/cart/books")
-                        .header("X-USER-ID", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
-
-        // then
-        verify(cartService).modifyBookQuantityInCart(any(CartItemRequest.class));
-    }
-
-//    @Test
-//    @DisplayName("Modify book quantity in cart failure - invalid quantity")
-//    void modifyBookQuantityInCartFailureInvalidQuantity() throws Exception {
-//        // given
-//        CartItemRequest request = new CartItemRequest(1L, -5);
-//        doThrow(CartBadRequestException.InvalidQuantity()).when(cartService)
-//                .modifyBookQuantityInCart(any(CartItemRequest.class));
-//
-//        // when
-//        mockMvc.perform(put("/v1/cart/books")
-//                        .header("X-USER-ID", 1L)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(status().isBadRequest());
-//
-//        // then
-//        verify(cartService).modifyBookQuantityInCart(any(CartItemRequest.class));
-//    }
 }

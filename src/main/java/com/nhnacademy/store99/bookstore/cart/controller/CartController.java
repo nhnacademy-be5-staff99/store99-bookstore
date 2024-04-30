@@ -5,6 +5,7 @@ import com.nhnacademy.store99.bookstore.cart.dto.response.CartItemResponse;
 import com.nhnacademy.store99.bookstore.cart.service.CartQueryService;
 import com.nhnacademy.store99.bookstore.cart.service.CartService;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,5 +48,10 @@ public class CartController {
     @DeleteMapping("/{bookId}")
     public void removeBookFromCart(@PathVariable Long bookId) {
         cartService.removeBookInCart(bookId);
+    }
+
+    @PostMapping("/merge")
+    public void mergeCart(@RequestBody Map<Long, Integer> bookIdAndQuantity) {
+        cartService.mergeCart(bookIdAndQuantity);
     }
 }
