@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
-import com.nhnacademy.store99.bookstore.book.response.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface BookAuthorService {
 
     List<BookAuthor> getAuthorByAuthorId(Long id);
 
-    List<BookRequest.AuthorDTO> getAuthorBook(Long id);
+    List<BookResponse.AuthorDTO> getAuthorBook(Long id);
 
 
 }

@@ -3,7 +3,7 @@ package com.nhnacademy.store99.bookstore.book.repository.impl;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepositoryCustom;
-import com.nhnacademy.store99.bookstore.book.response.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Component;
@@ -20,11 +20,11 @@ public class BookRepositoryImpl extends QuerydslRepositorySupport implements Boo
     }
 
     @Override
-    public BookRequest getBookDataById(Long bookId) {
+    public BookResponse getBookDataById(Long bookId) {
         QBook book = QBook.book;
         return from(book)
                 .where(book.id.eq(bookId))
-                .select(Projections.bean(BookRequest.class,
+                .select(Projections.bean(BookResponse.class,
                         book.bookIsbn13,
                         book.bookIsbn10,
                         book.bookTitle,

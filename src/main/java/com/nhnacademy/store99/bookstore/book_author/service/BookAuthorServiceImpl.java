@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
-import com.nhnacademy.store99.bookstore.book.response.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.impl.BookAuthorRepositoryImpl;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
@@ -32,7 +32,7 @@ public class BookAuthorServiceImpl implements BookAuthorService {
      * @return 도서id, 작가id, 도서정보를 반환
      */
     @Override
-    public List<BookRequest.AuthorDTO> getAuthorBook(Long bookId) {
+    public List<BookResponse.AuthorDTO> getAuthorBook(Long bookId) {
         return bookAuthorRepositoryImp.getAuthorsById(bookId);
     }
 
