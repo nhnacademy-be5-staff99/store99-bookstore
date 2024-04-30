@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * mypage 와 관련된 로직
+ *
+ * @author Ahyeon Song
  */
 @Service
 @Transactional(readOnly = true)
