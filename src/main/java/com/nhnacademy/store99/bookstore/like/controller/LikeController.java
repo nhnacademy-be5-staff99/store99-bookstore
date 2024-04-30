@@ -61,7 +61,7 @@ public class LikeController {
 
     @GetMapping("/likeCnt")
     public ResponseEntity<CommonResponse<Long>> getLikeBook(@RequestParam(value = "bookId") @Valid Long bookId) {
-        Long cnt = likeService.countByBookId(bookId);
+        Long cnt = likeService.countLikesByBookId(bookId);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.OK)
                 .build();
