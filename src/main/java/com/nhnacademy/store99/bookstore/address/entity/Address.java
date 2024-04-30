@@ -51,4 +51,15 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    public void setDefaultAddress(boolean isDefault) {
+        this.isDefaultAddress = isDefault;
+    }
+
+    public void updateAddress(String addressGeneral, String addressDetail, String addressAlias, Integer addressCode) {
+        this.addressGeneral = addressGeneral;
+        this.addressDetail = addressDetail;
+        this.addressAlias = addressAlias;
+        this.addressCode = addressCode;
+    }
+
 }
