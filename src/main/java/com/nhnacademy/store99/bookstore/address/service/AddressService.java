@@ -4,6 +4,8 @@ import com.nhnacademy.store99.bookstore.address.dto.UserAddressAddRequest;
 import com.nhnacademy.store99.bookstore.address.dto.UserAddressResponse;
 import com.nhnacademy.store99.bookstore.address.dto.UserAddressUpdateRequest;
 import com.nhnacademy.store99.bookstore.address.dto.UserChangeDefaultAddressRequest;
+import com.nhnacademy.store99.bookstore.address.entity.Address;
+import com.nhnacademy.store99.bookstore.address.exception.AddressNotFoundByAddressIdException;
 import com.nhnacademy.store99.bookstore.address.exception.AddressNotFoundByUserIdException;
 import com.nhnacademy.store99.bookstore.address.exception.AddressOverTenException;
 import com.nhnacademy.store99.bookstore.address.exception.DefaultAddressCanNotDeleteException;
@@ -11,6 +13,7 @@ import com.nhnacademy.store99.bookstore.address.repository.AddressRepository;
 import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,34 @@ public class AddressService {
             throw new AddressNotFoundByUserIdException(xUserId);
         }
         return userAddresses;
+    }
+
+    /**
+     * 주소 아이디에 해당하는 주소 반환
+     * @param xUserId
+     * @param addressId
+     * @return UserAddressResponse
+     */
+    public UserAddressResponse getUserAddressById(Long xUserId, Long addressId){
+        boolean isUser = userRepository.existsByIdAndAuth_AuthName(xUserId, "USER");
+        if (!isUser) {
+            throw new UserNotFoundException(xUserId);
+        }
+        Optional<Address> findAddressOpt = addressRepository.findById(addressId);
+
+        if (findAddressOpt.isEmpty()){
+            throw new AddressNotFoundByAddressIdException(addressId);
+        }
+        Address findAddress = findAddressOpt.get();
+
+        return new UserAddressResponse(
+                findAddress.getId(),
+                findAddress.getAddressGeneral(),
+                findAddress.getAddressDetail(),
+                findAddress.getAddressAlias(),
+                findAddress.getAddressCode(),
+                findAddress.getIsDefaultAddress()
+        );
     }
 
     /**

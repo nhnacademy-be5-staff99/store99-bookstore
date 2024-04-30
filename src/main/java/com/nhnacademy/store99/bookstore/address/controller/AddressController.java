@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -43,6 +44,17 @@ public class AddressController {
     @GetMapping
     public List<UserAddressResponse> getUserAddresses(@RequestHeader("X-USER-ID") Long xUserId) {
         return addressService.getUserAddresses(xUserId);
+    }
+
+    /**
+     * 파라미터의 addressId 에 해당하는 주소 반환
+     * @param xUserId
+     * @param addressId
+     * @return
+     */
+    @GetMapping(params = {"addressId"})
+    public UserAddressResponse getUserAddressById(@RequestHeader("X-USER-ID") Long xUserId, @RequestParam("addressId") Long addressId){
+        return addressService.getUserAddressById(xUserId, addressId);
     }
 
     /**
