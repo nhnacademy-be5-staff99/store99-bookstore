@@ -4,9 +4,6 @@ import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
-import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
-import com.nhnacademy.store99.bookstore.book_image.service.BookImageService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/open/v1/books")
 @RequiredArgsConstructor
 public class BookController {
-    final private BookAuthorService bookAuthorService;
-    final private BookImageService bookImageService;
     final private BookServiceInterface bookService;
+    final private BookAuthorService bookAuthorService;
 
     @GetMapping("")
     public Page<BookTransDTO> getBooksFinal(Pageable pageable) {
@@ -35,22 +31,7 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     public BookResponse getBook(@PathVariable("bookId") Long bookId) {
-
-        // 도서-작가 리스트객체 받아오기
-        List<BookResponse.AuthorDTO> bookAuthorResponses = bookAuthorService.getAuthorBook(bookId);
-
-        // 도서-이미지 DTO받오기
-        BookImageDTO bookImageDTO = bookImageService.getBookImageData(bookId);
-
-        // BookRequest 도서 기타 정보 받아오기
-        BookResponse bookRequest = bookService.getBookDataById(bookId);
-
-        bookRequest.setBookId(bookId);
-        bookRequest.setAuthorsDTOList(bookAuthorResponses);
-        bookRequest.setBookImageName(bookImageDTO.getBookImageName());
-        bookRequest.setBookImageURL(bookImageDTO.getBookImageURL());
-
-        return bookRequest;
+        return bookService.getBookDataById(bookId);
     }
 
 }
