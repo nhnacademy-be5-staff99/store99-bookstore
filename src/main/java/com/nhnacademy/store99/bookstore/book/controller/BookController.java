@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
-import com.nhnacademy.store99.bookstore.book.service.BookServiceInterface;
+import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/open/v1/books")
 @RequiredArgsConstructor
 public class BookController {
-    final private BookServiceInterface bookService;
+    final private BookService bookService;
     final private BookAuthorService bookAuthorService;
 
     @GetMapping("")

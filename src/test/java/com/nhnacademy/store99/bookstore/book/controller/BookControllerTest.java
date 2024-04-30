@@ -2,7 +2,7 @@ package com.nhnacademy.store99.bookstore.book.controller;
 
 
 import com.nhnacademy.store99.bookstore.book.TestSupport;
-import com.nhnacademy.store99.bookstore.book.service.BookServiceImpl;
+import com.nhnacademy.store99.bookstore.book.service.impl.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
