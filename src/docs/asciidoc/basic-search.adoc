@@ -1,4 +1,5 @@
 = 도서 조회 API : sql 사용
 
 == 도서 조회 성공
+
 operation::basic-search-controller-test/get-search-result[snippets="curl-request,http-request,http-response"]
