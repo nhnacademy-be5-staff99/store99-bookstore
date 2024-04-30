@@ -15,12 +15,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BookRequest {
+public class BookResponse {
     private Long BookId;
     private String BookIsbn13;
     private String BookIsbn10;
     private String BookTitle;
     private String BookContents;
+    private String BookDescription;
     private String BookPublisher;
     private LocalDateTime BookDate;
     private Integer BookPrice;
@@ -29,10 +30,9 @@ public class BookRequest {
     private Integer BookStock;
     private Integer BookCntOfReview;
     private Double BookAvgOfRate;
-    private Long FileId;
     private String BookImageURL;
     private String BookImageName;
-    private List<BookRequest.AuthorDTO> authorsDTOList;
+    private List<BookResponse.AuthorDTO> authorsDTOList;
 
     @Getter
     @Setter
@@ -47,6 +47,4 @@ public class BookRequest {
             AuthorType = authorType;
         }
     }
-
-
 }

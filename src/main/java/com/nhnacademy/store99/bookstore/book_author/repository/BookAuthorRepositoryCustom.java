@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_author.repository;
 
-import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
+import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -18,5 +18,5 @@ public interface BookAuthorRepositoryCustom {
     // 이거 Long id 뺴고 이름 바꿔야함.
     Page<BookTransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable);
 
-    List<BookAuthorResponse> getAuthorsById(Long bookId);
+    List<BookResponse.AuthorDTO> getAuthorsById(Long bookId);
 }
