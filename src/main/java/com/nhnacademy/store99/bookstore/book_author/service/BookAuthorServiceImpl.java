@@ -5,11 +5,9 @@ import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.impl.BookAuthorRepositoryImpl;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,16 +33,13 @@ public class BookAuthorServiceImpl implements BookAuthorService {
      */
     @Override
     public List<BookRequest.AuthorDTO> getAuthorBook(Long bookId) {
-        List<BookRequest.AuthorDTO> bookAuthor = bookAuthorRepositoryImp.getAuthorsById(bookId);
-        return bookAuthor;
+        return bookAuthorRepositoryImp.getAuthorsById(bookId);
     }
 
 
     @Override
     public Page<BookTransDTO> getBookTransDTO(Pageable pageable) {
-        Page<BookTransDTO> page = bookAuthorRepositoryImp.findBooksByIdGreaterThan(0L, pageable);
-        List<BookTransDTO> list = page.getContent().stream().distinct().collect(Collectors.toList());
-        return new PageImpl<>(list, page.getPageable(), list.size());
+        return bookAuthorRepositoryImp.findBooksByIdGreaterThan(0L, pageable);
     }
 
     @Override

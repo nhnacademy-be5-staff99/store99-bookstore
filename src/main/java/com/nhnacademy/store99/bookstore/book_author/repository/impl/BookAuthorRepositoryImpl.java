@@ -86,7 +86,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         }).collect(Collectors.toList());
 
 
-        long fetchCount = getQuerydsl().applyPagination(pageable, bookQuery).fetchCount();
+        long fetchCount = bookQuery.fetchCount();
         return new PageImpl<>(bookResponse, pageable, fetchCount);
     }
 
