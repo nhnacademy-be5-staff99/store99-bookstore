@@ -98,4 +98,15 @@ public class AddressController {
         addressService.deleteUserAddress(xUserId, addressId);
     }
 
+    /**
+     * 유저의 주소 개수 반환
+     *
+     * @param xUserId
+     * @return Integer - address count
+     */
+    @GetMapping("/count")
+    public Integer getUserAddressCount(@RequestHeader("X-USER-ID") Long xUserId) {
+        return addressService.getUserAddressCount(xUserId);
+    }
+
 }

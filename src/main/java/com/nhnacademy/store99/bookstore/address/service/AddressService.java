@@ -106,4 +106,11 @@ public class AddressService {
         addressRepository.deleteById(addressId);
     }
 
+    /**
+     * 현재 주소 개수 반환
+     */
+    public Integer getUserAddressCount(Long xUserId) {
+        return addressRepository.countAllByUser_Id(xUserId);
+    }
+
 }
