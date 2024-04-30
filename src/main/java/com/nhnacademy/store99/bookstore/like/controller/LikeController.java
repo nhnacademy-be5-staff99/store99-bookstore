@@ -36,7 +36,7 @@ public class LikeController {
         likeService.addLike(req);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.CREATED)
-                .resultMessage("Successfully add like")
+                .resultMessage("Successfully added like")
                 .build();
         CommonResponse<Void> commonResponse = CommonResponse.<Void>builder()
                 .header(commonHeader)
@@ -50,7 +50,7 @@ public class LikeController {
         String response = likeService.deleteLike(likeId);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.OK)
-                .resultMessage("Successfully delete like")
+                .resultMessage("Successfully deleted like")
                 .build();
         CommonResponse<String> commonResponse = CommonResponse.<String>builder()
                 .header(commonHeader)
@@ -59,7 +59,7 @@ public class LikeController {
         return ResponseEntity.ok(commonResponse);
     }
 
-    @GetMapping("/likeCnt")
+    @GetMapping("/count")
     public ResponseEntity<CommonResponse<Long>> getLikeBook(@RequestParam(value = "bookId") @Valid Long bookId) {
         Long cnt = likeService.countLikesByBookId(bookId);
         CommonHeader commonHeader = CommonHeader.builder()
