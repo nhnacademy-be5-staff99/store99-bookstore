@@ -7,10 +7,12 @@ import com.nhnacademy.store99.bookstore.common.exception.MissingUserIdHeaderExce
 import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
+import java.util.Arrays;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -108,5 +110,22 @@ public class CommonRestControllerAdvice {
                 CommonHeader.builder().httpStatus(HttpStatus.UNAUTHORIZED).resultMessage(ex.getMessage()).build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    /**
+     * 요청시  필수 파라미터가 포함되지 않은 경우 Error 처리
+     *
+     * @param ex - UnsatisfiedServletRequestParameterException
+     * @return 400 BAD_REQUEST
+     */
+    @ExceptionHandler(value = {UnsatisfiedServletRequestParameterException.class})
+    public ResponseEntity<CommonResponse<Void>> parameterMissingExceptionHandler(
+            UnsatisfiedServletRequestParameterException ex) {
+        CommonHeader header = CommonHeader.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .resultMessage(String.format("요청에 필수 파라미터가 포함되지 않음 : %s", Arrays.toString(ex.getParamConditions())))
+                .build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }
