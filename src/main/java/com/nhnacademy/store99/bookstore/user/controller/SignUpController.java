@@ -57,6 +57,12 @@ public class SignUpController {
                 .body(commonResponse);
     }
 
+    /**
+     * 비밀번호 중복 체크 메소드
+     *
+     * @param passwordDto
+     * @return boolean
+     */
     @PostMapping("/duplicateCheck")
     public ResponseEntity<CommonResponse<String>> duplicateCheck(@Valid @RequestBody PasswordDto passwordDto) {
         String isDuplicate = signUpService.duplicateCheck(passwordDto.getPassword());
@@ -71,6 +77,13 @@ public class SignUpController {
         return ResponseEntity.ok(response);
     }
 
+
+    /**
+     * 이메일 인증 메소드
+     *
+     * @param emailDto
+     * @return String
+     */
     @PostMapping("/mailConfirm")
     public ResponseEntity<CommonResponse<String>> mailConfirm(@Valid @RequestBody EmailDto emailDto) {
         try {
@@ -85,7 +98,6 @@ public class SignUpController {
                     .build();
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            // 오류 발생 시 CommonHeader 및 CommonResponse 생성
             CommonHeader header = CommonHeader.builder()
                     .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
                     .resultMessage("Error occurred: " + e.getMessage())

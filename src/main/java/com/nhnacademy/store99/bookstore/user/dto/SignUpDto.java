@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-
+/**
+ * @author jinhyogyeom
+ */
 @Getter
 @Setter
 @RequiredArgsConstructor
