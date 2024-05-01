@@ -33,10 +33,12 @@ public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                                   final MediaType selectedContentType,
                                                   final Class selectedConverterType, final ServerHttpRequest request,
                                                   final ServerHttpResponse response) {
+      
         HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
         int statusCode = servletResponse.getStatus();
         CommonHeader commonHeader =
                 CommonHeader.builder().httpStatus(HttpStatus.valueOf(statusCode)).resultMessage("Success").build();
         return CommonResponse.builder().header(commonHeader).result(body).build();
+
     }
 }
