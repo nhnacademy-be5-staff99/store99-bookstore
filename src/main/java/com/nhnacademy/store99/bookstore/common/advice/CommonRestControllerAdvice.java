@@ -1,5 +1,7 @@
 package com.nhnacademy.store99.bookstore.common.advice;
 
+import com.nhnacademy.store99.bookstore.address.exception.AddressOverTenException;
+import com.nhnacademy.store99.bookstore.address.exception.DefaultAddressCanNotDeleteException;
 import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
 import com.nhnacademy.store99.bookstore.common.exception.AuthenticationException;
 import com.nhnacademy.store99.bookstore.common.exception.BadRequestException;
@@ -126,6 +128,39 @@ public class CommonRestControllerAdvice {
                 .resultMessage(String.format("요청에 필수 파라미터가 포함되지 않음 : %s", Arrays.toString(ex.getParamConditions())))
                 .build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    /**
+     * 주소의 개수가 10개 이상인데 더 추가하려고 하는 경우 Error 처리
+     *
+     * @param ex AddressOverTenException
+     * @return 400 BAD_REQUEST
+     */
+    @ExceptionHandler(value = {AddressOverTenException.class})
+    public ResponseEntity<CommonResponse<Void>> addressOverTenExceptionHandler(AddressOverTenException ex) {
+        CommonHeader header = CommonHeader.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .resultMessage(ex.getMessage())
+                .build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    /**
+     * 기본 주소를 삭제 시도 시 에러 처리
+     *
+     * @param ex DefaultAddressCanNotDeleteException
+     * @return 400 BAD_REQUEST
+     */
+    @ExceptionHandler(value = {DefaultAddressCanNotDeleteException.class})
+    public ResponseEntity<CommonResponse<Void>> defaultAddressCanNotDeleteExceptionHandler(
+            DefaultAddressCanNotDeleteException ex) {
+        CommonHeader header = CommonHeader.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .resultMessage(ex.getMessage())
+                .build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
