@@ -72,6 +72,7 @@ public class Book {
     @Column(name = "book_sale_price", nullable = false)
     private Integer bookSalePrice;
 
+    @Builder.Default
     @NotNull
     @Column(name = "book_is_packed", nullable = false)
     private Boolean bookIsPacked = false;

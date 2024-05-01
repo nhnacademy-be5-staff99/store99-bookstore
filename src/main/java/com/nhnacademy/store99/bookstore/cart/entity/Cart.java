@@ -46,6 +46,15 @@ public class Cart {
     private Book book;
 
     @NotNull
+    @Builder.Default
     @Column(name = "cart_is_checked", nullable = false)
     private Boolean cartIsChecked = false;
+
+    public void addCartAmount(Integer amount) {
+        this.cartAmount += amount;
+    }
+
+    public void modifyCartAmount(Integer amount) {
+        this.cartAmount = amount;
+    }
 }

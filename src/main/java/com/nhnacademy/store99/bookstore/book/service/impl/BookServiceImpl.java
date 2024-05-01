@@ -1,28 +1,34 @@
-package com.nhnacademy.store99.bookstore.book.service;
+package com.nhnacademy.store99.bookstore.book.service.impl;
 
-import com.nhnacademy.store99.bookstore.book.repository.impl.BookRepositoryImpl;
+import com.nhnacademy.store99.bookstore.book.dto.response.SimpleBookResponse;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.book_image.service.BookImageService;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 도서 서비스 구현체
- *
+ * @author seunggyu-kim
  * @author yrrho2
  */
 @Service
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookServiceInterface {
-    @Qualifier("bookRepositoryImpl")
-    final private BookRepositoryImpl bookRepositoryimpl;
+@Transactional(readOnly = true)
+public class BookServiceImpl implements BookService {
+    private final BookRepository bookRepository;
+    private final BookAuthorService bookAuthorService;
+    private final BookImageService bookImageService;
 
-    final private BookAuthorService bookAuthorService;
-    final private BookImageService bookImageService;
+    @Override
+    public List<SimpleBookResponse> getSimpleBooks(final Set<Long> bookIds) {
+        return bookRepository.findAllByIdInAndDeletedAtNull(bookIds);
+    }
 
     @Override
     public BookResponse getBookDataById(Long bookId) {
@@ -34,7 +40,7 @@ public class BookServiceImpl implements BookServiceInterface {
         BookImageDTO bookImageDTO = bookImageService.getBookImageData(bookId);
 
         // BookRequest 도서 기타 정보 받아오기
-        BookResponse bookRequest = bookRepositoryimpl.getBookDataById(bookId);
+        BookResponse bookRequest = bookRepository.getBookDataById(bookId);
 
         bookRequest.setBookId(bookId);
         bookRequest.setAuthorsDTOList(bookAuthorResponses);

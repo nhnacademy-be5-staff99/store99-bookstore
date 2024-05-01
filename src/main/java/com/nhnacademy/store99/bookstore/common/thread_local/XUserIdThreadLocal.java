@@ -1,5 +1,8 @@
 package com.nhnacademy.store99.bookstore.common.thread_local;
 
+import com.nhnacademy.store99.bookstore.common.exception.AuthenticationException;
+import java.util.Objects;
+
 /**
  * 유저 번호인 X_USER_ID를 ThreadLocal로 관리하는 클래스
  *
@@ -13,7 +16,11 @@ public class XUserIdThreadLocal {
     }
 
     public static Long getXUserId() {
-        return X_USER_ID.get();
+        Long userId = X_USER_ID.get();
+        if (Objects.isNull(userId)) {
+            throw new AuthenticationException("X-USER-ID가 존재하지 않습니다.");
+        }
+        return userId;
     }
 
     public static void setXUserId(Long xUserId) {
