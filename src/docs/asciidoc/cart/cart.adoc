@@ -1,0 +1,23 @@
+= 장바구니 API
+
+== 장바구니 추가
+
+=== 성공
+
+==== 장바구니 책 추가 성공
+
+operation::cart-controller-test/add-book-to-cart-successfully[snippets="curl-request,http-request,http-response"]
+
+=== 실패
+
+=== 장바구니 책 추가 실패 - 없는 책 아이디
+
+operation::cart-controller-test/add-book-to-cart-failure[snippets="curl-request,http-request,http-response"]
+
+== 장바구니 조회
+
+=== 성공
+
+==== 사용자의 장바구니 아이템 조회 성공
+
+operation::cart-controller-test/get-cart-items-by-user-successfully[snippets="curl-request,http-request,http-response"]

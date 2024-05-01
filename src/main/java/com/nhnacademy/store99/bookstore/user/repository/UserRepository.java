@@ -11,5 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Ahyeon Song
  */
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
+    boolean existsByIdAndAuth_AuthName(Long userId, String authName);
 
 }

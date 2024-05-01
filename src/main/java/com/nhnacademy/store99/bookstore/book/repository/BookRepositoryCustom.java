@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book.repository;
 
-import com.nhnacademy.store99.bookstore.book.response.BookRequest;
+import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface BookRepositoryCustom {
-    BookRequest getBookDataById(Long bookId);
+    BookResponse getBookDataById(Long bookId);
 }
