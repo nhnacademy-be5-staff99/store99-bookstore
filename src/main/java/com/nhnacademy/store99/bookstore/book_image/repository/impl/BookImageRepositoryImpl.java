@@ -7,7 +7,6 @@ import com.nhnacademy.store99.bookstore.book_image.repository.BookImageRepositor
 import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.file.entity.QFile;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Component;
 
@@ -28,21 +27,11 @@ public class BookImageRepositoryImpl extends QuerydslRepositorySupport implement
         QBook book = QBook.book;
         QBookImage bookImage = QBookImage.bookImage;
         QFile file = QFile.file;
-
-        JPQLQuery<BookImageDTO> bookImageDTOJPQLQuery = from(bookImage)
-                .where(bookImage.book.id.eq(bookId))
-                .where(bookImage.files.id.eq(file.id))
-                .select(Projections.constructor(BookImageDTO.class,
-                        bookImage.files.id,
-                        bookImage.files.fileUrl,
-                        bookImage.files.fileName
-                ));
-        BookImageDTO bookImageDTO = from(bookImage).join(bookImage.files, file).join(bookImage.book, book)
+        return from(bookImage).join(bookImage.files, file).join(bookImage.book, book)
                 .where(bookImage.book.id.eq(bookId)).select(Projections.constructor(BookImageDTO.class,
                         bookImage.files.id,
                         bookImage.files.fileUrl,
                         bookImage.files.fileName
                 )).fetchFirst();
-        return bookImageDTO;
     }
 }

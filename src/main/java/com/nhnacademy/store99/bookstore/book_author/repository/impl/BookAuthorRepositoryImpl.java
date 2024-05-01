@@ -3,10 +3,10 @@ package com.nhnacademy.store99.bookstore.book_author.repository.impl;
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
+import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
-import com.nhnacademy.store99.bookstore.book_author.response.BookAuthorResponse;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
@@ -86,12 +86,12 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         }).collect(Collectors.toList());
 
 
-        long fetchCount = getQuerydsl().applyPagination(pageable, bookQuery).fetchCount();
+        long fetchCount = bookQuery.fetchCount();
         return new PageImpl<>(bookResponse, pageable, fetchCount);
     }
 
     @Override
-    public List<BookAuthorResponse> getAuthorsById(Long bookId) {
+    public List<BookResponse.AuthorDTO> getAuthorsById(Long bookId) {
         QBook book = QBook.book;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
         QAuthor author = QAuthor.author;
@@ -112,7 +112,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                 .leftJoin(bookAuthor.book, book)
                 .leftJoin(bookAuthor.author, author)
                 .select(
-                        Projections.constructor(BookAuthorResponse.class,
+                        Projections.constructor(BookResponse.AuthorDTO.class,
                                 author.authorName,
                                 author.authorType
                         )

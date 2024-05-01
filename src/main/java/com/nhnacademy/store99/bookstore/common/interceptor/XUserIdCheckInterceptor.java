@@ -6,7 +6,6 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 public class XUserIdCheckInterceptor implements HandlerInterceptor {
     @Override
@@ -21,8 +20,9 @@ public class XUserIdCheckInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
-                           final ModelAndView modelAndView) throws Exception {
+    public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response,
+                                final Object handler, final Exception ex)
+            throws Exception {
         XUserIdThreadLocal.reset();
     }
 }
