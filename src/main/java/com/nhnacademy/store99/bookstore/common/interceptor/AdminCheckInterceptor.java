@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 관리자 권한을 검사하는 인터셉터
@@ -23,18 +22,9 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
             throws Exception {
-        String xUserIdHeader = request.getHeader("X-USER-ID");
-        if (xUserIdHeader.isEmpty() || Boolean.FALSE.equals(adminCheckService.isAdmin(Long.parseLong(xUserIdHeader)))) {
+        if (Boolean.FALSE.equals(adminCheckService.isAdmin(XUserIdThreadLocal.getXUserId()))) {
             throw new AdminPermissionDeniedException();
         }
-
-        XUserIdThreadLocal.setXUserId(Long.parseLong(xUserIdHeader));
         return true;
-    }
-
-    @Override
-    public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler,
-                           final ModelAndView modelAndView) throws Exception {
-        XUserIdThreadLocal.reset();
     }
 }

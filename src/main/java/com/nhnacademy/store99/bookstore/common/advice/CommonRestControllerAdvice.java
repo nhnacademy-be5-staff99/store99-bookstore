@@ -1,13 +1,18 @@
 package com.nhnacademy.store99.bookstore.common.advice;
 
 import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
+import com.nhnacademy.store99.bookstore.common.exception.AuthenticationException;
+import com.nhnacademy.store99.bookstore.common.exception.BadRequestException;
+import com.nhnacademy.store99.bookstore.common.exception.MissingUserIdHeaderException;
 import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
+import java.util.Arrays;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -77,10 +82,50 @@ public class CommonRestControllerAdvice {
      * @return 403 FORBIDDEN
      */
     @ExceptionHandler(value = {AdminPermissionDeniedException.class})
-    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(AdminPermissionDeniedException ex) {
-        CommonHeader header = CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
+    public ResponseEntity<CommonResponse<Void>> adminPermissionDeniedExceptionHandler(
+            AdminPermissionDeniedException ex) {
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.FORBIDDEN).resultMessage("관리자 권한 없음").build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
+    /**
+     * UserId Header가 없는 경우, BadRequestException Handler
+     *
+     * @param ex MissingUserIdHeaderException, BadRequestException
+     * @return 400 BAD_REQUEST
+     */
+    @ExceptionHandler(value = {MissingUserIdHeaderException.class, BadRequestException.class})
+    public ResponseEntity<CommonResponse<Void>> missingUserIdHeaderExceptionHandler(Exception ex) {
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.BAD_REQUEST).resultMessage(ex.getMessage()).build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<CommonResponse<Void>> authenticationExceptionHandler(AuthenticationException ex) {
+        CommonHeader header =
+                CommonHeader.builder().httpStatus(HttpStatus.UNAUTHORIZED).resultMessage(ex.getMessage()).build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    /**
+     * 요청시  필수 파라미터가 포함되지 않은 경우 Error 처리
+     *
+     * @param ex - UnsatisfiedServletRequestParameterException
+     * @return 400 BAD_REQUEST
+     */
+    @ExceptionHandler(value = {UnsatisfiedServletRequestParameterException.class})
+    public ResponseEntity<CommonResponse<Void>> parameterMissingExceptionHandler(
+            UnsatisfiedServletRequestParameterException ex) {
+        CommonHeader header = CommonHeader.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .resultMessage(String.format("요청에 필수 파라미터가 포함되지 않음 : %s", Arrays.toString(ex.getParamConditions())))
+                .build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
 }

@@ -9,4 +9,8 @@ include::admin-check.adoc[]
 
 include::login.adoc[]
 
-include::category/add-category.adoc[]
+include::category/admin-category.adoc[]
+
+include::category/category.adoc[]
+
+include::basic-search.adoc[]
