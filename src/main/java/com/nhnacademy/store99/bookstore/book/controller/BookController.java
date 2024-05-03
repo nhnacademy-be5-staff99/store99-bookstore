@@ -43,4 +43,12 @@ public class BookController {
         return bookCategoryService.getBooksByCategory(categoryId);
     }
 
+    @GetMapping("/c/all/{categoryId}")
+    public Page<BookResponse> getBooksByCa(@PathVariable("categoryId") Long categoryId, Pageable pageable) {
+
+        return bookCategoryService.getBooksByCategories(
+                bookCategoryService.getBooksByCategory(categoryId),
+                pageable
+        );
+    }
 }
