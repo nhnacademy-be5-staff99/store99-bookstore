@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface AddressRepository extends JpaRepository<Address, Long>, AddressRepositoryCustom {
     Integer countAllByUser_Id(Long userId);
+
     Optional<Address> findById(Long addressId);
+
     void deleteById(Long addressId);
 }
