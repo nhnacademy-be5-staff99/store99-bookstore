@@ -36,7 +36,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Page<BookTransDTO> findBooksByIdGreaterThan(Long id, Pageable pageable) {
+    public Page<BookTransDTO> findBooks(Pageable pageable) {
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
@@ -95,16 +95,6 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         QBook book = QBook.book;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
         QAuthor author = QAuthor.author;
-
-        List<BookTransDTO.AuthorDTO> authorDTOList = from(bookAuthor)
-                .where(bookAuthor.book.id.in(bookId))
-                .join(bookAuthor.author, author)
-                .select(
-                        Projections.constructor(BookTransDTO.AuthorDTO.class,
-                                author.authorName, author.authorType)
-                ).fetch();
-
-
         return from(bookAuthor)
                 .where(bookAuthor.book.id.eq(bookId))
                 .where(bookAuthor.book.id.eq(book.id))
