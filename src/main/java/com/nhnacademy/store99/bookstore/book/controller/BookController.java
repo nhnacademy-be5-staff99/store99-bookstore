@@ -4,6 +4,9 @@ import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
+import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
+import com.nhnacademy.store99.bookstore.book_category.service.BookCategoryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     final private BookService bookService;
     final private BookAuthorService bookAuthorService;
+    final private BookCategoryService bookCategoryService;
 
     @GetMapping("")
     public Page<BookTransDTO> getBooksFinal(Pageable pageable) {
@@ -32,6 +36,11 @@ public class BookController {
     @GetMapping("/{bookId}")
     public BookResponse getBook(@PathVariable("bookId") Long bookId) {
         return bookService.getBookDataById(bookId);
+    }
+
+    @GetMapping("/c/{categoryId}")
+    public List<BookCategoryResponse> getCB(@PathVariable("categoryId") Long categoryId) {
+        return bookCategoryService.getBooksByCategory(categoryId);
     }
 
 }

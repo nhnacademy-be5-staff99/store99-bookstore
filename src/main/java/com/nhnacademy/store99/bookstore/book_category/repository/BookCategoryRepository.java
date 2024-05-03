@@ -4,5 +4,5 @@ import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryRespo
 import java.util.List;
 
 public interface BookCategoryRepository {
-    List<BookCategoryResponse> getBooksByCategory(Long categoryId);
+    List<BookCategoryResponse> getCategoriesByParentsId(Long categoryId);
 }
