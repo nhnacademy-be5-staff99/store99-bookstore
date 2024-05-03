@@ -6,6 +6,8 @@ import com.nhnacademy.store99.bookstore.common.interceptor.XUserIdCheckIntercept
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,5 +32,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1);
         registry.addInterceptor(adminCheckInterceptor()).addPathPatterns("/admin/**")
                 .order(2);
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer
+                .favorPathExtension(true)  // 파일 확장자 기반의 콘텐츠 네고시에이션 사용
+                .ignoreUnknownPathExtensions(false)  // 알 수 없는 파일 확장자는 거부
+                .defaultContentType(MediaType.APPLICATION_JSON)  // 기본 컨텐츠 타입 설정
+                .mediaType("svg", MediaType.parseMediaType("image/svg+xml")); // SVG 확장자에 대한 MIME 타입 설정
     }
 }
