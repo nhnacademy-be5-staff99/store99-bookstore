@@ -3,6 +3,7 @@ package com.nhnacademy.store99.bookstore.book_category.repository.Impl;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
 import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
+import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
 import com.querydsl.core.types.Projections;
 import java.util.ArrayList;
@@ -29,18 +30,18 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         카테고리의 모든 column이 필요함.
      */
     @Override
-    public List<BookCategoryResponse> getCategoriesByParentsId(Long categoryId) {
+    public List<CategoryParentsDTO> getCategoriesByParentsId(Long categoryId) {
         QCategory category = QCategory.category;
-        List<BookCategoryResponse> categoryList;
-        List<BookCategoryResponse> parentsList = new ArrayList<>();
+        List<CategoryParentsDTO> categoryList;
+        List<CategoryParentsDTO> parentsList = new ArrayList<>();
 
         // 발생하는 오류 원인. 엔티티에서는 부모가 category인데, 내가 부모를 id로만 받으려고 해서 그럼.
         // 받는 방법을 바꾸면 될듯
 
         // 1
-        List<BookCategoryResponse> returnList = new ArrayList<>(from(category).where(category.id.eq(categoryId)).select(
+        List<CategoryParentsDTO> returnList = new ArrayList<>(from(category).where(category.id.eq(categoryId)).select(
                 Projections.constructor(
-                        BookCategoryResponse.class,
+                        CategoryParentsDTO.class,
                         category.id.as("categoryId"),
                         category.categoryName.as("categoryName"),
                         category.categoryDepth.as("categoryDepth"),
@@ -53,7 +54,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         categoryList =
                 from(category).where(category.parentCategory.id.eq(tempCategoryId))
                         .select(Projections.constructor(
-                                BookCategoryResponse.class,
+                                CategoryParentsDTO.class,
                                 category.id.as("categoryId"),
                                 category.categoryName.as("categoryName"),
                                 category.categoryDepth.as("categoryDepth"),
@@ -63,10 +64,10 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
 
 
             // 3
-            for (BookCategoryResponse bct : categoryList) {
+            for (CategoryParentsDTO bct : categoryList) {
                 returnList.addAll(
                         from(category).where(category.id.eq(bct.getCategoryId()))
-                                .select(Projections.constructor(BookCategoryResponse.class,
+                                .select(Projections.constructor(CategoryParentsDTO.class,
                                         category.id.as("categoryId"),
                                         category.categoryName.as("categoryName"),
                                         category.categoryDepth.as("categoryDepth"),
@@ -77,10 +78,10 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
             }
 
             // 4
-            for (BookCategoryResponse bct : categoryList) {
+            for (CategoryParentsDTO bct : categoryList) {
                 parentsList.addAll(
                         from(category).where(category.parentCategory.id.eq(bct.getCategoryId()))
-                                .select(Projections.constructor(BookCategoryResponse.class,
+                                .select(Projections.constructor(CategoryParentsDTO.class,
                                         category.id.as("categoryId"),
                                         category.categoryName.as("categoryName"),
                                         category.categoryDepth.as("categoryDepth"),
@@ -104,5 +105,10 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         } while (true);
         // 파라미터로 받은 id를 가진, 부모로 가진 태그들이 반환된다.
         return returnList;
+    }
+
+    @Override
+    public List<BookCategoryResponse> getBooksByCategories() {
+        return null;
     }
 }

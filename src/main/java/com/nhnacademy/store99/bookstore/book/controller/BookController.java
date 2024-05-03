@@ -4,7 +4,7 @@ import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
-import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
+import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.service.BookCategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class BookController {
     }
 
     @GetMapping("/c/{categoryId}")
-    public List<BookCategoryResponse> getCB(@PathVariable("categoryId") Long categoryId) {
+    public List<CategoryParentsDTO> getCB(@PathVariable("categoryId") Long categoryId) {
         return bookCategoryService.getBooksByCategory(categoryId);
     }
 
