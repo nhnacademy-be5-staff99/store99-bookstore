@@ -4,15 +4,23 @@ import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
+import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
 import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
+import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
+import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
+import com.nhnacademy.store99.bookstore.file.entity.QFile;
+import com.querydsl.core.group.Group;
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -120,19 +128,21 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
     public Page<BookResponse> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable) {
         QBookCategory bookCategory = QBookCategory.bookCategory;
         QBook book = QBook.book;
-        QCategory category = QCategory.category;
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-        List<BookResponse> bookJPQLs = new ArrayList<>();
+        QBookImage bookImage = QBookImage.bookImage;
+        QFile file = QFile.file;
+        List<BookResponse> bookResponses = new ArrayList<>();
 
         // 가능하면 jpql 이친구를 union같이 합쳐서 paging을 적용하고싶은데
         // JPQL은 union이 없다고함...
         // 밑의 반복문은 요구된 카테고리와 그 자식들을 가지는 모든 BookResponse객체를 반환함.
         for (CategoryParentsDTO CPDTO : parentsDTOList) {
-            bookJPQLs.addAll(from(bookCategory).
+            bookResponses.addAll(from(bookCategory).
                     where(bookCategory.id.eq(CPDTO.getCategoryId())).
                     where(bookCategory.book.id.eq(book.id)).
                     select(Projections.bean(BookResponse.class,
+                            book.id.as("bookId"),
                             book.bookIsbn13,
                             book.bookIsbn10,
                             book.bookTitle,
@@ -151,9 +161,37 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                             book.updatedAt
                     )).distinct().fetch());
         }
-        // 일단 도서들이 어떻게 나오는지 확인해봐야함.
-        // 만약 List로도 페이징을 할수있으면 그걸로 추진해보자.
-        return new PageImpl<>(bookJPQLs, pageable, 0);
+        List<Long> bookIds = bookResponses.stream().map(BookResponse::getBookId).collect(Collectors.toList());
+
+
+        Map<Long, List<BookTransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
+                .where(bookAuthor.book.id.in(bookIds))
+                .join(bookAuthor.author, author)
+                .transform(GroupBy.groupBy(bookAuthor.book.id)
+                        .as(GroupBy.list(
+                                        Projections.constructor(BookTransDTO.AuthorDTO.class,
+                                                author.authorName, author.authorType)
+                                )
+                        )
+                );
+        Map<Long, Group> imageMap = from(bookImage)
+                .where(bookImage.book.id.in(bookIds))
+                .join(bookImage.files, file)
+                .transform(GroupBy.groupBy(bookImage.id)
+                        .as(bookImage.book.id, Projections.constructor(
+                                BookImageDTO.class,
+                                file.id,
+                                file.fileUrl,
+                                file.fileName
+                        )));
+
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), bookResponses.size());
+        // 도서들 잘 나오는거같음. 나중에 한번 더 확실하게 확인해보고. 일단 괜찮아보임
+        // 그리고 이미지랑 작가들도 잘 나오니까 도서들마다 잘 붙여줘서 페이징 하면 완성될거같음
+
+        return new PageImpl<>(bookResponses.subList((int) pageable.getOffset(), end), pageable, bookResponses.size());
     }
 
     @Override
