@@ -2,15 +2,13 @@ package com.nhnacademy.store99.bookstore.book_category.repository.Impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
+import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
 import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
-import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
-import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
 import com.nhnacademy.store99.bookstore.file.entity.QFile;
 import com.querydsl.core.group.GroupBy;
@@ -123,14 +121,13 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
     // 도서 하나에 카테고리 하나.
     // 카테고리 하나에 여러 도서니까 이 결과에서 중복되는 값은 없을것.
     @Override
-    public Page<BookResponse> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable) {
+    public Page<BookTransDTO> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable) {
         QBookCategory bookCategory = QBookCategory.bookCategory;
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-        QBookImage bookImage = QBookImage.bookImage;
         QFile file = QFile.file;
-        List<BookResponse> bookResponsesDtoVar = new ArrayList<>();
+        List<BookTransDTO> bookResponsesDtoVar = new ArrayList<>();
 
         // 가능하면 jpql 이친구를 union같이 합쳐서 paging을 적용하고싶은데
         // JPQL은 union이 없다고함...
@@ -139,7 +136,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
             bookResponsesDtoVar.addAll(from(bookCategory).
                     where(bookCategory.id.eq(CPDTO.getCategoryId())).
                     where(bookCategory.book.id.eq(book.id)).
-                    select(Projections.bean(BookResponse.class,
+                    select(Projections.bean(BookTransDTO.class,
                             book.id.as("bookId"),
                             book.bookIsbn13,
                             book.bookIsbn10,
@@ -154,55 +151,44 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                             book.bookThumbnailUrl,
                             book.bookStock,
                             book.bookCntOfReview,
-                            book.bookAvgOfRate
+                            book.bookAvgOfRate,
+                            book.createdAt,
+                            book.updatedAt
                     )).distinct().fetch());
         }
-        List<Long> bookIds = bookResponsesDtoVar.stream().map(BookResponse::getBookId).collect(Collectors.toList());
+        List<Long> bookIds = bookResponsesDtoVar.stream().map(BookTransDTO::getBookId).collect(Collectors.toList());
 
 
-        Map<Long, List<BookResponse.AuthorDTO>> authorsMap = from(bookAuthor)
+        Map<Long, List<BookTransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
                 .where(bookAuthor.book.id.in(bookIds))
                 .join(bookAuthor.author, author)
                 .transform(GroupBy.groupBy(bookAuthor.book.id)
                         .as(GroupBy.list(
-                                        Projections.constructor(BookResponse.AuthorDTO.class,
+                                        Projections.constructor(BookTransDTO.AuthorDTO.class,
                                                 author.authorName, author.authorType)
                                 )
                         )
                 );
 
-        Map<Long, List<BookImageDTO>> imageMap = from(bookImage)
-                .where(bookImage.book.id.in(bookIds))
-                .join(bookImage.files, file)
-                .transform(GroupBy.groupBy(bookImage.id)
-                        .as(GroupBy.list(Projections.constructor(
-                                BookImageDTO.class,
-                                file.id,
-                                file.fileUrl,
-                                file.fileName
-                        ))));
 
-        List<BookResponse> bookResponses = bookResponsesDtoVar.stream().map(b ->
+        List<BookTransDTO> bookResponses = bookResponsesDtoVar.stream().map(b ->
                 {
-                    BookResponse br = new BookResponse();
-                    br.setBookId(b.getBookId());
-                    br.setBookIsbn13(b.getBookIsbn13());
-                    br.setBookIsbn10(b.getBookIsbn10());
-                    br.setBookTitle(b.getBookTitle());
-                    br.setBookContents(b.getBookContents());
-                    br.setBookDescription(b.getBookDescription());
-                    br.setBookPublisher(b.getBookPublisher());
-                    br.setBookDate(b.getBookDate());
-                    br.setBookPrice(b.getBookPrice());
-                    br.setBookSalePrice(b.getBookSalePrice());
-                    br.setBookIsPacked(b.getBookIsPacked());
-                    br.setBookStock(b.getBookStock());
-                    br.setBookCntOfReview(b.getBookCntOfReview());
-                    br.setBookAvgOfRate(b.getBookAvgOfRate());
-                    br.setBookImageURL(imageMap.get(b.getBookId()).get(0).getBookImageURL());
-                    br.setBookImageName(imageMap.get(b.getBookId()).get(0).getBookImageName());
-                    br.setAuthorsDTOList(authorsMap.get(b.getBookId()));
-                    return br;
+                    return BookTransDTO.builder()
+                            .BookId(b.getBookId())
+                            .BookIsbn13(b.getBookIsbn13())
+                            .BookIsbn10(b.getBookIsbn10())
+                            .BookTitle(b.getBookTitle())
+                            .BookContents(b.getBookContents())
+                            .BookPublisher(b.getBookPublisher())
+                            .BookDate(b.getBookDate())
+                            .BookPrice(b.getBookPrice())
+                            .BookSalePrice(b.getBookSalePrice())
+                            .BookIsPacked(b.getBookIsPacked())
+                            .BookThumbnailUrl(b.getBookThumbnailUrl()).BookStock(b.getBookStock())
+                            .BookCntOfReview(b.getBookCntOfReview()).BookAvgOfRate(b.getBookAvgOfRate())
+                            .CreatedAt(b.getCreatedAt()).UpdatedAt(b.getUpdatedAt())
+                            .authorsDTOList(authorsMap.get(b.getBookId()))
+                            .build();
                 }
         ).collect(Collectors.toList());
 
