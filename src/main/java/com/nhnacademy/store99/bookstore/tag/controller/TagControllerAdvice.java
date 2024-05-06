@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * 태그 에러 핸들러
+ *
+ * @Author rosin23
+ */
+
 @Slf4j
 @RestControllerAdvice(annotations = RestController.class)
 public class TagControllerAdvice extends ResponseEntityExceptionHandler {

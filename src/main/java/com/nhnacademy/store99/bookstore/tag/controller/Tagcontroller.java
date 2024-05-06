@@ -21,6 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 태그 REST 컨트롤러
+ *
+ * @Author rosin23
+ */
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
