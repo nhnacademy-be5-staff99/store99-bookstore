@@ -4,7 +4,6 @@ import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
@@ -14,7 +13,6 @@ import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
 import com.nhnacademy.store99.bookstore.file.entity.QFile;
-import com.querydsl.core.group.Group;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import java.util.ArrayList;
@@ -132,13 +130,13 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
         QBookImage bookImage = QBookImage.bookImage;
         QFile file = QFile.file;
-        List<BookResponse> bookResponses = new ArrayList<>();
+        List<BookResponse> bookResponsesDtoVar = new ArrayList<>();
 
         // 가능하면 jpql 이친구를 union같이 합쳐서 paging을 적용하고싶은데
         // JPQL은 union이 없다고함...
         // 밑의 반복문은 요구된 카테고리와 그 자식들을 가지는 모든 BookResponse객체를 반환함.
         for (CategoryParentsDTO CPDTO : parentsDTOList) {
-            bookResponses.addAll(from(bookCategory).
+            bookResponsesDtoVar.addAll(from(bookCategory).
                     where(bookCategory.id.eq(CPDTO.getCategoryId())).
                     where(bookCategory.book.id.eq(book.id)).
                     select(Projections.bean(BookResponse.class,
@@ -156,35 +154,57 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                             book.bookThumbnailUrl,
                             book.bookStock,
                             book.bookCntOfReview,
-                            book.bookAvgOfRate,
-                            book.createdAt,
-                            book.updatedAt
+                            book.bookAvgOfRate
                     )).distinct().fetch());
         }
-        List<Long> bookIds = bookResponses.stream().map(BookResponse::getBookId).collect(Collectors.toList());
+        List<Long> bookIds = bookResponsesDtoVar.stream().map(BookResponse::getBookId).collect(Collectors.toList());
 
 
-        Map<Long, List<BookTransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
+        Map<Long, List<BookResponse.AuthorDTO>> authorsMap = from(bookAuthor)
                 .where(bookAuthor.book.id.in(bookIds))
                 .join(bookAuthor.author, author)
                 .transform(GroupBy.groupBy(bookAuthor.book.id)
                         .as(GroupBy.list(
-                                        Projections.constructor(BookTransDTO.AuthorDTO.class,
+                                        Projections.constructor(BookResponse.AuthorDTO.class,
                                                 author.authorName, author.authorType)
                                 )
                         )
                 );
-        Map<Long, Group> imageMap = from(bookImage)
+
+        Map<Long, List<BookImageDTO>> imageMap = from(bookImage)
                 .where(bookImage.book.id.in(bookIds))
                 .join(bookImage.files, file)
                 .transform(GroupBy.groupBy(bookImage.id)
-                        .as(bookImage.book.id, Projections.constructor(
+                        .as(GroupBy.list(Projections.constructor(
                                 BookImageDTO.class,
                                 file.id,
                                 file.fileUrl,
                                 file.fileName
-                        )));
+                        ))));
 
+        List<BookResponse> bookResponses = bookResponsesDtoVar.stream().map(b ->
+                {
+                    BookResponse br = new BookResponse();
+                    br.setBookId(b.getBookId());
+                    br.setBookIsbn13(b.getBookIsbn13());
+                    br.setBookIsbn10(b.getBookIsbn10());
+                    br.setBookTitle(b.getBookTitle());
+                    br.setBookContents(b.getBookContents());
+                    br.setBookDescription(b.getBookDescription());
+                    br.setBookPublisher(b.getBookPublisher());
+                    br.setBookDate(b.getBookDate());
+                    br.setBookPrice(b.getBookPrice());
+                    br.setBookSalePrice(b.getBookSalePrice());
+                    br.setBookIsPacked(b.getBookIsPacked());
+                    br.setBookStock(b.getBookStock());
+                    br.setBookCntOfReview(b.getBookCntOfReview());
+                    br.setBookAvgOfRate(b.getBookAvgOfRate());
+                    br.setBookImageURL(imageMap.get(b.getBookId()).get(0).getBookImageURL());
+                    br.setBookImageName(imageMap.get(b.getBookId()).get(0).getBookImageName());
+                    br.setAuthorsDTOList(authorsMap.get(b.getBookId()));
+                    return br;
+                }
+        ).collect(Collectors.toList());
 
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), bookResponses.size());
