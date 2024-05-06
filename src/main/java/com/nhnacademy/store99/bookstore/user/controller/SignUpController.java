@@ -3,7 +3,6 @@ package com.nhnacademy.store99.bookstore.user.controller;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.user.dto.EmailDto;
-import com.nhnacademy.store99.bookstore.user.dto.PasswordDto;
 import com.nhnacademy.store99.bookstore.user.dto.SignUpDto;
 import com.nhnacademy.store99.bookstore.user.service.MailService;
 import com.nhnacademy.store99.bookstore.user.service.SignUpService;
@@ -58,27 +57,6 @@ public class SignUpController {
     }
 
     /**
-     * 비밀번호 중복 체크 메소드
-     *
-     * @param passwordDto
-     * @return boolean
-     */
-    @PostMapping("/duplicateCheck")
-    public ResponseEntity<CommonResponse<String>> duplicateCheck(@Valid @RequestBody PasswordDto passwordDto) {
-        String isDuplicate = signUpService.duplicateCheck(passwordDto.getPassword());
-        CommonHeader commonHeader = CommonHeader.builder()
-                .httpStatus(HttpStatus.OK)
-                .resultMessage("Success")
-                .build();
-        CommonResponse<String> response = CommonResponse.<String>builder()
-                .header(commonHeader)
-                .result(isDuplicate)
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-
-    /**
      * 이메일 인증 메소드
      *
      * @param emailDto
@@ -86,6 +64,17 @@ public class SignUpController {
      */
     @PostMapping("/mailConfirm")
     public ResponseEntity<CommonResponse<String>> mailConfirm(@Valid @RequestBody EmailDto emailDto) {
+        if (signUpService.duplicateCheck(emailDto.getEmail()).equals("true")) {
+            CommonHeader header = CommonHeader.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .resultMessage("Email Duplicate")
+                    .build();
+            CommonResponse<String> response = CommonResponse.<String>builder()
+                    .header(header)
+                    .result("duplicateEmail")
+                    .build();
+            return ResponseEntity.ok(response);
+        }
         try {
             String code = mailService.sendSimpleMessage(emailDto.getEmail());
             CommonHeader header = CommonHeader.builder()

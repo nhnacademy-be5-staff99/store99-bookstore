@@ -45,16 +45,14 @@ public class SignUpService {
     /**
      * 실제 Db의 password값과 비교해서 password 중복 체크하는 메소드
      *
-     * @param password
+     * @param email
      * @return boolean
      */
-    public String duplicateCheck(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(password);
-        if (consumerRepository.existsByConsumerPassword(hashedPassword)) {
-            return "false";
-        } else {
+    public String duplicateCheck(String email) {
+        if (consumerRepository.existsByConsumerEmail(email)) {
             return "true";
+        } else {
+            return "false";
         }
     }
 
