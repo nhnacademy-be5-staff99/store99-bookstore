@@ -20,8 +20,8 @@ public class MailConfig {
 
         javaMailSender.setHost("smtp.gmail.com");
 
-        javaMailSender.setUsername(googleId); // 네이버 아이디
-        javaMailSender.setPassword(googlePassword); // 네이버 비밀번호
+        javaMailSender.setUsername(googleId);
+        javaMailSender.setPassword(googlePassword);
 
         javaMailSender.setPort(465); // 메일 인증서버 포트
 
@@ -36,7 +36,7 @@ public class MailConfig {
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.starttls.enable", "true");
         properties.setProperty("mail.debug", "true");
-        properties.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com"); // ssl 인증 서버는 smtp.naver.com
+        properties.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
         properties.setProperty("mail.smtp.ssl.enable", "true");
         properties.setProperty("mail.username", googleId);
         properties.setProperty("mail.password", googlePassword);
