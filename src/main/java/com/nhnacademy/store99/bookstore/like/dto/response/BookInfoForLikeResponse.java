@@ -1,8 +1,11 @@
 package com.nhnacademy.store99.bookstore.like.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Data
@@ -31,4 +34,16 @@ public class BookInfoForLikeResponse {
 //        this.authorDTOList = authorDTOList;
     }
 
+    @Getter
+    @Setter
+    @Builder
+    public static class AuthorDTO {
+        private String authorName;
+        private String authorType;
+
+        public AuthorDTO(String authorName, String authorType) {
+            this.authorName = authorName;
+            this.authorType = authorType;
+        }
+    }
 }
