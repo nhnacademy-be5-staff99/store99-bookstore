@@ -19,13 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
     private final JavaMailSender emailsender;
+    private String ePw;
 
     @Autowired
     public MailService(JavaMailSender emailsender) {
         this.emailsender = emailsender;
     }
-
-    private String ePw;
 
     /**
      * 실제 발송하는 이메일 내용
@@ -69,10 +68,10 @@ public class MailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    key.append((char) (rnd.nextInt(26) + 97));
                     break;
                 case 1:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    key.append((char) (rnd.nextInt(26) + 65));
                     break;
                 case 2:
                     key.append((rnd.nextInt(10)));
