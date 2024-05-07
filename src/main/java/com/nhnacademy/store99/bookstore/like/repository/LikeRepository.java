@@ -3,7 +3,7 @@ package com.nhnacademy.store99.bookstore.like.repository;
 import com.nhnacademy.store99.bookstore.like.entity.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LikeRepository extends JpaRepository<Like, Long> {
+public interface LikeRepository extends JpaRepository<Like, Long>, LikeRepositoryCustom {
 
     /**
      * 좋아요 내역이 있는 지 검사하는 메소드 입니다.
@@ -24,15 +24,4 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
      */
     Long countLikesByBookId(Long bookId);
 
-    /**
-     * 회원이 누른 좋아요 목록을 조회하는 메소드입니다.
-     *
-     * @author 이서연
-     *
-     * @param userId
-     * @param pageable
-     *
-     * @return
-     */
-//    Page<BookInfoDto> findAllByUserId(Long userId, Pageable pageable);
 }
