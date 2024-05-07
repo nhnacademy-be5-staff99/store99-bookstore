@@ -1,6 +1,7 @@
 package com.nhnacademy.store99.bookstore.tag.dto.request;
 
-import com.nhnacademy.store99.bookstore.tag.entity.Tag;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 태그 생성요청 DTO
  *
- * @Author rosin23
+ * @author  rosin23
  */
 
 @Getter
@@ -18,5 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CreateTagRequest {
 
+    @NotBlank
+    @Size(min = 1, max = 255)
     private String tagName;
 }

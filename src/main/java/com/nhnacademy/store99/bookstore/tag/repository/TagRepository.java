@@ -11,6 +11,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 public interface TagRepository extends JpaRepository<Tag, Long>, QuerydslPredicateExecutor<Tag> {
 
     List<Tag> findTagsByTagName(TagResponse response);
-    Tag findById(TagResponse response);
     Boolean existsTagByTagName(String tagName);
 }

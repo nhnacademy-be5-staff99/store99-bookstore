@@ -10,14 +10,14 @@ import java.util.List;
 /**
  * 태그 서비스 인터페이스
  *
- * @Author rosin23
+ * @author rosin23
  */
 
 public interface TagService  {
     TagResponse createTag(CreateTagRequest request);
     List<TagResponse> findAllTags();
-//    TagResponse findTagById(Long id);
+    //TagResponse findTagById(Long id);
     Boolean existsByTagName(String tagName);
     TagResponse updateTag(Long id, ModifyTagRequest request);
-    void detleteTag(Long id);
+    void deleteTag(Long id);
 }

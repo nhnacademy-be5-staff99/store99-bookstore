@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 태그 REST 컨트롤러
  *
- * @Author rosin23
+ * @author  rosin23
  */
 
 @Slf4j
@@ -37,8 +37,6 @@ public class Tagcontroller {
 
     @PostMapping
     public ResponseEntity<CommonResponse<TagResponse>> createTag(@Valid @RequestBody CreateTagRequest request) {
-
-        try {
             TagResponse res = tagService.createTag(request);
             CommonHeader header = CommonHeader.builder()
                                             .httpStatus(HttpStatus.CREATED)
@@ -49,17 +47,6 @@ public class Tagcontroller {
                                             .header(header)
                                             .result(res)
                                             .build());
-        } catch (IllegalStateException ex) {
-            CommonHeader header = CommonHeader.builder()
-                                            .httpStatus(HttpStatus.CONFLICT)
-                                            .resultMessage(ex.getMessage())
-                                            .build();
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(CommonResponse.<TagResponse>builder()
-                                            .header(header)
-                                            .result(null)
-                                            .build());
-                        }
     }
 
     @GetMapping
@@ -78,8 +65,7 @@ public class Tagcontroller {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TagResponse> deleteTag(@PathVariable @Valid Long id) {
-        tagService.detleteTag(id);
-        return ResponseEntity.ok().build();
+    public void deleteTag(@PathVariable @Valid Long id) {
+        tagService.deleteTag(id);
     }
 }

@@ -1,26 +1,23 @@
 package com.nhnacademy.store99.bookstore.tag.service.impl;
 
+import com.nhnacademy.store99.bookstore.common.exception.AlreadyExistsException;
+import com.nhnacademy.store99.bookstore.common.exception.NotFoundException;
 import com.nhnacademy.store99.bookstore.tag.dto.request.CreateTagRequest;
 import com.nhnacademy.store99.bookstore.tag.dto.request.ModifyTagRequest;
 import com.nhnacademy.store99.bookstore.tag.dto.response.TagResponse;
 import com.nhnacademy.store99.bookstore.tag.entity.Tag;
-import com.nhnacademy.store99.bookstore.tag.exception.TagAlreadyInUseException;
-import com.nhnacademy.store99.bookstore.tag.exception.TagNotFoundException;
 import com.nhnacademy.store99.bookstore.tag.repository.TagRepository;
 import com.nhnacademy.store99.bookstore.tag.service.TagService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 태그 관리자 서비스 구현
  *
- * @Author rosin23
+ * @author  rosin23
  */
 
 @Service
@@ -31,9 +28,9 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public TagResponse createTag(CreateTagRequest request) throws TagAlreadyInUseException {
+    public TagResponse createTag(CreateTagRequest request) throws AlreadyExistsException {
         if(Boolean.TRUE.equals(existsByTagName(request.getTagName()))) {
-            throw new TagAlreadyInUseException(HttpStatus.CONFLICT, "이미 존재하는 태그 입니다");
+            throw new AlreadyExistsException("이미 존재하는 태그명입니다");
         }
 
         Tag tag = tagRepository.save(Tag.builder()
@@ -64,11 +61,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagResponse updateTag(Long id, ModifyTagRequest request) {
         if (Boolean.TRUE.equals(tagRepository.existsTagByTagName(request.getTagName()))) {
-            throw new TagAlreadyInUseException(HttpStatus.CONFLICT, "이미 존재하는 Tag입니다");
+            throw new  AlreadyExistsException("이미 존재하는 태그명입니다");
         }
 
         Tag tag = tagRepository.findById(request.getId())
-                .orElseThrow(() -> new TagNotFoundException("해당 id의 태그 없음: " + request.getId()));
+                .orElseThrow(() -> new NotFoundException("해당 태그의 Id 존재하지 않음: " + request.getId()));
 
         tag.setTagName(request.getTagName());
 
@@ -77,7 +74,7 @@ public class TagServiceImpl implements TagService {
 
     @Transactional
     @Override
-    public void detleteTag(Long id) {
+    public void deleteTag(Long id) {
         tagRepository.deleteById(id);
     }
 
