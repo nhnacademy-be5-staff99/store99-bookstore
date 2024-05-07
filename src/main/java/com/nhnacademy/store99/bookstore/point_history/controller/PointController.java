@@ -23,10 +23,8 @@ public class PointController {
      * @return UserPointResponse list
      */
     @GetMapping
-    public List<UserPointResponse> getUserPointHistories(@RequestHeader("X-USER-ID") Long xUserId){
-        List<UserPointResponse> userPointHistories = pointService.getUserPointHistories(xUserId);
-
-        return null;
+    public List<UserPointResponse> getUserPointHistories(@RequestHeader("X-USER-ID") Long xUserId) {
+        return pointService.getUserPointHistories(xUserId);
     }
 
 
