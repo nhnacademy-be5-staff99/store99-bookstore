@@ -76,24 +76,12 @@ public class SignUpService {
                 .build();
         consumerRepository.save(consumer);
 
-        Auth auth = Auth.builder()
-                .authName("ROLE_USER")
-                .build();
-        authRepository.save(auth);
-
-        Grade grade = Grade.builder()
-                .gradeName("BASIC")
-                .gradeStartCost(0)
-                .gradeEndCost(100)
-                .gradeRatio(5)
-                .build();
-        gradeRepository.save(grade);
 
         User user = User.builder()
                 .userBirthdate(signUpDto.getUserBirthDate())
                 .consumers(consumer)
-                .grade(grade)
-                .auth(auth)
+                .grade(Grade.builder().id(16L).build())
+                .auth(Auth.builder().id(16L).build())
                 .userPoint(1000000)
                 .userLoginAt(LocalDateTime.now())
                 .userIsInactive(false)
