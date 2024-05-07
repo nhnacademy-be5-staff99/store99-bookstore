@@ -72,11 +72,4 @@ public class LikeServiceImpl implements LikeService {
         return likeRepository.countLikesByBookId(bookId);
     }
 
-    //    @Override
-//    @Transactional
-//    public Page<BookInfoForLikeResponse> getAllByUser(Long userId, Pageable pageable) {
-//        likeRepository.findAllByUserId(userId, pageable).getPageable();
-//        return null;
-//    }
-
 }

@@ -1,3 +1,9 @@
+GET http://localhost:8760/api/bookstore/v1/mylikes?userId=1&page=10&size=0
+Accept: application/json
+X-USER-TOKEN: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJVVUlEIjoiNjA2NzI1MzctZDA0Zi00YTIyLThiYjctMmFjMjhhMjhmM2Q2IiwiaWF0IjoxNzE1MDIwODEwLCJleHAiOjE3MTUwMjQ0MTB9.aEkBruKM4MfslikWDZ9ALmkXSjPZR6V956j8GRS1q68
+X-USER-ID: 1
+
+###
 POST http://localhost:8760/api/bookstore/v1/likes
 Content-Type: application/json
 X-USER-TOKEN: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJVVUlEIjoiMTUzMjIzMDMtMGU4Zi00NWYzLWJhYmUtOWI1YTlkNjVhN2QwIiwiaWF0IjoxNzE0MTE2Njk2LCJleHAiOjE3MTQxMjAyOTZ9.io3NCL1nJfiaK2t5hmKlHPmXWo5wIBaggrsr796BnR8

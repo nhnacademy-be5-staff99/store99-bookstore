@@ -48,6 +48,5 @@ public interface LikeService {
      * @return
      * @author: 이서연
      */
-//    Page<BookInfoForLikeResponse> getAllByUser(Long userId, Pageable pageable);
 
 }

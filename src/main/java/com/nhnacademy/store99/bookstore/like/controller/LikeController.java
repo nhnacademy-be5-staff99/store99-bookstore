@@ -3,8 +3,11 @@ package com.nhnacademy.store99.bookstore.like.controller;
 import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.like.dto.request.LikeRequest;
+import com.nhnacademy.store99.bookstore.like.dto.response.BookInfoForLikeResponse;
+import com.nhnacademy.store99.bookstore.like.service.LikeQueryService;
 import com.nhnacademy.store99.bookstore.like.service.LikeService;
 import javax.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,16 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 이서연
  */
 @RestController
-@RequestMapping("/v1/likes")
+@RequestMapping("/v1")
 public class LikeController {
 
     private final LikeService likeService;
+    private final LikeQueryService likeQueryService;
 
-    public LikeController(LikeService likeService) {
+    public LikeController(LikeService likeService, LikeQueryService likeQueryService) {
         this.likeService = likeService;
+        this.likeQueryService = likeQueryService;
     }
 
-    @PostMapping
+    @PostMapping("/likes")
     public ResponseEntity<CommonResponse<Void>> postAddLike(@RequestBody @Valid LikeRequest req) {
         likeService.addLike(req);
         CommonHeader commonHeader = CommonHeader.builder()
@@ -45,7 +50,7 @@ public class LikeController {
 
     }
 
-    @DeleteMapping("/{likeId}")
+    @DeleteMapping("/likes/{likeId}")
     public ResponseEntity<CommonResponse<String>> postDeleteLike(@RequestBody @Valid @PathVariable Long likeId) {
         String response = likeService.deleteLike(likeId);
         CommonHeader commonHeader = CommonHeader.builder()
@@ -59,7 +64,7 @@ public class LikeController {
         return ResponseEntity.ok(commonResponse);
     }
 
-    @GetMapping("/count")
+    @GetMapping(value = "/likes/count", params = "bookId")
     public ResponseEntity<CommonResponse<Long>> getLikeBook(@RequestParam(value = "bookId") @Valid Long bookId) {
         Long cnt = likeService.countLikesByBookId(bookId);
         CommonHeader commonHeader = CommonHeader.builder()
@@ -72,5 +77,9 @@ public class LikeController {
         return ResponseEntity.ok(commonResponse);
     }
 
+    @GetMapping(value = "/mylikes", params = {"userId"})
+    public Page<BookInfoForLikeResponse> getAllByUser() {
+        return likeQueryService.getAllByUser();
+    }
 
 }
