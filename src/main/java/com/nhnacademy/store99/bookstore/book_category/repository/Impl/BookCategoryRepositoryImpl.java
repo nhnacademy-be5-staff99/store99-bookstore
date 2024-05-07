@@ -136,6 +136,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
             bookResponsesDtoVar.addAll(from(bookCategory).
                     where(bookCategory.id.eq(CPDTO.getCategoryId())).
                     where(bookCategory.book.id.eq(book.id)).
+                    where(bookCategory.book.deletedAt.isNull()).
                     select(Projections.bean(BookTransDTO.class,
                             book.id.as("bookId"),
                             book.bookIsbn13,

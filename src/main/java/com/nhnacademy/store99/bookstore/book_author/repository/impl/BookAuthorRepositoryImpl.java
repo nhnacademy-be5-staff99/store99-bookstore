@@ -44,6 +44,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         JPQLQuery<Book> bookQuery = from(book)
                 .leftJoin(bookAuthor).on(book.id.eq(bookAuthor.book.id))
                 .leftJoin(author).on(bookAuthor.author.id.eq(author.id))
+                .where(bookAuthor.book.deletedAt.isNull())
                 .where(bookAuthor.book.id.eq(book.id))
                 .where(bookAuthor.author.id.eq(author.id)).distinct();
 
@@ -99,6 +100,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                 .where(bookAuthor.book.id.eq(bookId))
                 .where(bookAuthor.book.id.eq(book.id))
                 .where(bookAuthor.author.id.eq(author.id))
+                .where(bookAuthor.book.deletedAt.isNull())
                 .leftJoin(bookAuthor.book, book)
                 .leftJoin(bookAuthor.author, author)
                 .select(
