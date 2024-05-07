@@ -7,6 +7,7 @@ import com.nhnacademy.store99.bookstore.point_history.repository.PointRepository
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,7 @@ public class PointService {
      * @return UserPointResponse
      */
     public List<UserPointResponse> getUserPointHistories(Long xUserId) {
-        List<PointHistory> pointHistories = pointRepository.findAllByUserId(xUserId);
+        List<PointHistory> pointHistories = pointRepository.findAllByUserId(xUserId, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         if (pointHistories.isEmpty()) {
             throw new PointHistoryNotFoundException(xUserId.toString());
