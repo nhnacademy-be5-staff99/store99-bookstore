@@ -35,9 +35,18 @@ public interface LikeService {
      * 도서 별 좋아요 수를 조회하는 메소드 입니다.
      *
      * @param bookId
-     * @return 도서 당 좋아요 갯수
+     * @return 권 당 좋아요 갯수
      * @author 이서연
      */
-    Long countAllByBook(Long bookId);
+    Long countLikesByBookId(Long bookId);
+
+    /**
+     * 회원이 누른 좋아요 목록을 조회하는 메소드입니다.
+     *
+     * @param userId
+     * @param pageable
+     * @return
+     * @author: 이서연
+     */
 
 }

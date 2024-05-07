@@ -1,8 +1,3 @@
-GET http://localhost:8080/mylikes?userId=1
-Accept: application/json
-X-USER-TOKEN: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJVVUlEIjoiYTc5ZjUxNzMtMzU2NS00YWM0LWI1MzctNDZjOGY0MTgyOWIxIiwiaWF0IjoxNzE1MDUwMjgyLCJleHAiOjE3MTUwNTM4ODJ9.lxATBzEEwPgA4pMbr1evFXpEomvnFeepSNn6IEyhRew
-
-###
 GET http://localhost:8760/api/bookstore/v1/mylikes?userId=1&page=10&size=0
 Accept: application/json
 X-USER-TOKEN: BearereyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MtdG9rZW4iLCJVVUlEIjoiNjA2NzI1MzctZDA0Zi00YTIyLThiYjctMmFjMjhhMjhmM2Q2IiwiaWF0IjoxNzE1MDIwODEwLCJleHAiOjE3MTUwMjQ0MTB9.aEkBruKM4MfslikWDZ9ALmkXSjPZR6V956j8GRS1q68

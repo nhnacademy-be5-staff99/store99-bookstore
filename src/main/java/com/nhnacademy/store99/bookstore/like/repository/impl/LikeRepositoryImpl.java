@@ -15,26 +15,6 @@ public class LikeRepositoryImpl extends QuerydslRepositorySupport implements Lik
         super(Like.class);
     }
 
-    /**
-     * 도서 별 좋아요 수를 조회하는 메소드 입니다.
-     *
-     * @param bookId
-     * @return SELECT COUNT(*)
-     * FROM like AS l
-     * JOIN book AS b
-     * ON l.book_id = b.book_id;
-     */
-    @Override
-    public Long countAllByBook(Long bookId) {
-        QBook book = QBook.book;
-        QLike like = QLike.like;
-
-        return from(like)
-                .innerJoin(book).on(like.book.id.eq(book.id))
-                .where(like.book.id.eq(bookId))
-                .fetchCount();
-    }
-
     @Override
     public List<BookInfoForLikeResponse> getAllByUser(Long userId) {
         QLike like = QLike.like;
@@ -49,6 +29,7 @@ public class LikeRepositoryImpl extends QuerydslRepositorySupport implements Lik
                         book.bookTitle,
                         book.bookPrice,
                         book.bookSalePrice
+//                        book.authorDtoList
                 ))
                 .fetch();
     }
