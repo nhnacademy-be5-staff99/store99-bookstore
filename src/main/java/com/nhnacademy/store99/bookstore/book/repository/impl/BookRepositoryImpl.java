@@ -35,7 +35,6 @@ public class BookRepositoryImpl extends QuerydslRepositorySupport implements Boo
                         book.bookDate,
                         book.bookPrice,
                         book.bookSalePrice,
-                        book.bookIsPacked,
                         book.bookThumbnailUrl,
                         book.bookStock,
                         book.bookCntOfReview,
