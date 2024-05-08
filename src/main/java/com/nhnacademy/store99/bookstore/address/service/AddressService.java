@@ -46,18 +46,19 @@ public class AddressService {
 
     /**
      * 주소 아이디에 해당하는 주소 반환
+     *
      * @param xUserId
      * @param addressId
      * @return UserAddressResponse
      */
-    public UserAddressResponse getUserAddressById(Long xUserId, Long addressId){
+    public UserAddressResponse getUserAddressById(Long xUserId, Long addressId) {
         boolean isUser = userRepository.existsByIdAndAuth_AuthName(xUserId, "USER");
         if (!isUser) {
             throw new UserNotFoundException(xUserId);
         }
         Optional<Address> findAddressOpt = addressRepository.findById(addressId);
 
-        if (findAddressOpt.isEmpty()){
+        if (findAddressOpt.isEmpty()) {
             throw new AddressNotFoundByAddressIdException(addressId);
         }
         Address findAddress = findAddressOpt.get();
