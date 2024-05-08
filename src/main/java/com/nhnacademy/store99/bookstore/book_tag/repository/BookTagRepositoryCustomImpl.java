@@ -17,6 +17,7 @@ public class BookTagRepositoryCustomImpl extends QuerydslRepositorySupport imple
         super(BookTag.class);
     }
 
+
     @Override
     public List<BookResponse.TagDTO> findByBookId(Long bookId) {
         QTag tag = QTag.tag;
