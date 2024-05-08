@@ -35,7 +35,7 @@ public class PointService {
         Long xUserId = XUserIdThreadLocal.getXUserId();
         Optional<User> findUser = userRepository.findByIdAndUserIsInactiveFalse(xUserId);
 
-        if (findUser.isEmpty()){
+        if (findUser.isEmpty()) {
             throw new UserNotFoundException(xUserId);
         }
 

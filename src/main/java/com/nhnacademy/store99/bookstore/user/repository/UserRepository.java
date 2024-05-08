@@ -17,6 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long>, UserRepositor
     /**
      * userId 가 일치하고 휴면 상태가 아닌(활성상태) 유저 검색
      * <p>휴면 상태의 경우 optional 이 empty 임
+     *
      * @param userId
      * @return
      */
