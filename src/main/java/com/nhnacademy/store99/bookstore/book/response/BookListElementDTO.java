@@ -14,7 +14,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookTransDTO {
+public class BookListElementDTO {
 
     private Long BookId;
 

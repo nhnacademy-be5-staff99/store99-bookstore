@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_category.controller;
 
-import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.service.BookCategoryService;
 import java.util.List;
@@ -27,7 +27,7 @@ public class BookCategoryController {
 
     // 자식 카테고리까지 포함된 도서 목록
     @GetMapping("/categories/{categoryId}")
-    public Page<BookTransDTO> getBooksByCa(@PathVariable("categoryId") Long categoryId, Pageable pageable) {
+    public Page<BookListElementDTO> getBooksByCa(@PathVariable("categoryId") Long categoryId, Pageable pageable) {
         return bookCategoryService.getBooksByCategories(
                 categoryId,
                 pageable

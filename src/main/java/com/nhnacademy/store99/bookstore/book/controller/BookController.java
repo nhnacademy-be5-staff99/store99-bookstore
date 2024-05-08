@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
+import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
-import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class BookController {
 
 
     @GetMapping("")
-    public Page<BookTransDTO> getBooksFinal(Pageable pageable) {
+    public Page<BookListElementDTO> getBooksFinal(Pageable pageable) {
         return bookAuthorService.getBookTransDTO(pageable);
     }
 

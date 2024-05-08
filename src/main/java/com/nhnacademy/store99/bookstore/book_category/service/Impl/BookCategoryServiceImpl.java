@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_category.service.Impl;
 
-import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.service.BookCategoryService;
@@ -21,7 +21,7 @@ public class BookCategoryServiceImpl implements BookCategoryService {
     }
 
     @Override
-    public Page<BookTransDTO> getBooksByCategories(Long categoryId, Pageable pageable) {
+    public Page<BookListElementDTO> getBooksByCategories(Long categoryId, Pageable pageable) {
         List<CategoryParentsDTO> cp = bookCategoryRepository.getCategoriesByParentsId(categoryId);
         return bookCategoryRepository.getBooksByCategories(cp, pageable);
     }

@@ -2,7 +2,7 @@ package com.nhnacademy.store99.bookstore.book_category.repository.Impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
@@ -112,7 +112,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
     // 도서 하나에 카테고리 하나.
     // 카테고리 하나에 여러 도서니까 이 결과에서 중복되는 값은 없을것.
     @Override
-    public Page<BookTransDTO> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable) {
+    public Page<BookListElementDTO> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable) {
         QBookCategory bookCategory = QBookCategory.bookCategory;
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
@@ -121,11 +121,11 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
 
         List<Long> parentIds =
                 parentsDTOList.stream().map(CategoryParentsDTO::getCategoryId).collect(Collectors.toList());
-        List<BookTransDTO> bookResponsesDtoVar = new ArrayList<>(from(bookCategory).
+        List<BookListElementDTO> bookResponsesDtoVar = new ArrayList<>(from(bookCategory).
                 where(bookCategory.id.in(parentIds)).
                 where(bookCategory.book.id.eq(book.id)).
                 where(bookCategory.book.deletedAt.isNull()).
-                select(Projections.bean(BookTransDTO.class,
+                select(Projections.bean(BookListElementDTO.class,
                         book.id.as("bookId"),
                         book.bookIsbn13,
                         book.bookIsbn10,
@@ -144,24 +144,25 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         book.createdAt,
                         book.updatedAt
                 )).distinct().fetch());
-        List<Long> bookIds = bookResponsesDtoVar.stream().map(BookTransDTO::getBookId).collect(Collectors.toList());
+        List<Long> bookIds =
+                bookResponsesDtoVar.stream().map(BookListElementDTO::getBookId).collect(Collectors.toList());
 
 
-        Map<Long, List<BookTransDTO.AuthorDTO>> authorsMap = from(bookAuthor)
+        Map<Long, List<BookListElementDTO.AuthorDTO>> authorsMap = from(bookAuthor)
                 .where(bookAuthor.book.id.in(bookIds))
                 .join(bookAuthor.author, author)
                 .transform(GroupBy.groupBy(bookAuthor.book.id)
                         .as(GroupBy.list(
-                                        Projections.constructor(BookTransDTO.AuthorDTO.class,
+                                        Projections.constructor(BookListElementDTO.AuthorDTO.class,
                                                 author.authorName, author.authorType)
                                 )
                         )
                 );
 
 
-        List<BookTransDTO> bookResponses = bookResponsesDtoVar.stream().map(b ->
+        List<BookListElementDTO> bookResponses = bookResponsesDtoVar.stream().map(b ->
                 {
-                    return BookTransDTO.builder()
+                    return BookListElementDTO.builder()
                             .BookId(b.getBookId())
                             .BookIsbn13(b.getBookIsbn13())
                             .BookIsbn10(b.getBookIsbn10())
