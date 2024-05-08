@@ -19,13 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
     private final JavaMailSender emailsender;
+    private String ePw;
 
     @Autowired
     public MailService(JavaMailSender emailsender) {
         this.emailsender = emailsender;
     }
-
-    private String ePw;
 
     /**
      * 실제 발송하는 이메일 내용
