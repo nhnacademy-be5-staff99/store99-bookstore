@@ -5,7 +5,6 @@ import com.nhnacademy.store99.bookstore.point_history.service.PointService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +25,8 @@ public class PointController {
      * @return UserPointResponse list
      */
     @GetMapping
-    public List<UserPointResponse> getUserPointHistories(@RequestHeader("X-USER-ID") Long xUserId) {
-        return pointService.getUserPointHistories(xUserId);
+    public List<UserPointResponse> getUserPointHistories() {
+        return pointService.getUserPointHistories();
     }
 
 

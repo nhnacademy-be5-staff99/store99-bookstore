@@ -1,10 +1,14 @@
 package com.nhnacademy.store99.bookstore.point_history.service;
 
+import com.nhnacademy.store99.bookstore.common.thread_local.XUserIdThreadLocal;
 import com.nhnacademy.store99.bookstore.point_history.dto.UserPointResponse;
 import com.nhnacademy.store99.bookstore.point_history.entity.PointHistory;
-import com.nhnacademy.store99.bookstore.point_history.exception.PointHistoryNotFoundException;
 import com.nhnacademy.store99.bookstore.point_history.repository.PointRepository;
+import com.nhnacademy.store99.bookstore.user.entity.User;
+import com.nhnacademy.store99.bookstore.user.exception.UserNotFoundException;
+import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -20,19 +24,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class PointService {
 
     private final PointRepository pointRepository;
+    private final UserRepository userRepository;
 
     /**
      * userId 에 해당하는 포인트 내역 반환
      *
-     * @param xUserId
      * @return UserPointResponse
      */
-    public List<UserPointResponse> getUserPointHistories(Long xUserId) {
-        List<PointHistory> pointHistories = pointRepository.findAllByUserId(xUserId, Sort.by(Sort.Direction.DESC, "createdAt"));
+    public List<UserPointResponse> getUserPointHistories() {
+        Long xUserId = XUserIdThreadLocal.getXUserId();
+        Optional<User> findId = userRepository.findById(xUserId);
 
-        if (pointHistories.isEmpty()) {
-            throw new PointHistoryNotFoundException(xUserId.toString());
+        if (findId.isEmpty()) {
+            throw new UserNotFoundException(xUserId);
         }
+
+        List<PointHistory> pointHistories =
+                pointRepository.findAllByUserId(xUserId, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         return pointHistories
                 .stream()
