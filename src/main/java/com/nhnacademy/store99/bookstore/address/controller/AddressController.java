@@ -48,14 +48,12 @@ public class AddressController {
 
     /**
      * 파라미터의 addressId 에 해당하는 주소 반환
-     *
      * @param xUserId
      * @param addressId
      * @return
      */
     @GetMapping(params = {"addressId"})
-    public UserAddressResponse getUserAddressById(@RequestHeader("X-USER-ID") Long xUserId,
-                                                  @RequestParam("addressId") Long addressId) {
+    public UserAddressResponse getUserAddressById(@RequestHeader("X-USER-ID") Long xUserId, @RequestParam("addressId") Long addressId){
         return addressService.getUserAddressById(xUserId, addressId);
     }
 
