@@ -16,6 +16,7 @@ public class AuthRepositoryImpl extends QuerydslRepositorySupport implements Aut
         super(Auth.class);
     }
 
+
     /**
      * 사용자의 권한을 조회한다.
      *

@@ -3,6 +3,7 @@ package com.nhnacademy.store99.bookstore.common.advice;
 import com.nhnacademy.store99.bookstore.address.exception.AddressOverTenException;
 import com.nhnacademy.store99.bookstore.address.exception.DefaultAddressCanNotDeleteException;
 import com.nhnacademy.store99.bookstore.common.exception.AdminPermissionDeniedException;
+import com.nhnacademy.store99.bookstore.common.exception.AlreadyExistsException;
 import com.nhnacademy.store99.bookstore.common.exception.AuthenticationException;
 import com.nhnacademy.store99.bookstore.common.exception.BadRequestException;
 import com.nhnacademy.store99.bookstore.common.exception.MissingUserIdHeaderException;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * @author seunggyu-kim
  * @author Ahyeon Song
+ * @author rosin23
  */
 @RestControllerAdvice
 public class CommonRestControllerAdvice {
@@ -162,5 +164,22 @@ public class CommonRestControllerAdvice {
                 .build();
         CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    /**
+     * 중복 시 에러 처리
+     *
+     * @param  ex AlreadyExistsException
+     * @return 409 CONFLICT
+     *
+     */
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<CommonResponse<Void>> alreadyExistsExceptionHandler(AlreadyExistsException ex) {
+        CommonHeader header = CommonHeader.builder()
+                .httpStatus(HttpStatus.CONFLICT)
+                .resultMessage(ex.getMessage())
+                .build();
+        CommonResponse<Void> response = CommonResponse.<Void>builder().header(header).build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 }
