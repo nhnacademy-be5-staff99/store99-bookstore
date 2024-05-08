@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.query.JpaQueryExecution;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-public interface TagRepository extends JpaRepository<Tag, Long>, QuerydslPredicateExecutor<Tag> {
+public interface TagRepository extends JpaRepository<Tag, Long> {
 
-    List<Tag> findTagsByTagName(TagResponse response);
     Boolean existsTagByTagName(String tagName);
 }

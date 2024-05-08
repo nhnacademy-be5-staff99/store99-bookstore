@@ -53,12 +53,7 @@ public class Tagcontroller {
     public ResponseEntity<List<TagResponse>> getAllTag() {
         return ResponseEntity.ok(tagService.findAllTags());
     }
-/*
-    @GetMapping("/{id}")
-    public ResponseEntity<TagResponse> getTagById(@PathVariable Long id) {
-        return ResponseEntity.ok(tagService.findTagById(id));
-    }
-*/
+
     @PutMapping("/{id}")
     public void updateTag(@PathVariable Long id, @Valid @RequestBody ModifyTagRequest request) {
         tagService.updateTag(id, request);

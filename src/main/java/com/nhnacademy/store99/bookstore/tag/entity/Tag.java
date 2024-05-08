@@ -1,12 +1,17 @@
 package com.nhnacademy.store99.bookstore.tag.entity;
 
+import com.nhnacademy.store99.bookstore.book_tag.entity.BookTag;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +45,6 @@ public class Tag {
         this.tagName = tagName;
     }
 
-    //@OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private Set<BookTag> bookTags = new HashSet<>();
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookTag> bookTags = new HashSet<>();
 }
