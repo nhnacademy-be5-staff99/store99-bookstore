@@ -28,9 +28,7 @@ public class BookImageRepositoryImpl extends QuerydslRepositorySupport implement
         QBookImage bookImage = QBookImage.bookImage;
         QFile file = QFile.file;
         return from(bookImage).join(bookImage.files, file).join(bookImage.book, book)
-                .where(bookImage.book.id.eq(bookId))
-                .where(bookImage.book.deletedAt.isNull())
-                .select(Projections.constructor(BookImageDTO.class,
+                .where(bookImage.book.id.eq(bookId)).select(Projections.constructor(BookImageDTO.class,
                         bookImage.files.id,
                         bookImage.files.fileUrl,
                         bookImage.files.fileName

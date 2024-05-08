@@ -24,7 +24,6 @@ public class BookController {
     final private BookService bookService;
     final private BookAuthorService bookAuthorService;
 
-
     @GetMapping("")
     public Page<BookTransDTO> getBooksFinal(Pageable pageable) {
         return bookAuthorService.getBookTransDTO(pageable);
