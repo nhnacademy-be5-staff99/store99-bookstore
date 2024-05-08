@@ -67,21 +67,14 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
             List<BookListElementDTO.AuthorDTO> authors = authorsMap.getOrDefault(b.getId(), Collections.emptyList());
             return new BookListElementDTO(
                     b.getId(),
-                    b.getBookIsbn13(),
-                    b.getBookIsbn10(),
                     b.getBookTitle(),
-                    b.getBookContents(),
                     b.getBookPublisher(),
                     b.getBookDate(),
                     b.getBookPrice(),
                     b.getBookSalePrice(),
-                    b.getBookIsPacked(),
                     b.getBookThumbnailUrl(),
-                    b.getBookStock(),
                     b.getBookCntOfReview(),
                     b.getBookAvgOfRate(),
-                    b.getCreatedAt(),
-                    b.getUpdatedAt(),
                     authors
             );
         }).collect(Collectors.toList());

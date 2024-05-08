@@ -63,6 +63,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 from(category).where(category.parentCategory.id.eq(categoryId))
                         .select(Projections.constructor(
                                 CategoryParentsDTO.class,
+                                category.id.as("categoryId"),
                                 category.parentCategory.id.as("parentCategoryId")
                         )).fetch();
         do {
@@ -127,22 +128,14 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 where(bookCategory.book.deletedAt.isNull()).
                 select(Projections.bean(BookListElementDTO.class,
                         book.id.as("bookId"),
-                        book.bookIsbn13,
-                        book.bookIsbn10,
                         book.bookTitle,
-                        book.bookContents,
-                        book.bookDescription,
                         book.bookPublisher,
                         book.bookDate,
                         book.bookPrice,
                         book.bookSalePrice,
-                        book.bookIsPacked,
                         book.bookThumbnailUrl,
-                        book.bookStock,
                         book.bookCntOfReview,
-                        book.bookAvgOfRate,
-                        book.createdAt,
-                        book.updatedAt
+                        book.bookAvgOfRate
                 )).distinct().fetch());
         List<Long> bookIds =
                 bookResponsesDtoVar.stream().map(BookListElementDTO::getBookId).collect(Collectors.toList());
@@ -164,18 +157,13 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 {
                     return BookListElementDTO.builder()
                             .BookId(b.getBookId())
-                            .BookIsbn13(b.getBookIsbn13())
-                            .BookIsbn10(b.getBookIsbn10())
                             .BookTitle(b.getBookTitle())
-                            .BookContents(b.getBookContents())
                             .BookPublisher(b.getBookPublisher())
                             .BookDate(b.getBookDate())
                             .BookPrice(b.getBookPrice())
                             .BookSalePrice(b.getBookSalePrice())
-                            .BookIsPacked(b.getBookIsPacked())
-                            .BookThumbnailUrl(b.getBookThumbnailUrl()).BookStock(b.getBookStock())
+                            .BookThumbnailUrl(b.getBookThumbnailUrl())
                             .BookCntOfReview(b.getBookCntOfReview()).BookAvgOfRate(b.getBookAvgOfRate())
-                            .CreatedAt(b.getCreatedAt()).UpdatedAt(b.getUpdatedAt())
                             .authorsDTOList(authorsMap.get(b.getBookId()))
                             .build();
                 }

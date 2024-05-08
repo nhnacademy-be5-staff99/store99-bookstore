@@ -18,13 +18,7 @@ public class BookListElementDTO {
 
     private Long BookId;
 
-    private String BookIsbn13;
-
-    private String BookIsbn10;
-
     private String BookTitle;
-
-    private String BookContents;
 
     private String BookPublisher;
 
@@ -34,19 +28,11 @@ public class BookListElementDTO {
 
     private Integer BookSalePrice;
 
-    private Boolean BookIsPacked;
-
     private String BookThumbnailUrl;
-
-    private Integer BookStock;
 
     private Integer BookCntOfReview;
 
     private Double BookAvgOfRate;
-
-    private LocalDateTime CreatedAt;
-
-    private LocalDateTime UpdatedAt;
 
     private List<AuthorDTO> authorsDTOList;
 
