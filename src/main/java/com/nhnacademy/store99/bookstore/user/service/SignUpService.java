@@ -45,16 +45,14 @@ public class SignUpService {
     /**
      * 실제 Db의 password값과 비교해서 password 중복 체크하는 메소드
      *
-     * @param password
+     * @param email
      * @return boolean
      */
-    public String duplicateCheck(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(password);
-        if (consumerRepository.existsByConsumerPassword(hashedPassword)) {
-            return "false";
-        } else {
+    public String duplicateCheck(String email) {
+        if (consumerRepository.existsByConsumerEmail(email)) {
             return "true";
+        } else {
+            return "false";
         }
     }
 
@@ -78,24 +76,12 @@ public class SignUpService {
                 .build();
         consumerRepository.save(consumer);
 
-        Auth auth = Auth.builder()
-                .authName("ROLE_USER")
-                .build();
-        authRepository.save(auth);
-
-        Grade grade = Grade.builder()
-                .gradeName("BASIC")
-                .gradeStartCost(0)
-                .gradeEndCost(100)
-                .gradeRatio(5)
-                .build();
-        gradeRepository.save(grade);
 
         User user = User.builder()
                 .userBirthdate(signUpDto.getUserBirthDate())
                 .consumers(consumer)
-                .grade(grade)
-                .auth(auth)
+                .grade(Grade.builder().id(1L).build())
+                .auth(Auth.builder().id(1L).build())
                 .userPoint(1000000)
                 .userLoginAt(LocalDateTime.now())
                 .userIsInactive(false)
