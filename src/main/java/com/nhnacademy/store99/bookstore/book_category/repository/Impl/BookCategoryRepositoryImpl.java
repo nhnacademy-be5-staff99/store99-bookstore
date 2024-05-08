@@ -14,6 +14,7 @@ import com.nhnacademy.store99.bookstore.file.entity.QFile;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,88 +26,40 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implements BookCategoryRepository {
+
+
     public BookCategoryRepositoryImpl() {
         super(BookCategory.class);
     }
 
 
     /*
-        select * from categories where parent_category_id = ?;
-        1. 최초 입력 카테고리의 도서들의 목록을 가져와서 저장 > List A
-        2. 이 id를 부모로 가지는 카테고리들 저장 > List B
-        3. List B의 각 도서들을 저장 > List A
-        4. List B의 각 카테고리를 부모로 가지는 카테고리 저장 > List C
-        5. List B의 반복 끝난 후 List C -> List B 옮기기
-        6. 3부터 List C의 size가 0일때까지 반복.
-        카테고리의 모든 column이 필요함.
+        카테고리 전부 가져와서 파라미터로 받은 id의 자식들 반환함
      */
     @Override
     public List<CategoryParentsDTO> getCategoriesByParentsId(Long categoryId) {
         QCategory category = QCategory.category;
-        List<CategoryParentsDTO> categoryList;
-        List<CategoryParentsDTO> parentsList = new ArrayList<>();
-
-        // 발생하는 오류 원인. 엔티티에서는 부모가 category인데, 내가 부모를 id로만 받으려고 해서 그럼.
-        // 받는 방법을 바꾸면 될듯
-
-        // 1
-        List<CategoryParentsDTO> returnList = new ArrayList<>(from(category).where(category.id.eq(categoryId)).select(
-                Projections.constructor(
-                        CategoryParentsDTO.class,
-                        category.id.as("categoryId"),
-                        category.parentCategory.id.as("parentCategoryId")
-                )
-        ).fetch());
-
-        // 2
-        categoryList =
-                from(category).where(category.parentCategory.id.eq(categoryId))
-                        .select(Projections.constructor(
+        Map<Long, List<CategoryParentsDTO>> categoryList = from(category)
+                .where(category.parentCategory.id.isNotNull())
+                .transform(GroupBy.groupBy(category.parentCategory.id)
+                        .as(GroupBy.list(Projections.constructor(
                                 CategoryParentsDTO.class,
                                 category.id.as("categoryId"),
                                 category.parentCategory.id.as("parentCategoryId")
-                        )).fetch();
-        do {
+                        ))));
+        Comparator<CategoryParentsDTO> sorted =
+                Comparator.comparing(CategoryParentsDTO::getCategoryId, Comparator.naturalOrder());
 
-
-            // 3
-            for (CategoryParentsDTO bct : categoryList) {
-                returnList.addAll(
-                        from(category).where(category.id.eq(bct.getCategoryId()))
-                                .select(Projections.constructor(CategoryParentsDTO.class,
-                                        category.id.as("categoryId"),
-                                        category.parentCategory.id.as("parentCategoryId")
-                                ))
-                                .fetch()
-                );
-            }
-
-            // 4
-            for (CategoryParentsDTO bct : categoryList) {
-                parentsList.addAll(
-                        from(category).where(category.parentCategory.id.eq(bct.getCategoryId()))
-                                .select(Projections.constructor(CategoryParentsDTO.class,
-                                        category.id.as("categoryId"),
-                                        category.parentCategory.id.as("parentCategoryId")
-                                ))
-                                .fetch()
-                );
-            }
-
-
-            // 5
-            if (!parentsList.isEmpty()) {
-                categoryList.clear();
-                categoryList.addAll(parentsList);
-                parentsList.clear();
-            } else {
-                break;
-            }
-
-            // 6
-        } while (true);
-        // 파라미터로 받은 id를 가지고, 그의 자식 카테고리들이 반환된다.
-        return returnList;
+        CategoryParentsDTO topDTO = from(category).where(category.id.eq(categoryId)).select(
+                Projections.constructor(CategoryParentsDTO.class,
+                        category.id.as("categoryId"),
+                        category.parentCategory.id.as("parentCategoryId")
+                )
+        ).fetchOne();
+        List<CategoryParentsDTO> list = new ArrayList<>();
+        list.add(topDTO);
+        list.addAll(recursionCategory(categoryId, categoryList));
+        return list.stream().sorted(sorted).collect(Collectors.toList());
     }
 
 
@@ -175,10 +128,36 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         return new PageImpl<>(bookResponses.subList((int) pageable.getOffset(), end), pageable, bookResponses.size());
     }
 
+    // 그냥 카테고리 싹다 가져와서 어플리케이션에 저장하고
+    // 요청받은 id를 기준으로 비즈니스 로직에서 id 집합을 만들고
+    // in을 사용해서 도서들을 싹다 가져오면 될듯?
     @Override
-    public BookCategoryResponse getCategoryByBookId(Long bookId) {
+    public BookCategoryResponse getCategoryByBookId(Long categoryId) {
         return null;
     }
 
+    private List<CategoryParentsDTO> recursionCategory(Long targetId,
+                                                       Map<Long, List<CategoryParentsDTO>> allCategoriesMap) {
+        // 바닥
+        if (allCategoriesMap.get(targetId) == null | targetId == null) {
+            return new ArrayList<>();
+        }
+        List<CategoryParentsDTO> asdasd = new ArrayList<>();
+
+        // 자식들 가져와서.
+        List<CategoryParentsDTO> ele = allCategoriesMap.get(targetId);
+        for (CategoryParentsDTO asd : ele) {
+            // 자식을 가지고 있지 않다면
+            if (!allCategoriesMap.containsKey(asd.getParentCategoryId())) {
+                // 마지막 자식이니까 스스로가 들어감.
+                asdasd.add(asd);
+            } else {
+                // 마지막 자식이 아니면 그의 자식들을 가져와서 넣음
+                asdasd.add(asd);
+                asdasd.addAll(recursionCategory(asd.getCategoryId(), allCategoriesMap));
+            }
+        }
+        return asdasd;
+    }
 
 }
