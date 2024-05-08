@@ -6,5 +6,5 @@ package com.nhnacademy.store99.bookstore.point_history.enums;
  * @author seunggyu-kim
  */
 public enum PointHistoryType {
-    PURCHASE, CASHBACK, REFUND, CANCEL, REVIEW
+    PURCHASE, CASHBACK, REFUND, CANCEL, REVIEW, WELCOME
 }
