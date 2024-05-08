@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_category.controller;
 
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.service.BookCategoryService;
 import java.util.List;
@@ -29,7 +29,7 @@ public class BookCategoryController {
     @GetMapping("/categories/{categoryId}")
     public Page<BookTransDTO> getBooksByCa(@PathVariable("categoryId") Long categoryId, Pageable pageable) {
         return bookCategoryService.getBooksByCategories(
-                bookCategoryService.getBooksByCategory(categoryId),
+                categoryId,
                 pageable
         );
     }

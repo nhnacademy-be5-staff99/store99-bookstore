@@ -9,7 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryParentsDTO {
     Long categoryId;
-    String categoryName;
-    int categoryDepth;
     Long parentCategoryId;
 }

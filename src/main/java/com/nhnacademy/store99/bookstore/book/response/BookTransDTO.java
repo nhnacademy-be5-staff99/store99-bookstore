@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.book_author.response;
+package com.nhnacademy.store99.bookstore.book.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_category.repository;
 
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
+import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import java.util.List;

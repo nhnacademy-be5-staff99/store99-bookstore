@@ -2,8 +2,8 @@ package com.nhnacademy.store99.bookstore.book_category.repository.Impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
+import com.nhnacademy.store99.bookstore.book.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
@@ -54,8 +54,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 Projections.constructor(
                         CategoryParentsDTO.class,
                         category.id.as("categoryId"),
-                        category.categoryName.as("categoryName"),
-                        category.categoryDepth.as("categoryDepth"),
                         category.parentCategory.id.as("parentCategoryId")
                 )
         ).fetch());
@@ -65,9 +63,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 from(category).where(category.parentCategory.id.eq(categoryId))
                         .select(Projections.constructor(
                                 CategoryParentsDTO.class,
-                                category.id.as("categoryId"),
-                                category.categoryName.as("categoryName"),
-                                category.categoryDepth.as("categoryDepth"),
                                 category.parentCategory.id.as("parentCategoryId")
                         )).fetch();
         do {
@@ -79,8 +74,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         from(category).where(category.id.eq(bct.getCategoryId()))
                                 .select(Projections.constructor(CategoryParentsDTO.class,
                                         category.id.as("categoryId"),
-                                        category.categoryName.as("categoryName"),
-                                        category.categoryDepth.as("categoryDepth"),
                                         category.parentCategory.id.as("parentCategoryId")
                                 ))
                                 .fetch()
@@ -93,8 +86,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         from(category).where(category.parentCategory.id.eq(bct.getCategoryId()))
                                 .select(Projections.constructor(CategoryParentsDTO.class,
                                         category.id.as("categoryId"),
-                                        category.categoryName.as("categoryName"),
-                                        category.categoryDepth.as("categoryDepth"),
                                         category.parentCategory.id.as("parentCategoryId")
                                 ))
                                 .fetch()
@@ -127,36 +118,32 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
         QFile file = QFile.file;
-        List<BookTransDTO> bookResponsesDtoVar = new ArrayList<>();
 
-        // 가능하면 jpql 이친구를 union같이 합쳐서 paging을 적용하고싶은데
-        // JPQL은 union이 없다고함...
-        // 밑의 반복문은 요구된 카테고리와 그 자식들을 가지는 모든 BookResponse객체를 반환함.
-        for (CategoryParentsDTO CPDTO : parentsDTOList) {
-            bookResponsesDtoVar.addAll(from(bookCategory).
-                    where(bookCategory.id.eq(CPDTO.getCategoryId())).
-                    where(bookCategory.book.id.eq(book.id)).
-                    where(bookCategory.book.deletedAt.isNull()).
-                    select(Projections.bean(BookTransDTO.class,
-                            book.id.as("bookId"),
-                            book.bookIsbn13,
-                            book.bookIsbn10,
-                            book.bookTitle,
-                            book.bookContents,
-                            book.bookDescription,
-                            book.bookPublisher,
-                            book.bookDate,
-                            book.bookPrice,
-                            book.bookSalePrice,
-                            book.bookIsPacked,
-                            book.bookThumbnailUrl,
-                            book.bookStock,
-                            book.bookCntOfReview,
-                            book.bookAvgOfRate,
-                            book.createdAt,
-                            book.updatedAt
-                    )).distinct().fetch());
-        }
+        List<Long> parentIds =
+                parentsDTOList.stream().map(CategoryParentsDTO::getCategoryId).collect(Collectors.toList());
+        List<BookTransDTO> bookResponsesDtoVar = new ArrayList<>(from(bookCategory).
+                where(bookCategory.id.in(parentIds)).
+                where(bookCategory.book.id.eq(book.id)).
+                where(bookCategory.book.deletedAt.isNull()).
+                select(Projections.bean(BookTransDTO.class,
+                        book.id.as("bookId"),
+                        book.bookIsbn13,
+                        book.bookIsbn10,
+                        book.bookTitle,
+                        book.bookContents,
+                        book.bookDescription,
+                        book.bookPublisher,
+                        book.bookDate,
+                        book.bookPrice,
+                        book.bookSalePrice,
+                        book.bookIsPacked,
+                        book.bookThumbnailUrl,
+                        book.bookStock,
+                        book.bookCntOfReview,
+                        book.bookAvgOfRate,
+                        book.createdAt,
+                        book.updatedAt
+                )).distinct().fetch());
         List<Long> bookIds = bookResponsesDtoVar.stream().map(BookTransDTO::getBookId).collect(Collectors.toList());
 
 
@@ -195,8 +182,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
 
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), bookResponses.size());
-        // 도서들 잘 나오는거같음. 나중에 한번 더 확실하게 확인해보고. 일단 괜찮아보임
-        // 그리고 이미지랑 작가들도 잘 나오니까 도서들마다 잘 붙여줘서 페이징 하면 완성될거같음
 
         return new PageImpl<>(bookResponses.subList((int) pageable.getOffset(), end), pageable, bookResponses.size());
     }
