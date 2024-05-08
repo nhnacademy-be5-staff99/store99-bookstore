@@ -9,7 +9,9 @@ import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
 import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
+import com.nhnacademy.store99.bookstore.book_tag.entity.QBookTag;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
+import com.nhnacademy.store99.bookstore.tag.entity.QTag;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
@@ -70,7 +72,9 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         QBookCategory bookCategory = QBookCategory.bookCategory;
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
+        QTag tag = QTag.tag;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
+        QBookTag bookTag = QBookTag.bookTag;
 
         List<Long> parentIds =
                 parentsDTOList.stream().map(CategoryParentsDTO::getCategoryId).collect(Collectors.toList());
@@ -111,6 +115,23 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         )
                 );
 
+        /**
+         * book id를 그룹화하여 tag id에 해당하는 tagName 담기
+         *
+         * @author rosin23
+         */
+
+        Map<Long, List<BookListElementDTO.TagDTO>> tagMap = from(bookTag)
+                .where(bookTag.book.id.in(bookIds))
+                .join(bookTag.tag, tag)
+                .transform(GroupBy.groupBy(bookTag.book.id)
+                        .as(GroupBy.list(
+                                        Projections.constructor(BookListElementDTO.TagDTO.class,
+                                                tag.tagName)
+                                )
+                        )
+                );
+
 
         List<BookListElementDTO> bookResponses = bookResponsesDtoVar.stream().map(b ->
                 {
@@ -127,6 +148,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                             .BookStock(b.getBookStock())
                             .BookAvgOfRate(b.getBookAvgOfRate())
                             .authorsDTOList(authorsMap.get(b.getBookId()))
+                            .tagDTOList(tagMap.get(b.getBookId()))
                             .build();
                 }
         ).collect(Collectors.toList());
