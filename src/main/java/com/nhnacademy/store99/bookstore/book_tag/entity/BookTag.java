@@ -34,11 +34,11 @@ public class BookTag {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "book_id", nullable = false)
+    @JoinColumn(name = "book_id", referencedColumnName = "book_id", nullable = false)
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tag_id", nullable = false)
+    @JoinColumn(name = "tag_id", referencedColumnName = "tag_id", nullable = false)
     private Tag tag;
 
 }
