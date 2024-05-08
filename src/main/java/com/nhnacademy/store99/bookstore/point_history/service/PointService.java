@@ -33,9 +33,9 @@ public class PointService {
      */
     public List<UserPointResponse> getUserPointHistories() {
         Long xUserId = XUserIdThreadLocal.getXUserId();
-        Optional<User> findId = userRepository.findById(xUserId);
+        Optional<User> findUser = userRepository.findByIdAndUserIsInactiveFalse(xUserId);
 
-        if (findId.isEmpty()) {
+        if (findUser.isEmpty()){
             throw new UserNotFoundException(xUserId);
         }
 
