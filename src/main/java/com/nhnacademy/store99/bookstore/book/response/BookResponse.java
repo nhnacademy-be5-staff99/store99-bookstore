@@ -26,7 +26,6 @@ public class BookResponse {
     private LocalDateTime BookDate;
     private Integer BookPrice;
     private Integer BookSalePrice;
-    private Boolean BookIsPacked;
     private Integer BookStock;
     private Integer BookCntOfReview;
     private Double BookAvgOfRate;

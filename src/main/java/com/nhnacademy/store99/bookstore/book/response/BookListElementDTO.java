@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.book_author.response;
+package com.nhnacademy.store99.bookstore.book.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
@@ -14,17 +14,11 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookTransDTO {
+public class BookListElementDTO {
 
     private Long BookId;
 
-    private String BookIsbn13;
-
-    private String BookIsbn10;
-
     private String BookTitle;
-
-    private String BookContents;
 
     private String BookPublisher;
 
@@ -34,19 +28,15 @@ public class BookTransDTO {
 
     private Integer BookSalePrice;
 
-    private Boolean BookIsPacked;
-
     private String BookThumbnailUrl;
-
-    private Integer BookStock;
 
     private Integer BookCntOfReview;
 
+    private Integer BookViewCount;
+
+    private Integer BookStock;
+
     private Double BookAvgOfRate;
-
-    private LocalDateTime CreatedAt;
-
-    private LocalDateTime UpdatedAt;
 
     private List<AuthorDTO> authorsDTOList;
 

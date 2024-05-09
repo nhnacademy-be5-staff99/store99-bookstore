@@ -1,8 +1,8 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
+import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.repository.impl.BookAuthorRepositoryImpl;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,7 +37,7 @@ public class BookAuthorServiceImpl implements BookAuthorService {
 
 
     @Override
-    public Page<BookTransDTO> getBookTransDTO(Pageable pageable) {
+    public Page<BookListElementDTO> getBookListElementsDTO(Pageable pageable) {
         return bookAuthorRepositoryImp.findBooks(pageable);
     }
 }
