@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -41,5 +42,15 @@ public class WebConfig implements WebMvcConfigurer {
                 .ignoreUnknownPathExtensions(false)  // 알 수 없는 파일 확장자는 거부
                 .defaultContentType(MediaType.APPLICATION_JSON)  // 기본 컨텐츠 타입 설정
                 .mediaType("svg", MediaType.parseMediaType("image/svg+xml")); // SVG 확장자에 대한 MIME 타입 설정
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080")
+                .allowedOrigins("http://localhost:8760")// 프론트엔드 도메인
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드
+                .allowedHeaders("*") // 모든 헤더를 허용할 경우
+                .allowCredentials(true); // 인증 정보 허용 여부
     }
 }
