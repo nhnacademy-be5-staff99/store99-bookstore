@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface BookAuthorService {
 
-    Page<BookListElementDTO> getBookTransDTO(Pageable pageable);
+    Page<BookListElementDTO> getBookListElementsDTO(Pageable pageable);
 
     List<BookResponse.AuthorDTO> getAuthorBook(Long id);
 

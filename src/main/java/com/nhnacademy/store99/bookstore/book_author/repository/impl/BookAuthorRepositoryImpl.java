@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_author.repository.impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
-import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
@@ -41,15 +40,25 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
 
-        JPQLQuery<Book> bookQuery = from(book)
-                .leftJoin(bookAuthor).on(book.id.eq(bookAuthor.book.id))
-                .leftJoin(author).on(bookAuthor.author.id.eq(author.id))
-                .where(bookAuthor.book.deletedAt.isNull())
-                .where(bookAuthor.book.id.eq(book.id))
-                .where(bookAuthor.author.id.eq(author.id)).distinct();
+        JPQLQuery<BookListElementDTO> bookQuery = from(book)
+                .where(book.deletedAt.isNull())
+                .select(Projections.bean(
+                        BookListElementDTO.class,
+                        book.id.as("bookId"),
+                        book.bookTitle,
+                        book.bookPublisher,
+                        book.bookDate,
+                        book.bookPrice,
+                        book.bookSalePrice,
+                        book.bookThumbnailUrl,
+                        book.bookCntOfReview,
+                        book.bookAvgOfRate
+                ))
+                .distinct();
 
-        List<Book> books = Objects.requireNonNull(getQuerydsl()).applyPagination(pageable, bookQuery).fetch();
-        List<Long> bookIds = books.stream().map(Book::getId).collect(Collectors.toList());
+        List<BookListElementDTO> books =
+                Objects.requireNonNull(getQuerydsl()).applyPagination(pageable, bookQuery).fetch();
+        List<Long> bookIds = books.stream().map(BookListElementDTO::getBookId).collect(Collectors.toList());
 
 
         Map<Long, List<BookListElementDTO.AuthorDTO>> authorsMap = from(bookAuthor)
@@ -64,9 +73,10 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                 );
 
         List<BookListElementDTO> bookResponse = books.stream().map(b -> {
-            List<BookListElementDTO.AuthorDTO> authors = authorsMap.getOrDefault(b.getId(), Collections.emptyList());
+            List<BookListElementDTO.AuthorDTO> authors =
+                    authorsMap.getOrDefault(b.getBookId(), Collections.emptyList());
             return new BookListElementDTO(
-                    b.getId(),
+                    b.getBookId(),
                     b.getBookTitle(),
                     b.getBookPublisher(),
                     b.getBookDate(),
