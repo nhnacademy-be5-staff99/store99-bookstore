@@ -21,19 +21,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = false)
 public class BookServiceImpl implements BookService {
     private final BookJPARepository bookJPARepository;
     private final BookRepository bookRepository;
     private final BookAuthorService bookAuthorService;
     private final BookImageService bookImageService;
 
+
+    @Transactional(readOnly = true)
     @Override
     public List<SimpleBookResponse> getSimpleBooks(final Set<Long> bookIds) {
         return bookJPARepository.findAllByIdInAndDeletedAtNull(bookIds);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BookResponse getBookDataById(Long bookId) {
 
         // 도서-작가 리스트객체 받아오기
@@ -49,11 +51,12 @@ public class BookServiceImpl implements BookService {
         bookRequest.setAuthorsDTOList(bookAuthorResponses);
         bookRequest.setBookImageName(bookImageDTO.getBookImageName());
         bookRequest.setBookImageURL(bookImageDTO.getBookImageURL());
-        plusViewCnt(bookId);
         return bookRequest;
     }
 
-    private void plusViewCnt(Long bookId) {
+    @Override
+    @Transactional(readOnly = false)
+    public void plusViewCnt(Long bookId) {
         bookJPARepository.findById(bookId).ifPresent(Book::plusViewCnt);
     }
 }
