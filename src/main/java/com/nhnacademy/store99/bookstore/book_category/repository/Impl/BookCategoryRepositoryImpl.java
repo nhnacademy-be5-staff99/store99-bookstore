@@ -10,9 +10,9 @@ import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRep
 import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
-import com.nhnacademy.store99.bookstore.file.entity.QFile;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPQLQuery;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -71,11 +71,10 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
-        QFile file = QFile.file;
 
         List<Long> parentIds =
                 parentsDTOList.stream().map(CategoryParentsDTO::getCategoryId).collect(Collectors.toList());
-        List<BookListElementDTO> bookResponsesDtoVar = new ArrayList<>(from(bookCategory).
+        JPQLQuery<BookListElementDTO> bookResponsesQuery = from(bookCategory).
                 where(bookCategory.id.in(parentIds)).
                 where(bookCategory.book.id.eq(book.id)).
                 where(bookCategory.book.deletedAt.isNull()).
@@ -89,7 +88,12 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         book.bookThumbnailUrl,
                         book.bookCntOfReview,
                         book.bookAvgOfRate
-                )).distinct().fetch());
+                )).distinct();
+        int totalSize = bookResponsesQuery.fetch().size();
+        List<BookListElementDTO> bookResponsesDtoVar =
+                new ArrayList<>(bookResponsesQuery.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch());
+
+
         List<Long> bookIds =
                 bookResponsesDtoVar.stream().map(BookListElementDTO::getBookId).collect(Collectors.toList());
 
@@ -122,15 +126,9 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 }
         ).collect(Collectors.toList());
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), bookResponses.size());
-
-        return new PageImpl<>(bookResponses.subList((int) pageable.getOffset(), end), pageable, bookResponses.size());
+        return new PageImpl<>(bookResponses, pageable, totalSize);
     }
 
-    // 그냥 카테고리 싹다 가져와서 어플리케이션에 저장하고
-    // 요청받은 id를 기준으로 비즈니스 로직에서 id 집합을 만들고
-    // in을 사용해서 도서들을 싹다 가져오면 될듯?
     @Override
     public BookCategoryResponse getCategoryByBookId(Long categoryId) {
         return null;
@@ -142,22 +140,22 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         if (allCategoriesMap.get(targetId) == null | targetId == null) {
             return new ArrayList<>();
         }
-        List<CategoryParentsDTO> asdasd = new ArrayList<>();
+        List<CategoryParentsDTO> returnList = new ArrayList<>();
 
         // 자식들 가져와서.
-        List<CategoryParentsDTO> ele = allCategoriesMap.get(targetId);
-        for (CategoryParentsDTO asd : ele) {
+        List<CategoryParentsDTO> eles = allCategoriesMap.get(targetId);
+        for (CategoryParentsDTO ele : eles) {
             // 자식을 가지고 있지 않다면
-            if (!allCategoriesMap.containsKey(asd.getParentCategoryId())) {
+            if (!allCategoriesMap.containsKey(ele.getParentCategoryId())) {
                 // 마지막 자식이니까 스스로가 들어감.
-                asdasd.add(asd);
+                returnList.add(ele);
             } else {
                 // 마지막 자식이 아니면 그의 자식들을 가져와서 넣음
-                asdasd.add(asd);
-                asdasd.addAll(recursionCategory(asd.getCategoryId(), allCategoriesMap));
+                returnList.add(ele);
+                returnList.addAll(recursionCategory(ele.getCategoryId(), allCategoriesMap));
             }
         }
-        return asdasd;
+        return returnList;
     }
 
 }
