@@ -1,6 +1,7 @@
 package com.nhnacademy.store99.bookstore.book.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.dto.response.SimpleBookResponse;
+import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public class BookServiceImpl implements BookService {
     private final BookJPARepository bookJPARepository;
     private final BookRepository bookRepository;
@@ -48,7 +49,11 @@ public class BookServiceImpl implements BookService {
         bookRequest.setAuthorsDTOList(bookAuthorResponses);
         bookRequest.setBookImageName(bookImageDTO.getBookImageName());
         bookRequest.setBookImageURL(bookImageDTO.getBookImageURL());
-
+        plusViewCnt(bookId);
         return bookRequest;
+    }
+
+    private void plusViewCnt(Long bookId) {
+        bookJPARepository.findById(bookId).ifPresent(Book::plusViewCnt);
     }
 }
