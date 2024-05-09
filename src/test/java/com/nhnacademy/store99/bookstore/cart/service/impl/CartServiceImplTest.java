@@ -8,7 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
+import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
 import com.nhnacademy.store99.bookstore.cart.entity.Cart;
 import com.nhnacademy.store99.bookstore.cart.exception.CartBadRequestException;
@@ -38,7 +38,7 @@ class CartServiceImplTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private BookRepository bookRepository;
+    private BookJPARepository bookRepository;
 
     @Test
     @DisplayName("장바구니에 책 추가 - 책이 없을 경우 책 새로 추가")

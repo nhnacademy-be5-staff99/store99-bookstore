@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.cart.service.impl;
 
-import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
+import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.cart.dto.request.CartItemRequest;
 import com.nhnacademy.store99.bookstore.cart.entity.Cart;
 import com.nhnacademy.store99.bookstore.cart.exception.CartBadRequestException;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
-    private final BookRepository bookRepository;
+    private final BookJPARepository bookRepository;
 
     @Override
     public void addBookToCart(final CartItemRequest request) throws CartBadRequestException {
