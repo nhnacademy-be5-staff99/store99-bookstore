@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
  * @author yrrho2
  */
 @Component
-public interface BookRepositoryCustom {
+public interface BookRepository {
     BookResponse getBookDataById(Long bookId);
 }
