@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 /**
  * 태그 응답 DTO
  *
- * @author  rosin23
+ * @author rosin23
  */
 
 @Getter
