@@ -75,9 +75,9 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         List<Long> parentIds =
                 parentsDTOList.stream().map(CategoryParentsDTO::getCategoryId).collect(Collectors.toList());
         JPQLQuery<BookListElementDTO> bookResponsesQuery = from(bookCategory).
-                where(bookCategory.id.in(parentIds)).
                 where(bookCategory.book.id.eq(book.id)).
                 where(bookCategory.book.deletedAt.isNull()).
+                where(bookCategory.category.id.in(parentIds)).
                 select(Projections.bean(BookListElementDTO.class,
                         book.id.as("bookId"),
                         book.bookTitle,
