@@ -32,7 +32,9 @@ public class BookController {
 
     @GetMapping("/{bookId}")
     public BookResponse getBook(@PathVariable("bookId") Long bookId) {
-        return bookService.getBookDataById(bookId);
+        BookResponse bookDataById = bookService.getBookDataById(bookId);
+        bookService.plusViewCnt(bookId);
+        return bookDataById;
     }
 
 }
