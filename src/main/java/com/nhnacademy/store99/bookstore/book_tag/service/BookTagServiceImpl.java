@@ -19,13 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BookTagServiceImpl implements BookTagService {
 
-    @Qualifier("bookTagRepositoryCustomImpl")
     private final BookTagRepositoryCustomImpl bookTagRepositoryCustom;
 
     /**
      * book id를 이용한 태그 검색
      *
-     * @param bookId
+     * @param bookId 조회할 book id
      * @return tag id, book id, tag name을 반환
      */
 
