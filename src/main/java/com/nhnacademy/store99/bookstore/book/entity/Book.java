@@ -112,4 +112,7 @@ public class Book {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    public void plusViewCnt() {
+        this.bookViewCount += 1;
+    }
 }
