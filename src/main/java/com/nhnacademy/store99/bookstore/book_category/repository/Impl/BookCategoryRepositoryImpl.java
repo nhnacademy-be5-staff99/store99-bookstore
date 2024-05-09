@@ -87,6 +87,8 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         book.bookSalePrice,
                         book.bookThumbnailUrl,
                         book.bookCntOfReview,
+                        book.bookViewCount,
+                        book.bookStock,
                         book.bookAvgOfRate
                 )).distinct();
         int totalSize = bookResponsesQuery.fetch().size();
@@ -120,7 +122,10 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                             .BookPrice(b.getBookPrice())
                             .BookSalePrice(b.getBookSalePrice())
                             .BookThumbnailUrl(b.getBookThumbnailUrl())
-                            .BookCntOfReview(b.getBookCntOfReview()).BookAvgOfRate(b.getBookAvgOfRate())
+                            .BookCntOfReview(b.getBookCntOfReview())
+                            .BookViewCount(b.getBookViewCount())
+                            .BookStock(b.getBookStock())
+                            .BookAvgOfRate(b.getBookAvgOfRate())
                             .authorsDTOList(authorsMap.get(b.getBookId()))
                             .build();
                 }

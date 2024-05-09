@@ -52,6 +52,8 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                         book.bookSalePrice,
                         book.bookThumbnailUrl,
                         book.bookCntOfReview,
+                        book.bookViewCount,
+                        book.bookStock,
                         book.bookAvgOfRate
                 ))
                 .distinct();
@@ -84,6 +86,8 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                     b.getBookSalePrice(),
                     b.getBookThumbnailUrl(),
                     b.getBookCntOfReview(),
+                    b.getBookViewCount(),
+                    b.getBookStock(),
                     b.getBookAvgOfRate(),
                     authors
             );

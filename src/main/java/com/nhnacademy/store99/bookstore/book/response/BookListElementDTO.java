@@ -32,6 +32,10 @@ public class BookListElementDTO {
 
     private Integer BookCntOfReview;
 
+    private Integer BookViewCount;
+
+    private Integer BookStock;
+
     private Double BookAvgOfRate;
 
     private List<AuthorDTO> authorsDTOList;
