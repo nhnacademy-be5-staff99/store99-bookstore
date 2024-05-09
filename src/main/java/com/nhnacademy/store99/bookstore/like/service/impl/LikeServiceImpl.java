@@ -68,8 +68,8 @@ public class LikeServiceImpl implements LikeService {
      * @author 이서연
      */
     @Override
-    public Long countLikesByBookId(Long bookId) {
-        return likeRepository.countLikesByBookId(bookId);
+    public Long countAllByBook(Long bookId) {
+        return likeRepository.countAllByBook(bookId);
     }
 
 }
