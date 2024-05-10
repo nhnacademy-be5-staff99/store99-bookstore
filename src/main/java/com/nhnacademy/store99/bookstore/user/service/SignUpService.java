@@ -1,6 +1,8 @@
 package com.nhnacademy.store99.bookstore.user.service;
 
 
+import static com.nhnacademy.store99.bookstore.point_history.enums.PointHistoryType.WELCOME;
+
 import com.nhnacademy.store99.bookstore.address.entity.Address;
 import com.nhnacademy.store99.bookstore.address.repository.AddressRepository;
 import com.nhnacademy.store99.bookstore.auth.entity.Auth;
@@ -9,6 +11,9 @@ import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
 import com.nhnacademy.store99.bookstore.consumer.repository.ConsumerRepository;
 import com.nhnacademy.store99.bookstore.grade.entity.Grade;
 import com.nhnacademy.store99.bookstore.grade.repository.GradeRepository;
+import com.nhnacademy.store99.bookstore.point_history.entity.PointHistory;
+import com.nhnacademy.store99.bookstore.point_history.repository.PointRepository;
+import com.nhnacademy.store99.bookstore.point_policies.entity.PointPolicyRepository;
 import com.nhnacademy.store99.bookstore.user.dto.SignUpDto;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.nhnacademy.store99.bookstore.user.repository.SignUpRepository;
@@ -30,16 +35,23 @@ public class SignUpService {
     private final AuthRepository authRepository;
     private final GradeRepository gradeRepository;
     private final AddressRepository addressRepository;
+    private final PointRepository pointRepository;
+
+    private final PointPolicyRepository pointPolicyRepository;
+
 
     @Autowired
     public SignUpService(SignUpRepository userRepository, ConsumerRepository consumerRepository,
                          AuthRepository authRepository, GradeRepository gradeRepository,
-                         AddressRepository addressRepository) {
+                         AddressRepository addressRepository, PointRepository pointRepository,
+                         PointPolicyRepository pointPolicyRepository) {
         this.userRepository = userRepository;
         this.consumerRepository = consumerRepository;
         this.authRepository = authRepository;
         this.gradeRepository = gradeRepository;
         this.addressRepository = addressRepository;
+        this.pointRepository = pointRepository;
+        this.pointPolicyRepository = pointPolicyRepository;
     }
 
     /**
@@ -82,7 +94,7 @@ public class SignUpService {
                 .consumers(consumer)
                 .grade(Grade.builder().id(1L).build())
                 .auth(Auth.builder().id(1L).build())
-                .userPoint(1000000)
+                .userPoint(pointPolicyRepository.findPointValueByPolicyType("WELCOME").getPointValue())
                 .userLoginAt(LocalDateTime.now())
                 .userIsInactive(false)
                 .createdAt(LocalDateTime.now())
@@ -98,6 +110,14 @@ public class SignUpService {
                 .user(user)
                 .build();
         addressRepository.save(address);
+
+        PointHistory pointHistory = PointHistory.builder()
+                .user(user)
+                .pointHistoryValue(pointPolicyRepository.findPointValueByPolicyType("WELCOME").getPointValue())
+                .pointHistoryType(WELCOME)
+                .createdAt(LocalDateTime.now())
+                .build();
+        pointRepository.save(pointHistory);
         return signUpDto;
     }
 
