@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_author.service;
 
-import com.nhnacademy.store99.bookstore.book.dto.response.response.BookListElementDTO;
-import com.nhnacademy.store99.bookstore.book.dto.response.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.repository.impl.BookAuthorRepositoryImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

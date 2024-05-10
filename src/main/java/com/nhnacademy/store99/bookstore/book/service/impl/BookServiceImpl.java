@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book.service.impl;
 
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.dto.response.SimpleBookResponse;
-import com.nhnacademy.store99.bookstore.book.dto.response.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
