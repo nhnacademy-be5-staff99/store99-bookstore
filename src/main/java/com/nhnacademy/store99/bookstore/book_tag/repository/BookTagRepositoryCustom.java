@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_tag.repository;
 
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import java.util.List;
 import org.springframework.data.repository.NoRepositoryBean;
 
