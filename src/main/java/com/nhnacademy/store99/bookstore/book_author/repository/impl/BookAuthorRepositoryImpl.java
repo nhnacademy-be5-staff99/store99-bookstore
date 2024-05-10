@@ -105,7 +105,6 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         QAuthor author = QAuthor.author;
         return from(bookAuthor)
                 .where(bookAuthor.book.id.eq(bookId))
-                .where(bookAuthor.book.id.eq(book.id))
                 .where(bookAuthor.author.id.eq(author.id))
                 .where(bookAuthor.book.deletedAt.isNull())
                 .leftJoin(bookAuthor.book, book)

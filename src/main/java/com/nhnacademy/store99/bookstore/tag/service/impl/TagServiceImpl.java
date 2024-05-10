@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * 태그 관리자 서비스 구현
  *
- * @author  rosin23
+ * @author rosin23
  */
 
 @Service
@@ -30,13 +30,13 @@ public class TagServiceImpl implements TagService {
     @Transactional
     @Override
     public TagResponse createTag(CreateTagRequest request) throws AlreadyExistsException {
-        if(Boolean.TRUE.equals(existsByTagName(request.getTagName()))) {
+        if (Boolean.TRUE.equals(existsByTagName(request.getTagName()))) {
             throw new TagNameAlreadyExistsException(request.getTagName());
         }
 
         Tag tag = tagRepository.save(Tag.builder()
-                                        .tagName(request.getTagName())
-                                        .build());
+                .tagName(request.getTagName())
+                .build());
         return new TagResponse(tag);
     }
 

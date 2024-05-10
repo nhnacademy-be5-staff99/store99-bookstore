@@ -169,9 +169,8 @@ public class CommonRestControllerAdvice {
     /**
      * 중복 시 에러 처리
      *
-     * @param  ex AlreadyExistsException
+     * @param ex AlreadyExistsException
      * @return 409 CONFLICT
-     *
      */
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<CommonResponse<Void>> alreadyExistsExceptionHandler(AlreadyExistsException ex) {
