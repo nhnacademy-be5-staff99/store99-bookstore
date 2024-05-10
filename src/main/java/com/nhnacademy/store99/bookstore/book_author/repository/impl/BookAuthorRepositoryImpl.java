@@ -7,6 +7,8 @@ import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;
+import com.nhnacademy.store99.bookstore.book_tag.entity.QBookTag;
+import com.nhnacademy.store99.bookstore.tag.entity.QTag;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
@@ -19,7 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * <h2>도서-작가 레포지토리 인터페이스 구현체 </h2>
@@ -27,8 +29,9 @@ import org.springframework.stereotype.Component;
  * Query DSL을 사용하여 데이터 반환.
  *
  * @author yrrho2
+ * @author rosin23
  */
-@Component
+@Repository
 public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implements BookAuthorRepositoryCustom {
     public BookAuthorRepositoryImpl() {
         super(BookAuthor.class);
@@ -38,7 +41,9 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
     public Page<BookListElementDTO> findBooks(Pageable pageable) {
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
+        QTag tag = QTag.tag;
         QBookAuthor bookAuthor = QBookAuthor.bookAuthor;
+        QBookTag bookTags = QBookTag.bookTag;
 
         JPQLQuery<BookListElementDTO> bookQuery = from(book)
                 .where(book.deletedAt.isNull())
@@ -74,9 +79,21 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                         )
                 );
 
+        Map<Long, List<BookListElementDTO.TagDTO>> tagMap = from(bookTags)
+                .where(bookTags.book.id.in(bookIds))
+                .join(bookTags.tag, tag)
+                .transform(GroupBy.groupBy(bookTags.book.id)
+                        .as(GroupBy.list(
+                                        Projections.constructor(BookListElementDTO.TagDTO.class,
+                                                tag.tagName)
+                                )
+                        )
+                );
+
         List<BookListElementDTO> bookResponse = books.stream().map(b -> {
             List<BookListElementDTO.AuthorDTO> authors =
                     authorsMap.getOrDefault(b.getBookId(), Collections.emptyList());
+            List<BookListElementDTO.TagDTO> tags = tagMap.getOrDefault(b.getBookId(), Collections.emptyList());
             return new BookListElementDTO(
                     b.getBookId(),
                     b.getBookTitle(),
@@ -89,7 +106,8 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                     b.getBookViewCount(),
                     b.getBookStock(),
                     b.getBookAvgOfRate(),
-                    authors
+                    authors,
+                    tags
             );
         }).collect(Collectors.toList());
 
@@ -113,6 +131,24 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                         Projections.constructor(BookResponse.AuthorDTO.class,
                                 author.authorName,
                                 author.authorType
+                        )
+                ).fetch();
+    }
+
+
+    public List<BookResponse.TagDTO> findByBookId(Long bookId) {
+        QTag tag = QTag.tag;
+        QBookTag bookTag = QBookTag.bookTag;
+        QBook book = QBook.book;
+
+        return from(bookTag)
+                .leftJoin(bookTag.book, book)
+                .leftJoin(bookTag.tag, tag)
+                .where(bookTag.book.id.eq(bookId))
+                .where(bookTag.tag.id.eq(tag.id))
+                .select(
+                        Projections.constructor(BookResponse.TagDTO.class,
+                                tag.tagName
                         )
                 ).fetch();
     }

@@ -32,6 +32,7 @@ public class BookResponse {
     private String BookImageURL;
     private String BookImageName;
     private List<BookResponse.AuthorDTO> authorsDTOList;
+    private List<BookResponse.TagDTO> tagDTOList;
 
     @Getter
     @Setter
@@ -44,6 +45,18 @@ public class BookResponse {
         public AuthorDTO(String authorName, String authorType) {
             AuthorName = authorName;
             AuthorType = authorType;
+        }
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class TagDTO {
+        private String TagName;
+
+        @QueryProjection
+        public TagDTO(String tagName) {
+            TagName = tagName;
         }
     }
 }

@@ -40,6 +40,8 @@ public class BookListElementDTO {
 
     private List<AuthorDTO> authorsDTOList;
 
+    private List<TagDTO> tagDTOList;
+
     @Getter
     @Setter
     @Builder
@@ -51,6 +53,19 @@ public class BookListElementDTO {
         public AuthorDTO(String authorName, String authorType) {
             AuthorName = authorName;
             AuthorType = authorType;
+        }
+    }
+
+
+    @Getter
+    @Setter
+    @Builder
+    public static class TagDTO {
+        private String TagName;
+
+        @QueryProjection
+        public TagDTO(String tagName) {
+            TagName = tagName;
         }
     }
 
