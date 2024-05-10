@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_category.repository;
 
-import com.nhnacademy.store99.bookstore.book.dto.response.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_category.dto.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParentsDTO;
 import java.util.List;

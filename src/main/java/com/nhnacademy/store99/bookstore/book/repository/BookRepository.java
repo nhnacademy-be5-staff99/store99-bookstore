@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book.repository;
 
-import com.nhnacademy.store99.bookstore.book.dto.response.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import org.springframework.stereotype.Component;
 
 /**
