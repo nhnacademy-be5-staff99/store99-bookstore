@@ -65,8 +65,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
 
-    // 도서 하나에 카테고리 하나.
-    // 카테고리 하나에 여러 도서니까 이 결과에서 중복되는 값은 없을것.
     @Override
     public Page<BookListElementDTO> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable) {
         QBookCategory bookCategory = QBookCategory.bookCategory;
