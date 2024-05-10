@@ -1,7 +1,9 @@
 package com.nhnacademy.store99.bookstore.book.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.dto.response.SimpleBookResponse;
+import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
@@ -20,19 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BookServiceImpl implements BookService {
-    private final BookJPARepository bookRepository;
+    private final BookJPARepository bookJPARepository;
+    private final BookRepository bookRepository;
     private final BookAuthorService bookAuthorService;
     private final BookImageService bookImageService;
     private final BookTagService bookTagService;
 
+
+    @Transactional(readOnly = true)
     @Override
     public List<SimpleBookResponse> getSimpleBooks(final Set<Long> bookIds) {
-        return bookRepository.findAllByIdInAndDeletedAtNull(bookIds);
+        return bookJPARepository.findAllByIdInAndDeletedAtNull(bookIds);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BookResponse getBookDataById(Long bookId) {
 
         // 도서-작가 리스트객체 받아오기
@@ -52,8 +57,12 @@ public class BookServiceImpl implements BookService {
         bookRequest.setBookImageName(bookImageDTO.getBookImageName());
         bookRequest.setBookImageURL(bookImageDTO.getBookImageURL());
         bookRequest.setTagDTOList(bookTagResponses);
-
-
         return bookRequest;
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void plusViewCnt(Long bookId) {
+        bookJPARepository.findById(bookId).ifPresent(Book::plusViewCnt);
     }
 }

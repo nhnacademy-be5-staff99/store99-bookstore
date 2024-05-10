@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookJPARepository extends JpaRepository<Book, Long>, BookRepository {
+public interface BookJPARepository extends JpaRepository<Book, Long> {
     List<SimpleBookResponse> findAllByIdInAndDeletedAtNull(Set<Long> bookIds);
 
 }

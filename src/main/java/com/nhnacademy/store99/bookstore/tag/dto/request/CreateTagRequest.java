@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 /**
  * 태그 생성요청 DTO
  *
- * @author  rosin23
+ * @author rosin23
  */
 
 @Getter

@@ -1,16 +1,12 @@
 package com.nhnacademy.store99.bookstore.book.entity;
 
-import com.nhnacademy.store99.bookstore.book_tag.entity.BookTag;
 import java.time.LocalDateTime;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -116,4 +112,7 @@ public class Book {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    public void plusViewCnt() {
+        this.bookViewCount += 1;
+    }
 }
