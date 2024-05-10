@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.book.response;
+package com.nhnacademy.store99.bookstore.book.dto.response.response;
 
 
 import com.querydsl.core.annotations.QueryProjection;

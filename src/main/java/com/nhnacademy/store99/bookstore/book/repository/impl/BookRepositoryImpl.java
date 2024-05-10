@@ -3,7 +3,7 @@ package com.nhnacademy.store99.bookstore.book.repository.impl;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.response.BookResponse;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Component;

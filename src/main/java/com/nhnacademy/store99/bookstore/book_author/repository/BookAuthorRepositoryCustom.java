@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_author.repository;
 
-import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.dto.response.response.BookResponse;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
