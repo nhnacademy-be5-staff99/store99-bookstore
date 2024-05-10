@@ -37,12 +37,11 @@ public class SignUpService {
     private final GradeRepository gradeRepository;
     private final AddressRepository addressRepository;
     private final PointRepository pointRepository;
-
     private final PointPolicyRepository pointPolicyRepository;
 
 
     /**
-     * 실제 Db의 password값과 비교해서 password 중복 체크하는 메소드
+     * 실제 Db의 email과 비교해서 email 중복 체크하는 메소드
      *
      * @param email
      * @return boolean
