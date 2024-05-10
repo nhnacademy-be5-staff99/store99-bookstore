@@ -20,6 +20,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
  * Rest docs를 편리하게 사용하기 위한 Support 클래스
+ *
+ * @author seunggyu-kim
  */
 @Disabled
 @Import(RestDocsConfig.class)
