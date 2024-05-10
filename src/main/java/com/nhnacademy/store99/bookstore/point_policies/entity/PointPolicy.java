@@ -1,43 +1,46 @@
 package com.nhnacademy.store99.bookstore.point_policies.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Getter
-@Table(name = "point_policies")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "point_policies", schema = "staff99_bookstore")
 public class PointPolicy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "policy_id", nullable = false)
-    private Long id;
+    @Column(name = "policy_id")
+    @NotNull
+    private Long policyId;
 
-    @Column(name = "policy_type", length = 50, nullable = false)
+    @Column(name = "policy_type")
+    @Size(min = 1, max = 50)
+    @NotNull
     private String policyType;
 
-    @Column(name = "saving_point", nullable = false)
-    private int savingPoint;
+    @NotNull
+    @Column(name = "saving_point")
+    private Integer savingPoint;
 
-    @Column(name = "created_at", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @NotNull
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Column(name = "deleted_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deletedAt;
+    private LocalDateTime deletedAt;
 }
