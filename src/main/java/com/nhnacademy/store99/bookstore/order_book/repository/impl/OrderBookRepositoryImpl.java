@@ -1,13 +1,13 @@
 package com.nhnacademy.store99.bookstore.order_book.repository.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
+import com.nhnacademy.store99.bookstore.order_book.DTO.response.BestBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
 import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
-import com.querydsl.core.group.GroupBy;
+import com.querydsl.core.types.Projections;
 import java.util.List;
-import java.util.Map;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -17,15 +17,28 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
         super(OrderBook.class);
     }
 
+    // select b.*
+    // from order_book ob
+    // join books as b
+    // where ob.book_id = b.book_id
+    // GROUP BY ob.book_id
+    // Order By COUNT(ob.book_id) DESC ;
     @Override
-    public Map<Long, Long> bestBooks() {
+    public List<BestBookResponse> bestBooks() {
         QBook book = QBook.book;
         QOrderBook orderBook = QOrderBook.orderBook;
 
         return from(orderBook)
+                .join(orderBook.book, book)
                 .groupBy(orderBook.book.id)
                 .orderBy(orderBook.book.id.count().desc())
-                .transform(GroupBy.groupBy(orderBook.book.id).as(orderBook.book.id.count()));
+                .select(Projections.constructor(
+                        BestBookResponse.class,
+                        book.id.as("bookId"),
+                        book.bookTitle,
+                        book.bookDescription,
+                        book.bookThumbnailUrl
+                )).fetch();
     }
 
 
