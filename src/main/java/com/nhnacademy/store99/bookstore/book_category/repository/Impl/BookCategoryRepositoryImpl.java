@@ -1,14 +1,14 @@
 package com.nhnacademy.store99.bookstore.book_category.repository.Impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
-import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book.dto.response.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
+import com.nhnacademy.store99.bookstore.book_category.dto.response.BookCategoryResponse;
+import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
-import com.nhnacademy.store99.bookstore.book_category.dto.response.BookCategoryResponse;
-import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
