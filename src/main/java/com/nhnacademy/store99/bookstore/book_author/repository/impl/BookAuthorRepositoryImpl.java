@@ -2,8 +2,8 @@ package com.nhnacademy.store99.bookstore.book_author.repository.impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.dto.response.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_author.entity.BookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
 import com.nhnacademy.store99.bookstore.book_author.repository.BookAuthorRepositoryCustom;

@@ -1,44 +1,37 @@
-package com.nhnacademy.store99.bookstore.book.response;
+package com.nhnacademy.store99.bookstore.book.dto.response.response;
+
 
 import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 도서 통신 데이터
+ *
+ * @author yrrho2
+ */
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class BookListElementDTO {
-
+public class BookResponse {
     private Long BookId;
-
+    private String BookIsbn13;
+    private String BookIsbn10;
     private String BookTitle;
-
+    private String BookContents;
+    private String BookDescription;
     private String BookPublisher;
-
     private LocalDateTime BookDate;
-
     private Integer BookPrice;
-
     private Integer BookSalePrice;
-
-    private String BookThumbnailUrl;
-
-    private Integer BookCntOfReview;
-
-    private Integer BookViewCount;
-
     private Integer BookStock;
-
+    private Integer BookCntOfReview;
     private Double BookAvgOfRate;
-
-    private List<AuthorDTO> authorsDTOList;
+    private String BookImageURL;
+    private String BookImageName;
+    private List<BookResponse.AuthorDTO> authorsDTOList;
 
     @Getter
     @Setter
@@ -53,5 +46,4 @@ public class BookListElementDTO {
             AuthorType = authorType;
         }
     }
-
 }

@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_image.service.impl;
 
 import com.nhnacademy.store99.bookstore.book_image.repository.impl.BookImageRepositoryImpl;
-import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
+import com.nhnacademy.store99.bookstore.book_image.dto.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.book_image.service.BookImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;

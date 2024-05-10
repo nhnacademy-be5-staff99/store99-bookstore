@@ -1,8 +1,8 @@
 package com.nhnacademy.store99.bookstore.book_category.service.Impl;
 
-import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.dto.response.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
-import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
+import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.service.BookCategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
