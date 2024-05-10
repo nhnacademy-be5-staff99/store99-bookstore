@@ -18,7 +18,7 @@ import com.nhnacademy.store99.bookstore.user.dto.SignUpDto;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.nhnacademy.store99.bookstore.user.repository.SignUpRepository;
 import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
+@RequiredArgsConstructor
 public class SignUpService {
 
     private final SignUpRepository userRepository;
@@ -39,20 +40,6 @@ public class SignUpService {
 
     private final PointPolicyRepository pointPolicyRepository;
 
-
-    @Autowired
-    public SignUpService(SignUpRepository userRepository, ConsumerRepository consumerRepository,
-                         AuthRepository authRepository, GradeRepository gradeRepository,
-                         AddressRepository addressRepository, PointRepository pointRepository,
-                         PointPolicyRepository pointPolicyRepository) {
-        this.userRepository = userRepository;
-        this.consumerRepository = consumerRepository;
-        this.authRepository = authRepository;
-        this.gradeRepository = gradeRepository;
-        this.addressRepository = addressRepository;
-        this.pointRepository = pointRepository;
-        this.pointPolicyRepository = pointPolicyRepository;
-    }
 
     /**
      * 실제 Db의 password값과 비교해서 password 중복 체크하는 메소드
@@ -112,7 +99,7 @@ public class SignUpService {
         addressRepository.save(address);
 
         PointHistory pointHistory = PointHistory.builder()
-                .user(user)
+                .userId(user.getId())
                 .pointHistoryValue(pointPolicyRepository.findSavingPointByPolicyType("WELCOME").getSavingPoint())
                 .pointHistoryType(WELCOME)
                 .createdAt(LocalDateTime.now())
