@@ -94,7 +94,7 @@ public class SignUpService {
                 .consumers(consumer)
                 .grade(Grade.builder().id(1L).build())
                 .auth(Auth.builder().id(1L).build())
-                .userPoint(pointPolicyRepository.findPointValueByPolicyType("WELCOME").getPointValue())
+                .userPoint(pointPolicyRepository.findSavingPointByPolicyType("WELCOME").getSavingPoint())
                 .userLoginAt(LocalDateTime.now())
                 .userIsInactive(false)
                 .createdAt(LocalDateTime.now())
@@ -113,7 +113,7 @@ public class SignUpService {
 
         PointHistory pointHistory = PointHistory.builder()
                 .user(user)
-                .pointHistoryValue(pointPolicyRepository.findPointValueByPolicyType("WELCOME").getPointValue())
+                .pointHistoryValue(pointPolicyRepository.findSavingPointByPolicyType("WELCOME").getSavingPoint())
                 .pointHistoryType(WELCOME)
                 .createdAt(LocalDateTime.now())
                 .build();
