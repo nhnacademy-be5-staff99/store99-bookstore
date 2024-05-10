@@ -35,7 +35,6 @@ public class BookAuthorServiceImpl implements BookAuthorService {
         return bookAuthorRepositoryImp.getAuthorsById(bookId);
     }
 
-
     @Override
     public Page<BookListElementDTO> getBookListElementsDTO(Pageable pageable) {
         return bookAuthorRepositoryImp.findBooks(pageable);
