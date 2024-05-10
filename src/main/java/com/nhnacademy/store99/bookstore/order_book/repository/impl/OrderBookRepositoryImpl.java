@@ -1,10 +1,10 @@
-package com.nhnacademy.store99.bookstore.order_book.entity.repository.impl;
+package com.nhnacademy.store99.bookstore.order_book.repository.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.order_book.entity.OrderBook;
+import com.nhnacademy.store99.bookstore.order_book.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
-import com.nhnacademy.store99.bookstore.order_book.entity.repository.OrderBookRepository;
-import com.nhnacademy.store99.bookstore.order_book.entity.response.LatestBookResponse;
+import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
+import com.nhnacademy.store99.bookstore.order_book.response.LatestBookResponse;
 import com.querydsl.core.group.GroupBy;
 import java.util.List;
 import java.util.Map;
