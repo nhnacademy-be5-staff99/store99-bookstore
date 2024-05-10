@@ -1,10 +1,10 @@
 package com.nhnacademy.store99.bookstore.book_image.repository.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
+import com.nhnacademy.store99.bookstore.book_image.dto.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.book_image.entity.BookImage;
 import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.book_image.repository.BookImageRepository;
-import com.nhnacademy.store99.bookstore.book_image.dto.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.file.entity.QFile;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
