@@ -13,4 +13,6 @@ public interface BookService {
     List<SimpleBookResponse> getSimpleBooks(final Set<Long> bookIds);
 
     BookResponse getBookDataById(Long bookId);
+
+    void plusViewCnt(Long bookId);
 }
