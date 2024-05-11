@@ -1,13 +1,13 @@
 package com.nhnacademy.store99.bookstore.book.service.impl;
 
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.dto.response.SimpleBookResponse;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
-import com.nhnacademy.store99.bookstore.book_image.response.BookImageDTO;
+import com.nhnacademy.store99.bookstore.book_image.dto.response.BookImageDTO;
 import com.nhnacademy.store99.bookstore.book_image.service.BookImageService;
 import com.nhnacademy.store99.bookstore.book_tag.service.BookTagService;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.book_tag.service;
 
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_tag.repository.BookTagRepositoryCustomImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

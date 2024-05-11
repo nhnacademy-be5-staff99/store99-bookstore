@@ -1,6 +1,6 @@
-package com.nhnacademy.store99.bookstore.order_book.entity.service;
+package com.nhnacademy.store99.bookstore.order_book.service;
 
-import com.nhnacademy.store99.bookstore.order_book.entity.response.LatestBookResponse;
+import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
 import java.util.List;
 import java.util.Map;
 

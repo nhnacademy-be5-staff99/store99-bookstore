@@ -1,8 +1,8 @@
-package com.nhnacademy.store99.bookstore.order_book.entity.service.impl;
+package com.nhnacademy.store99.bookstore.order_book.service.impl;
 
-import com.nhnacademy.store99.bookstore.order_book.entity.repository.OrderBookRepository;
-import com.nhnacademy.store99.bookstore.order_book.entity.response.LatestBookResponse;
-import com.nhnacademy.store99.bookstore.order_book.entity.service.OrderBookService;
+import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
+import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
+import com.nhnacademy.store99.bookstore.order_book.service.OrderBookService;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

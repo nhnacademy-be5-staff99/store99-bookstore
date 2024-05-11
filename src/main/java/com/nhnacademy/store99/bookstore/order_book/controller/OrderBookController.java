@@ -1,6 +1,6 @@
-package com.nhnacademy.store99.bookstore.order_book.entity.controller;
+package com.nhnacademy.store99.bookstore.order_book.controller;
 
-import com.nhnacademy.store99.bookstore.order_book.entity.service.OrderBookService;
+import com.nhnacademy.store99.bookstore.order_book.service.OrderBookService;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
