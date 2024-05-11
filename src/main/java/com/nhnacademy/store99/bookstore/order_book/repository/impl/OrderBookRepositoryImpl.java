@@ -3,7 +3,7 @@ package com.nhnacademy.store99.bookstore.order_book.repository.impl;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.OrderBook;
-import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
+import com.nhnacademy.store99.bookstore.order_book.QOrderBook;
 import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
 import com.querydsl.core.group.GroupBy;
 import java.util.List;
