@@ -8,9 +8,14 @@ import com.nhnacademy.store99.bookstore.like.repository.LikeRepository;
 import com.nhnacademy.store99.bookstore.like.service.LikeService;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
+import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Data
+@Slf4j
 @Service
 public class LikeServiceImpl implements LikeService {
 
@@ -27,15 +32,18 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    @Transactional
     public void addLike(LikeRequest likeRequest) {
         if (isLiked(likeRequest.getBookId(), likeRequest.getUserId())) {
             throw new IllegalStateException("Already pressed the like!!");
         }
         Book likeBook = bookRepository.findById(likeRequest.getBookId()).orElseThrow();
-        User likeUser = userRepository.findById(likeRequest.getUserId()).orElseThrow();
+        log.debug("likeBook: {}", likeBook);
+
+        User likeUser = userRepository.findById(likeRequest.getUserId()).orElseThrow(null);
+        log.debug("likeUser: {}", likeUser);
 
         Like newLike = Like.builder()
+                .createdAt(LocalDateTime.now())
                 .book(likeBook)
                 .user(likeUser)
                 .build();
