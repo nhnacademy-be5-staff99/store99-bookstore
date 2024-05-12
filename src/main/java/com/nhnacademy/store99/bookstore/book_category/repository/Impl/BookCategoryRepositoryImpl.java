@@ -169,6 +169,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                 .where(bookCategory.book.deletedAt.isNull())
                 .orderBy(book.createdAt.desc())
                 .orderBy(book.id.asc())
+                .limit(10L)
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
