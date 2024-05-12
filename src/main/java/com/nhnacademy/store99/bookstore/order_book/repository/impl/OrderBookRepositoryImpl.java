@@ -2,7 +2,6 @@ package com.nhnacademy.store99.bookstore.order_book.repository.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
-import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
 import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
@@ -44,7 +43,17 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
 
     // select b.book_id, b.created_at  from books b ORDER BY b.created_at DESC, b.book_id DESC;
     @Override
-    public List<LatestBookResponse> latestBooks() {
-        return null;
+    public List<IndexBookResponse> latestBooks() {
+        QBook book = QBook.book;
+        return from(book)
+                .orderBy(book.createdAt.desc())
+                .orderBy(book.id.desc())
+                .select(Projections.constructor(
+                        IndexBookResponse.class,
+                        book.id.as("bookId"),
+                        book.bookTitle,
+                        book.bookDescription,
+                        book.bookThumbnailUrl
+                )).fetch();
     }
 }

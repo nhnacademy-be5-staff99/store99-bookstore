@@ -18,4 +18,9 @@ public class OrderBookController {
     public List<IndexBookResponse> getBestBooks() {
         return orderBookService.bestBooks();
     }
+
+    @GetMapping("/latest")
+    public List<IndexBookResponse> getLatestBooks() {
+        return orderBookService.latestBooks();
+    }
 }

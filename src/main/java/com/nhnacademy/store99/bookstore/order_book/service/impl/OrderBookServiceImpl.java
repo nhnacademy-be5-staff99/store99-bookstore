@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.order_book.service.impl;
 
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
-import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
 import com.nhnacademy.store99.bookstore.order_book.service.OrderBookService;
 import java.util.List;
@@ -21,7 +20,7 @@ public class OrderBookServiceImpl implements OrderBookService {
     }
 
     @Override
-    public List<LatestBookResponse> latestBooks() {
-        return null;
+    public List<IndexBookResponse> latestBooks() {
+        return orderBookRepository.latestBooks();
     }
 }

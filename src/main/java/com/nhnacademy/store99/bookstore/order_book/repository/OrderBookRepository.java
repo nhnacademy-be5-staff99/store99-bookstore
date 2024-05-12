@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.order_book.repository;
 
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
-import com.nhnacademy.store99.bookstore.order_book.DTO.response.LatestBookResponse;
 import java.util.List;
 
 public interface OrderBookRepository {
@@ -15,7 +14,7 @@ public interface OrderBookRepository {
 
     // 이거는 최신 도서를 가져옴
     // select b.book_id, b.created_at  from books b ORDER BY b.created_at DESC, b.book_id DESC;
-    List<LatestBookResponse> latestBooks();
+    List<IndexBookResponse> latestBooks();
 }
 
 

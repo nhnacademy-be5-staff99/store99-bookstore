@@ -3,6 +3,7 @@ package com.nhnacademy.store99.bookstore.book_category.repository;
 import com.nhnacademy.store99.bookstore.book.dto.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_category.dto.response.BookCategoryResponse;
 import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParentsDTO;
+import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,8 @@ public interface BookCategoryRepository {
     // 도서정보를 가져와야하나,, 도서 id들만 가져와서 도서를 가져오는건 다른녀석을 사용? 해야할듯
     //  bookRepository.getBookDataById(bookId);
     Page<BookListElementDTO> getBooksByCategories(List<CategoryParentsDTO> parentsDTOList, Pageable pageable);
+
+    List<IndexBookResponse> getBooksByCategories(Long categoryId);
 
     // 도서 한권의 카테고리를 가져오는 간단한 메소드
     BookCategoryResponse getCategoryByBookId(Long bookId);
