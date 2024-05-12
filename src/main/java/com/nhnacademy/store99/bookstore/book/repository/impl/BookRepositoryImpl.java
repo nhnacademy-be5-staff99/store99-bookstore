@@ -1,9 +1,9 @@
 package com.nhnacademy.store99.bookstore.book.repository.impl;
 
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.repository.BookRepositoryCustom;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @author yrrho2
  */
 @Component
-public class BookRepositoryImpl extends QuerydslRepositorySupport implements BookRepositoryCustom {
+public class BookRepositoryImpl extends QuerydslRepositorySupport implements BookRepository {
     public BookRepositoryImpl() {
         super(Book.class);
     }
@@ -35,7 +35,6 @@ public class BookRepositoryImpl extends QuerydslRepositorySupport implements Boo
                         book.bookDate,
                         book.bookPrice,
                         book.bookSalePrice,
-                        book.bookIsPacked,
                         book.bookThumbnailUrl,
                         book.bookStock,
                         book.bookCntOfReview,

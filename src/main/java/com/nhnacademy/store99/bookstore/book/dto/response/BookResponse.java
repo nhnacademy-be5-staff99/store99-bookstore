@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.book.response;
+package com.nhnacademy.store99.bookstore.book.dto.response;
 
 
 import com.querydsl.core.annotations.QueryProjection;
@@ -26,13 +26,13 @@ public class BookResponse {
     private LocalDateTime BookDate;
     private Integer BookPrice;
     private Integer BookSalePrice;
-    private Boolean BookIsPacked;
     private Integer BookStock;
     private Integer BookCntOfReview;
     private Double BookAvgOfRate;
     private String BookImageURL;
     private String BookImageName;
     private List<BookResponse.AuthorDTO> authorsDTOList;
+    private List<BookResponse.TagDTO> tagDTOList;
 
     @Getter
     @Setter
@@ -45,6 +45,18 @@ public class BookResponse {
         public AuthorDTO(String authorName, String authorType) {
             AuthorName = authorName;
             AuthorType = authorType;
+        }
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class TagDTO {
+        private String TagName;
+
+        @QueryProjection
+        public TagDTO(String tagName) {
+            TagName = tagName;
         }
     }
 }

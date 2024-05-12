@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 태그 REST 컨트롤러
  *
- * @author  rosin23
+ * @author rosin23
  */
 
 @Slf4j
@@ -37,16 +37,16 @@ public class Tagcontroller {
 
     @PostMapping
     public ResponseEntity<CommonResponse<TagResponse>> createTag(@Valid @RequestBody CreateTagRequest request) {
-            TagResponse res = tagService.createTag(request);
-            CommonHeader header = CommonHeader.builder()
-                                            .httpStatus(HttpStatus.CREATED)
-                                            .resultMessage("tag 생성 완료")
-                                            .build();
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(CommonResponse.<TagResponse>builder()
-                                            .header(header)
-                                            .result(res)
-                                            .build());
+        TagResponse res = tagService.createTag(request);
+        CommonHeader header = CommonHeader.builder()
+                .httpStatus(HttpStatus.CREATED)
+                .resultMessage("tag 생성 완료")
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(CommonResponse.<TagResponse>builder()
+                        .header(header)
+                        .result(res)
+                        .build());
     }
 
     @GetMapping

@@ -1,8 +1,8 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookListElementDTO;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
-import com.nhnacademy.store99.bookstore.book_author.response.BookTransDTO;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,13 +26,15 @@ public class BookController {
 
 
     @GetMapping("")
-    public Page<BookTransDTO> getBooksFinal(Pageable pageable) {
-        return bookAuthorService.getBookTransDTO(pageable);
+    public Page<BookListElementDTO> getBooksFinal(Pageable pageable) {
+        return bookAuthorService.getBookListElementsDTO(pageable);
     }
 
     @GetMapping("/{bookId}")
     public BookResponse getBook(@PathVariable("bookId") Long bookId) {
-        return bookService.getBookDataById(bookId);
+        BookResponse bookDataById = bookService.getBookDataById(bookId);
+        bookService.plusViewCnt(bookId);
+        return bookDataById;
     }
 
 }
