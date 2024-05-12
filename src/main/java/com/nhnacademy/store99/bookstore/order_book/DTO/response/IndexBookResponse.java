@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class BestBookResponse {
+public class IndexBookResponse {
     private Long BookId;
     private String BookTitle;
     private String BookDescription;
