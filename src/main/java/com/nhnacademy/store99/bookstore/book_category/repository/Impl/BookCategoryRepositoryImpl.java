@@ -9,6 +9,7 @@ import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParen
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
+import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.book_tag.entity.QBookTag;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
@@ -159,23 +160,28 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
     public List<IndexBookResponse> getBooksByCategories(Long categoryId) {
         QBookCategory bookCategory = QBookCategory.bookCategory;
         QBook book = QBook.book;
+        QBookImage bookImage = QBookImage.bookImage;
         List<Long> parentIds =
                 getCategoriesByParentsId(categoryId).stream().map(CategoryParentsDTO::getCategoryId)
                         .collect(Collectors.toList());
-
-
-        return from(bookCategory)
+        List<Long> cBooks = from(bookCategory)
+                .join(bookCategory.book, book)
                 .where(bookCategory.category.id.in(parentIds))
                 .where(bookCategory.book.deletedAt.isNull())
                 .orderBy(book.createdAt.desc())
                 .orderBy(book.id.asc())
-                .limit(10L)
+                .limit(5L).select(book.id).fetch();
+
+        return from(bookImage).join(bookImage.book, book)
+                .where(bookImage.book.id.in(cBooks))
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
                         book.bookTitle,
+                        book.bookDate,
                         book.bookDescription,
-                        book.bookThumbnailUrl
+                        book.bookThumbnailUrl,
+                        bookImage.files.fileUrl
                 )).fetch();
     }
 

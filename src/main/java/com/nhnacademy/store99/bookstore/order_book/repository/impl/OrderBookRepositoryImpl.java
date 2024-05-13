@@ -1,6 +1,7 @@
 package com.nhnacademy.store99.bookstore.order_book.repository.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
+import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.QOrderBook;
@@ -25,19 +26,29 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
     @Override
     public List<IndexBookResponse> bestBooks() {
         QBook book = QBook.book;
+        QBookImage bookImage = QBookImage.bookImage;
         QOrderBook orderBook = QOrderBook.orderBook;
 
-        return from(orderBook)
+        List<Long> bestBooks = from(orderBook)
                 .join(orderBook.book, book)
+                .where(book.deletedAt.isNull())
                 .groupBy(orderBook.book.id)
                 .orderBy(orderBook.book.id.count().desc())
-                .limit(10L)
+                .limit(5L)
+                .select(book.id).fetch();
+
+
+        return from(bookImage)
+                .join(bookImage.book, book)
+                .where(bookImage.book.id.in(bestBooks))
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
                         book.bookTitle,
+                        book.bookDate,
                         book.bookDescription,
-                        book.bookThumbnailUrl
+                        book.bookThumbnailUrl,
+                        bookImage.files.fileUrl
                 )).fetch();
     }
 
@@ -46,16 +57,26 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
     @Override
     public List<IndexBookResponse> latestBooks() {
         QBook book = QBook.book;
-        return from(book)
+        QBookImage bookImage = QBookImage.bookImage;
+
+        List<Long> latestBooks = from(book)
+                .where(book.deletedAt.isNull())
                 .orderBy(book.createdAt.desc())
                 .orderBy(book.id.desc())
-                .limit(10L)
+                .limit(5L)
+                .select(book.id.as("bookId")).fetch();
+
+        return from(bookImage)
+                .join(bookImage.book, book)
+                .where(bookImage.book.id.in(latestBooks))
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
                         book.bookTitle,
+                        book.bookDate,
                         book.bookDescription,
-                        book.bookThumbnailUrl
+                        book.bookThumbnailUrl,
+                        bookImage.files.fileUrl
                 )).fetch();
     }
 }
