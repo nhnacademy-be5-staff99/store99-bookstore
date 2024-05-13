@@ -3,8 +3,8 @@ package com.nhnacademy.store99.bookstore.order_book.repository.impl;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
-import com.nhnacademy.store99.bookstore.order_book.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.QOrderBook;
+import com.nhnacademy.store99.bookstore.order_book.entity.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
 import com.querydsl.core.types.Projections;
 import java.util.List;
@@ -41,6 +41,7 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
         return from(bookImage)
                 .join(bookImage.book, book)
                 .where(bookImage.book.id.in(bestBooks))
+                .limit(5L)
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
@@ -69,6 +70,7 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
         return from(bookImage)
                 .join(bookImage.book, book)
                 .where(bookImage.book.id.in(latestBooks))
+                .limit(5L)
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),

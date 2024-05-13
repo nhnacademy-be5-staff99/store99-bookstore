@@ -174,6 +174,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
 
         return from(bookImage).join(bookImage.book, book)
                 .where(bookImage.book.id.in(cBooks))
+                .limit(5L)
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
