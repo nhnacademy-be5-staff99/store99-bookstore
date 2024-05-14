@@ -1,4 +1,4 @@
-package com.nhnacademy.store99.bookstore.order_book;
+package com.nhnacademy.store99.bookstore.order_book.entity;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.order.entity.Order;
