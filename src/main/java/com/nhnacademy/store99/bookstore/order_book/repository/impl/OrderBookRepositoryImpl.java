@@ -33,7 +33,7 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
                 .join(orderBook.book, book)
                 .where(book.deletedAt.isNull())
                 .groupBy(orderBook.book.id)
-                .orderBy(orderBook.book.id.count().desc())
+                .orderBy(bookImage.book.id.count().desc())
                 .limit(5L)
                 .select(book.id).fetch();
 
@@ -62,15 +62,16 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
 
         List<Long> latestBooks = from(book)
                 .where(book.deletedAt.isNull())
-                .orderBy(book.createdAt.desc())
-                .orderBy(book.id.desc())
-                .limit(5L)
+                .orderBy(book.bookDate.desc())
+                .orderBy(book.id.asc())
+                .limit(5)
                 .select(book.id.as("bookId")).fetch();
 
         return from(bookImage)
                 .join(bookImage.book, book)
                 .where(bookImage.book.id.in(latestBooks))
-                .limit(5L)
+                .orderBy(book.bookDate.desc())
+                .orderBy(book.id.asc())
                 .select(Projections.constructor(
                         IndexBookResponse.class,
                         book.id.as("bookId"),
