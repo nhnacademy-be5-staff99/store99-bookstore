@@ -36,7 +36,7 @@ public class LikeController {
     }
 
     @PostMapping("/likes")
-    public ResponseEntity<CommonResponse<Void>> postAddLike(@RequestBody @Valid LikeRequest req) {
+    public CommonResponse<Void> postAddLike(@RequestBody @Valid LikeRequest req) {
         likeService.addLike(req);
         CommonHeader commonHeader = CommonHeader.builder()
                 .httpStatus(HttpStatus.CREATED)
@@ -45,7 +45,7 @@ public class LikeController {
         CommonResponse<Void> commonResponse = CommonResponse.<Void>builder()
                 .header(commonHeader)
                 .build();
-        return ResponseEntity.ok(commonResponse);
+        return commonResponse;
 
     }
 
