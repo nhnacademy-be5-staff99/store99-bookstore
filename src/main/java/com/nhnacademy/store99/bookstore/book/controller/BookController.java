@@ -28,6 +28,7 @@ public class BookController {
     @PutMapping("/{bookId}/restore")
     public void restoreBook(@PathVariable("bookId") Long bookId) {
         bookService.restoreBook(bookId);
+
     }
 
 }
