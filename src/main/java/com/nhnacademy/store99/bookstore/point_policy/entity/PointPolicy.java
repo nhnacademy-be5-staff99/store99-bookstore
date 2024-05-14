@@ -1,6 +1,5 @@
 package com.nhnacademy.store99.bookstore.point_policy.entity;
 
-import java.awt.print.PrinterGraphics;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Builder
 @Entity

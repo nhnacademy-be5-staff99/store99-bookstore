@@ -2,7 +2,7 @@ package com.nhnacademy.store99.bookstore.review.repository.impl;
 
 import com.nhnacademy.store99.bookstore.consumer.entity.QConsumer;
 import com.nhnacademy.store99.bookstore.order.entity.QOrder;
-import com.nhnacademy.store99.bookstore.order_book.QOrderBook;
+import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
 import com.nhnacademy.store99.bookstore.review.entity.Review;
 import com.nhnacademy.store99.bookstore.review.repository.ReviewRepositoryCustom;
 import com.nhnacademy.store99.bookstore.user.entity.QUser;
