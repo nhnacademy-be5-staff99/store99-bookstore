@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.like.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.like.dto.request.LikeRequest;
 import com.nhnacademy.store99.bookstore.like.entity.Like;
 import com.nhnacademy.store99.bookstore.like.repository.LikeRepository;
@@ -16,11 +16,11 @@ public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
-    private final BookJPARepository bookRepository;
+    private final BookRepository bookRepository;
 
     public LikeServiceImpl(LikeRepository likeRepository,
                            UserRepository userRepository,
-                           BookJPARepository bookRepository) {
+                           BookRepository bookRepository) {
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
