@@ -3,7 +3,7 @@ package com.nhnacademy.store99.bookstore.review.service.impl;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
 import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.common.thread_local.XUserIdThreadLocal;
-import com.nhnacademy.store99.bookstore.review.dto.request.ReviewRegisterRequest;
+import com.nhnacademy.store99.bookstore.review.dto.request.TextReviewRegisterRequest;
 import com.nhnacademy.store99.bookstore.review.entity.Review;
 import com.nhnacademy.store99.bookstore.review.repository.ReviewRepository;
 import com.nhnacademy.store99.bookstore.review.service.ReviewService;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final BookJPARepository bookRepository;
@@ -27,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void registerReview(ReviewRegisterRequest request) {
+    public void registerTextReview(TextReviewRegisterRequest request) {
 
         Long userId = XUserIdThreadLocal.getXUserId();
         if (reviewRepository.isRegister(request.getBookId(), userId)) {

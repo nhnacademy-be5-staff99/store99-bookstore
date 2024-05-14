@@ -1,6 +1,6 @@
 package com.nhnacademy.store99.bookstore.review.controller;
 
-import com.nhnacademy.store99.bookstore.review.dto.request.ReviewRegisterRequest;
+import com.nhnacademy.store99.bookstore.review.dto.request.TextReviewRegisterRequest;
 import com.nhnacademy.store99.bookstore.review.exception.RegisterReviewProcessingException;
 import com.nhnacademy.store99.bookstore.review.service.ReviewService;
 import javax.validation.Valid;
@@ -19,12 +19,13 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping("/register")
-    public void registerReview(@RequestBody @Valid ReviewRegisterRequest request) {
+    @PostMapping("/text/register")
+    public void registerTextReview(@RequestBody @Valid TextReviewRegisterRequest request) {
         try {
-            reviewService.registerReview(request);
+            reviewService.registerTextReview(request);
         } catch (Exception ex) {
             throw new RegisterReviewProcessingException("Not register Review: " + ex);
         }
     }
+
 }
