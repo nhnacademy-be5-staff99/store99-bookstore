@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.book_tag.repository;
 
+import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book_tag.entity.BookTag;
 import com.nhnacademy.store99.bookstore.book_tag.entity.QBookTag;
 import com.nhnacademy.store99.bookstore.tag.entity.QTag;

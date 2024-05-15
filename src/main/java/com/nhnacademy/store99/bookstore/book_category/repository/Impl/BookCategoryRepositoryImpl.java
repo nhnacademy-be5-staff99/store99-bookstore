@@ -1,16 +1,18 @@
 package com.nhnacademy.store99.bookstore.book_category.repository.Impl;
 
 import com.nhnacademy.store99.bookstore.author.entity.QAuthor;
+import com.nhnacademy.store99.bookstore.book.dto.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
-import com.nhnacademy.store99.bookstore.book.response.BookListElementDTO;
 import com.nhnacademy.store99.bookstore.book_author.entity.QBookAuthor;
+import com.nhnacademy.store99.bookstore.book_category.dto.response.BookCategoryResponse;
+import com.nhnacademy.store99.bookstore.book_category.dto.response.CategoryParentsDTO;
 import com.nhnacademy.store99.bookstore.book_category.entity.BookCategory;
 import com.nhnacademy.store99.bookstore.book_category.entity.QBookCategory;
 import com.nhnacademy.store99.bookstore.book_category.repository.BookCategoryRepository;
-import com.nhnacademy.store99.bookstore.book_category.response.BookCategoryResponse;
-import com.nhnacademy.store99.bookstore.book_category.response.CategoryParentsDTO;
+import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.book_tag.entity.QBookTag;
 import com.nhnacademy.store99.bookstore.category.entity.QCategory;
+import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
 import com.nhnacademy.store99.bookstore.tag.entity.QTag;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
@@ -152,6 +154,36 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
         ).collect(Collectors.toList());
 
         return new PageImpl<>(bookResponses, pageable, totalSize);
+    }
+
+    @Override
+    public List<IndexBookResponse> getBooksByCategories(Long categoryId) {
+        QBookCategory bookCategory = QBookCategory.bookCategory;
+        QBook book = QBook.book;
+        QBookImage bookImage = QBookImage.bookImage;
+        List<Long> parentIds =
+                getCategoriesByParentsId(categoryId).stream().map(CategoryParentsDTO::getCategoryId)
+                        .collect(Collectors.toList());
+        List<Long> cBooks = from(bookCategory)
+                .join(bookCategory.book, book)
+                .where(bookCategory.category.id.in(parentIds))
+                .where(bookCategory.book.deletedAt.isNull())
+                .orderBy(book.createdAt.desc())
+                .orderBy(book.id.asc())
+                .limit(5L).select(book.id).fetch();
+
+        return from(bookImage).join(bookImage.book, book)
+                .where(bookImage.book.id.in(cBooks))
+                .limit(5L)
+                .select(Projections.constructor(
+                        IndexBookResponse.class,
+                        book.id.as("bookId"),
+                        book.bookTitle,
+                        book.bookDate,
+                        book.bookDescription,
+                        book.bookThumbnailUrl,
+                        bookImage.files.fileUrl
+                )).fetch();
     }
 
     @Override
