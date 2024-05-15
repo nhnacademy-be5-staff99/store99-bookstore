@@ -5,7 +5,7 @@ import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.entity.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
-import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
+import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepositoryCustom;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implements OrderBookRepository {
+public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implements OrderBookRepositoryCustom {
     public OrderBookRepositoryImpl() {
         super(OrderBook.class);
     }

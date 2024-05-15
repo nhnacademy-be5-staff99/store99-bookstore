@@ -68,10 +68,10 @@ public class MailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    key.append((char) (rnd.nextInt(26) + 97));
                     break;
                 case 1:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    key.append((char) (rnd.nextInt(26) + 65));
                     break;
                 case 2:
                     key.append((rnd.nextInt(10)));

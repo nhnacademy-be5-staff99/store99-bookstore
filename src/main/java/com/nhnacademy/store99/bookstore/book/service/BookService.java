@@ -14,9 +14,5 @@ public interface BookService {
 
     BookResponse getBookDataById(Long bookId);
 
-    void deleteBook(Long bookId);
-
-    void restoreBook(Long bookId);
-
     void plusViewCnt(Long bookId);
 }

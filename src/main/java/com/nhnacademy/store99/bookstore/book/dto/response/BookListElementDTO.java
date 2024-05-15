@@ -38,8 +38,6 @@ public class BookListElementDTO {
 
     private Double BookAvgOfRate;
 
-    private LocalDateTime DeletedAt;
-
     private List<AuthorDTO> authorsDTOList;
 
     private List<TagDTO> tagDTOList;

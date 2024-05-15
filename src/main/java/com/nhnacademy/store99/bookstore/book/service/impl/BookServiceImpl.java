@@ -3,7 +3,6 @@ package com.nhnacademy.store99.bookstore.book.service.impl;
 import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.dto.response.SimpleBookResponse;
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
 import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
 import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-    private final BookJPARepository bookJPARepository;
     private final BookRepository bookRepository;
     private final BookAuthorService bookAuthorService;
     private final BookImageService bookImageService;
@@ -33,7 +31,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<SimpleBookResponse> getSimpleBooks(final Set<Long> bookIds) {
-        return bookJPARepository.findAllByIdInAndDeletedAtNull(bookIds);
+        return bookRepository.findAllByIdInAndDeletedAtNull(bookIds);
     }
 
     @Override
@@ -60,22 +58,9 @@ public class BookServiceImpl implements BookService {
         return bookRequest;
     }
 
-
-    @Override
-    @Transactional(readOnly = false)
-    public void deleteBook(Long bookId) {
-        bookJPARepository.findById(bookId).ifPresent(Book::deleteBook);
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public void restoreBook(Long bookId) {
-        bookJPARepository.findById(bookId).ifPresent(Book::restoreBook);
-    }
-
     @Override
     @Transactional(readOnly = false)
     public void plusViewCnt(Long bookId) {
-        bookJPARepository.findById(bookId).ifPresent(Book::plusViewCnt);
+        bookRepository.findById(bookId).ifPresent(Book::plusViewCnt);
     }
 }

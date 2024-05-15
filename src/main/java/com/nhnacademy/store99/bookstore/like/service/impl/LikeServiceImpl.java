@@ -1,41 +1,49 @@
 package com.nhnacademy.store99.bookstore.like.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.like.dto.request.LikeRequest;
 import com.nhnacademy.store99.bookstore.like.entity.Like;
 import com.nhnacademy.store99.bookstore.like.repository.LikeRepository;
 import com.nhnacademy.store99.bookstore.like.service.LikeService;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.nhnacademy.store99.bookstore.user.repository.UserRepository;
+import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Data
+@Slf4j
 @Service
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
-    private final BookJPARepository bookRepository;
+    private final BookRepository bookRepository;
 
     public LikeServiceImpl(LikeRepository likeRepository,
                            UserRepository userRepository,
-                           BookJPARepository bookRepository) {
+                           BookRepository bookRepository) {
         this.likeRepository = likeRepository;
         this.userRepository = userRepository;
         this.bookRepository = bookRepository;
     }
 
     @Override
-    @Transactional
     public void addLike(LikeRequest likeRequest) {
         if (isLiked(likeRequest.getBookId(), likeRequest.getUserId())) {
             throw new IllegalStateException("Already pressed the like!!");
         }
         Book likeBook = bookRepository.findById(likeRequest.getBookId()).orElseThrow();
-        User likeUser = userRepository.findById(likeRequest.getUserId()).orElseThrow();
+        log.debug("likeBook: {}", likeBook);
+
+        User likeUser = userRepository.findById(likeRequest.getUserId()).orElseThrow(null);
+        log.debug("likeUser: {}", likeUser);
 
         Like newLike = Like.builder()
+                .createdAt(LocalDateTime.now())
                 .book(likeBook)
                 .user(likeUser)
                 .build();
@@ -68,15 +76,8 @@ public class LikeServiceImpl implements LikeService {
      * @author 이서연
      */
     @Override
-    public Long countLikesByBookId(Long bookId) {
-        return likeRepository.countLikesByBookId(bookId);
+    public Long countAllByBook(Long bookId) {
+        return likeRepository.countAllByBook(bookId);
     }
-
-    //    @Override
-//    @Transactional
-//    public Page<BookInfoForLikeResponse> getAllByUser(Long userId, Pageable pageable) {
-//        likeRepository.findAllByUserId(userId, pageable).getPageable();
-//        return null;
-//    }
 
 }
