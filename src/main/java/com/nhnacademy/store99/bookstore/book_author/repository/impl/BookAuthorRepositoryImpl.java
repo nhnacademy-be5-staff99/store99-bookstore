@@ -46,7 +46,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         QBookTag bookTags = QBookTag.bookTag;
 
         JPQLQuery<BookListElementDTO> bookQuery = from(book)
-
+                .where(book.deletedAt.isNull())
                 .select(Projections.bean(
                         BookListElementDTO.class,
                         book.id.as("bookId"),
@@ -59,8 +59,7 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                         book.bookCntOfReview,
                         book.bookViewCount,
                         book.bookStock,
-                        book.bookAvgOfRate,
-                        book.deletedAt
+                        book.bookAvgOfRate
                 ))
                 .distinct();
 
@@ -107,7 +106,6 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                     b.getBookViewCount(),
                     b.getBookStock(),
                     b.getBookAvgOfRate(),
-                    b.getDeletedAt(),
                     authors,
                     tags
             );
