@@ -1,5 +1,7 @@
 package com.nhnacademy.store99.bookstore.user.service;
 
+import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
+import com.nhnacademy.store99.bookstore.consumer.repository.ConsumerRepository;
 import com.nhnacademy.store99.bookstore.user.dto.AuthorizationRequest;
 import com.nhnacademy.store99.bookstore.user.dto.AuthorizationResponse;
 import com.nhnacademy.store99.bookstore.user.dto.UserAuthInfoByEmail;
@@ -19,9 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+    private final ConsumerRepository consumerRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ConsumerRepository consumerRepository) {
         this.userRepository = userRepository;
+        this.consumerRepository = consumerRepository;
     }
 
     /**
@@ -54,6 +58,17 @@ public class UserService {
         userRepository.updateLoginAt(userAuthInfoByEmail.getId(), LocalDateTime.now());
 
         return response;
+    }
+
+    public boolean isDeleted(String email) {
+        try {
+            Consumer consumer = consumerRepository.findByConsumerEmail(email);
+            return userRepository.existsByIdAndDeletedAtIsNotNull(consumer.getId());
+        } catch (Exception e) {
+            log.error("isDeleted 호출 중 오류 발생", e);
+            throw e; // 필요에 따라 예외를 다시 던지거나, 적절한 처리를 수행
+
+        }
     }
 
 }
