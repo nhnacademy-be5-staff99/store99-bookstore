@@ -1,7 +1,8 @@
 package com.nhnacademy.store99.bookstore.order_book.controller;
 
+import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.service.OrderBookService;
-import java.util.Map;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,12 @@ public class OrderBookController {
     private final OrderBookService orderBookService;
 
     @GetMapping("/best")
-    public Map<Long, Long> getOB() {
+    public List<IndexBookResponse> getBestBooks() {
         return orderBookService.bestBooks();
+    }
+
+    @GetMapping("/latest")
+    public List<IndexBookResponse> getLatestBooks() {
+        return orderBookService.latestBooks();
     }
 }

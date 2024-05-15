@@ -27,6 +27,7 @@ public class BookRepositoryImpl extends QuerydslRepositorySupport implements Boo
                 .where(book.id.eq(bookId))
                 .where(book.deletedAt.isNull())
                 .select(Projections.bean(BookResponse.class,
+                        book.id.as("bookId"),
                         book.bookIsbn13,
                         book.bookIsbn10,
                         book.bookTitle,
