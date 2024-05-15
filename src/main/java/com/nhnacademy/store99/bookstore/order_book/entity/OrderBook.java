@@ -34,6 +34,9 @@ public class OrderBook {
     @Column(name = "order_book_id", nullable = false)
     private Long id;
 
+    @Column(name = "order_book_title", nullable = false)
+    private String orderBookTitle;
+
     @Column(name = "order_book_price", nullable = false)
     private Integer orderBookPrice;
 

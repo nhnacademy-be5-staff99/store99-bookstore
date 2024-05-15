@@ -23,7 +23,6 @@ public class BookCategoryServiceImpl implements BookCategoryService {
         return bookCategoryRepository.getCategoriesByParentsId(categoryId);
     }
 
-
     @Override
     public Page<BookListElementDTO> getBooksByCategories(Long categoryId, Pageable pageable) {
         List<CategoryParentsDTO> cp = bookCategoryRepository.getCategoriesByParentsId(categoryId);
