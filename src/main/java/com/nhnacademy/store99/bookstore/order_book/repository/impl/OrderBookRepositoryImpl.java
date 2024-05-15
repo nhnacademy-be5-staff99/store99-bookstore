@@ -5,7 +5,7 @@ import com.nhnacademy.store99.bookstore.book_image.entity.QBookImage;
 import com.nhnacademy.store99.bookstore.order_book.DTO.response.IndexBookResponse;
 import com.nhnacademy.store99.bookstore.order_book.entity.OrderBook;
 import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
-import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepository;
+import com.nhnacademy.store99.bookstore.order_book.repository.OrderBookRepositoryCustom;
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implements OrderBookRepository {
+public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implements OrderBookRepositoryCustom {
     public OrderBookRepositoryImpl() {
         super(OrderBook.class);
     }
@@ -51,7 +51,7 @@ public class OrderBookRepositoryImpl extends QuerydslRepositorySupport implement
         // 하지만 이미지를 포함하여 DTO를 만들때 인기있는 순서대로 정렬을 할수없었다.
         // 그래서 dto를 한번 더 만드는 작업을 반복해버림.
         // dto의 순서를 따로 저장하고 이미지와 함께 가져온 dto를 새로 정렬하는 방법도 있겠다.
-        
+
         Map<Long, List<String>> bookImages = from(bookImage)
                 .join(bookImage.book, book)
                 .where(bookImage.book.id.in(
