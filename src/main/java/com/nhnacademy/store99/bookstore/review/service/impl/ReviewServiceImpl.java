@@ -1,7 +1,7 @@
 package com.nhnacademy.store99.bookstore.review.service.impl;
 
 import com.nhnacademy.store99.bookstore.book.entity.Book;
-import com.nhnacademy.store99.bookstore.book.repository.BookJPARepository;
+import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.common.thread_local.XUserIdThreadLocal;
 import com.nhnacademy.store99.bookstore.review.dto.request.TextReviewRegisterRequest;
 import com.nhnacademy.store99.bookstore.review.entity.Review;
@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
-    private final BookJPARepository bookRepository;
+    private final BookRepository bookRepository;
     private final UserRepository userRepository;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository,
-                             BookJPARepository bookRepository, UserRepository userRepository) {
+                             BookRepository bookRepository, UserRepository userRepository) {
         this.reviewRepository = reviewRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;

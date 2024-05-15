@@ -23,7 +23,7 @@ public class ReviewRepositoryImpl extends QuerydslRepositorySupport implements R
 
         Long result = from(user)
                 .innerJoin(consumer).on(user.consumers.id.eq(consumer.id))
-                .innerJoin(order).on(consumer.id.eq(order.consumerId))
+                .innerJoin(order).on(consumer.id.eq(order.consumer.id))
                 .innerJoin(orderBook).on(order.orderId.eq(orderBook.order.orderId))
                 .where(orderBook.book.id.eq(bookId))
                 .select()
