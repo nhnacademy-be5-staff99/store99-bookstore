@@ -5,6 +5,7 @@ import com.nhnacademy.store99.bookstore.book.repository.BookRepository;
 import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
 import com.nhnacademy.store99.bookstore.consumer.repository.ConsumerRepository;
 import com.nhnacademy.store99.bookstore.order.dto.request.ConfirmPaymentRequest;
+import com.nhnacademy.store99.bookstore.order.dto.request.PaymentKeyRequest;
 import com.nhnacademy.store99.bookstore.order.entity.Order;
 import com.nhnacademy.store99.bookstore.order.enums.OrderState;
 import com.nhnacademy.store99.bookstore.order.exception.OrderBadRequestException;
@@ -82,11 +83,10 @@ public class OrderByGuestByGuestServiceImpl implements OrderByGuestService {
      * 결제 성공 시, 주문 상태를 PAYMENT_COMPLETED(결제 완료)로 변경
      *
      * @param orderId
-     * @param paymentKey 토스 페이먼츠 키
      */
     @Override
     @Transactional
-    public void successPendingPayment(final String orderId, final String paymentKey) {
+    public void successPendingPayment(final String orderId, final PaymentKeyRequest paymentKeyRequest) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderBadRequestException("order is not found"));
 
@@ -98,7 +98,10 @@ public class OrderByGuestByGuestServiceImpl implements OrderByGuestService {
         orderRepository.save(order);
 
         Payment payment = Payment.builder()
-                .paymentKey(paymentKey)
+                .paymentKey(paymentKeyRequest.getPaymentKey())
+                .paymentResponse(paymentKeyRequest.getResponse())
+                .paymentMethod(paymentKeyRequest.getMethod())
+                .paymentCost(paymentKeyRequest.getPaymentCost())
                 .order(order)
                 .build();
         paymentRepository.save(payment);

@@ -5,4 +5,10 @@ import lombok.Getter;
 @Getter
 public class PaymentKeyRequest {
     private String paymentKey;
+
+    private String response;
+
+    private String method;
+
+    private Integer paymentCost;
 }

@@ -47,7 +47,7 @@ public class OrderByGuestController {
     @PostMapping("/{orderId}/success")
     public void successPendingPayment(@PathVariable String orderId,
                                       @RequestBody PaymentKeyRequest paymentKeyRequest) {
-        orderByGuestService.successPendingPayment(orderId, paymentKeyRequest.getPaymentKey());
+        orderByGuestService.successPendingPayment(orderId, paymentKeyRequest);
     }
 
     /**
