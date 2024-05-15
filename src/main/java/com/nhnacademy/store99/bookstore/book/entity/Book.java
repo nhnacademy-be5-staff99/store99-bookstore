@@ -115,4 +115,12 @@ public class Book {
     public void plusViewCnt() {
         this.bookViewCount += 1;
     }
+
+    public void deleteBook() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
+    public void restoreBook() {
+        this.deletedAt = null;
+    }
 }
