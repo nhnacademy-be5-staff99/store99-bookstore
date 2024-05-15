@@ -4,6 +4,7 @@ import com.nhnacademy.store99.bookstore.common.response.CommonHeader;
 import com.nhnacademy.store99.bookstore.common.response.CommonResponse;
 import com.nhnacademy.store99.bookstore.user.dto.AuthorizationRequest;
 import com.nhnacademy.store99.bookstore.user.dto.AuthorizationResponse;
+import com.nhnacademy.store99.bookstore.user.dto.EmailDto;
 import com.nhnacademy.store99.bookstore.user.service.UserService;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -50,5 +51,31 @@ public class UserController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(commonResponse);
     }
+
+    @PostMapping("/deletedCheck")
+    public ResponseEntity<CommonResponse<Boolean>> deletedCheck(@Valid @RequestBody EmailDto emailDto) {
+        if (userService.isDeleted(emailDto.getEmail())) {
+            CommonHeader header = CommonHeader.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .resultMessage("deleted user")
+                    .build();
+            CommonResponse<Boolean> response = CommonResponse.<Boolean>builder()
+                    .header(header)
+                    .result(true)
+                    .build();
+            return ResponseEntity.ok(response);
+        } else {
+            CommonHeader header = CommonHeader.builder()
+                    .httpStatus(HttpStatus.OK)
+                    .resultMessage("not deleted user")
+                    .build();
+            CommonResponse<Boolean> response = CommonResponse.<Boolean>builder()
+                    .header(header)
+                    .result(false)
+                    .build();
+            return ResponseEntity.ok(response);
+        }
+    }
+
 
 }

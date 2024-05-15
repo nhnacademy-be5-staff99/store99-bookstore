@@ -1,6 +1,8 @@
 package com.nhnacademy.store99.bookstore.user.service;
 
 
+import static com.nhnacademy.store99.bookstore.point_history.enums.PointHistoryType.WELCOME;
+
 import com.nhnacademy.store99.bookstore.address.entity.Address;
 import com.nhnacademy.store99.bookstore.address.repository.AddressRepository;
 import com.nhnacademy.store99.bookstore.auth.entity.Auth;
@@ -9,11 +11,14 @@ import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
 import com.nhnacademy.store99.bookstore.consumer.repository.ConsumerRepository;
 import com.nhnacademy.store99.bookstore.grade.entity.Grade;
 import com.nhnacademy.store99.bookstore.grade.repository.GradeRepository;
+import com.nhnacademy.store99.bookstore.point_history.entity.PointHistory;
+import com.nhnacademy.store99.bookstore.point_history.repository.PointRepository;
+import com.nhnacademy.store99.bookstore.point_policies.entity.PointPolicyRepository;
 import com.nhnacademy.store99.bookstore.user.dto.SignUpDto;
 import com.nhnacademy.store99.bookstore.user.entity.User;
 import com.nhnacademy.store99.bookstore.user.repository.SignUpRepository;
 import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
+@RequiredArgsConstructor
 public class SignUpService {
 
     private final SignUpRepository userRepository;
@@ -30,20 +36,12 @@ public class SignUpService {
     private final AuthRepository authRepository;
     private final GradeRepository gradeRepository;
     private final AddressRepository addressRepository;
+    private final PointRepository pointRepository;
+    private final PointPolicyRepository pointPolicyRepository;
 
-    @Autowired
-    public SignUpService(SignUpRepository userRepository, ConsumerRepository consumerRepository,
-                         AuthRepository authRepository, GradeRepository gradeRepository,
-                         AddressRepository addressRepository) {
-        this.userRepository = userRepository;
-        this.consumerRepository = consumerRepository;
-        this.authRepository = authRepository;
-        this.gradeRepository = gradeRepository;
-        this.addressRepository = addressRepository;
-    }
 
     /**
-     * 실제 Db의 password값과 비교해서 password 중복 체크하는 메소드
+     * 실제 Db의 email과 비교해서 email 중복 체크하는 메소드
      *
      * @param email
      * @return boolean
@@ -82,7 +80,7 @@ public class SignUpService {
                 .consumers(consumer)
                 .grade(Grade.builder().id(1L).build())
                 .auth(Auth.builder().id(1L).build())
-                .userPoint(1000000)
+                .userPoint(pointPolicyRepository.findSavingPointByPolicyType("WELCOME").getSavingPoint())
                 .userLoginAt(LocalDateTime.now())
                 .userIsInactive(false)
                 .createdAt(LocalDateTime.now())
@@ -98,6 +96,14 @@ public class SignUpService {
                 .user(user)
                 .build();
         addressRepository.save(address);
+
+        PointHistory pointHistory = PointHistory.builder()
+                .userId(user.getId())
+                .pointHistoryValue(pointPolicyRepository.findSavingPointByPolicyType("WELCOME").getSavingPoint())
+                .pointHistoryType(WELCOME)
+                .createdAt(LocalDateTime.now())
+                .build();
+        pointRepository.save(pointHistory);
         return signUpDto;
     }
 
