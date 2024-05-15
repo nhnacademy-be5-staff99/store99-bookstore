@@ -60,6 +60,19 @@ public class BookServiceImpl implements BookService {
         return bookRequest;
     }
 
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteBook(Long bookId) {
+        bookJPARepository.findById(bookId).ifPresent(Book::deleteBook);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void restoreBook(Long bookId) {
+        bookJPARepository.findById(bookId).ifPresent(Book::restoreBook);
+    }
+
     @Override
     @Transactional(readOnly = false)
     public void plusViewCnt(Long bookId) {
