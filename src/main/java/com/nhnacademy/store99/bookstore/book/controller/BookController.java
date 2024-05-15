@@ -1,14 +1,10 @@
 package com.nhnacademy.store99.bookstore.book.controller;
 
-import com.nhnacademy.store99.bookstore.book.dto.response.BookListElementDTO;
-import com.nhnacademy.store99.bookstore.book.dto.response.BookResponse;
 import com.nhnacademy.store99.bookstore.book.service.BookService;
-import com.nhnacademy.store99.bookstore.book_author.service.BookAuthorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,23 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
  * @author yrrho2
  */
 @RestController
-@RequestMapping("/open/v1/books")
+@RequestMapping("/admin/v1/books/")
 @RequiredArgsConstructor
 public class BookController {
     final private BookService bookService;
-    final private BookAuthorService bookAuthorService;
 
 
-    @GetMapping("")
-    public Page<BookListElementDTO> getBooksFinal(Pageable pageable) {
-        return bookAuthorService.getBookListElementsDTO(pageable);
+    @DeleteMapping("/{bookId}")
+    public void deleteBook(@PathVariable("bookId") Long bookId) {
+        bookService.deleteBook(bookId);
     }
 
-    @GetMapping("/{bookId}")
-    public BookResponse getBook(@PathVariable("bookId") Long bookId) {
-        BookResponse bookDataById = bookService.getBookDataById(bookId);
-        bookService.plusViewCnt(bookId);
-        return bookDataById;
+    @PutMapping("/{bookId}/restore")
+    public void restoreBook(@PathVariable("bookId") Long bookId) {
+        bookService.restoreBook(bookId);
+
     }
 
 }
