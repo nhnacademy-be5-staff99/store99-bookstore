@@ -93,8 +93,7 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                         book.bookCntOfReview,
                         book.bookViewCount,
                         book.bookStock,
-                        book.bookAvgOfRate,
-                        book.deletedAt
+                        book.bookAvgOfRate
                 )).distinct();
         int totalSize = bookResponsesQuery.fetch().size();
         List<BookListElementDTO> bookResponsesDtoVar =
@@ -148,7 +147,6 @@ public class BookCategoryRepositoryImpl extends QuerydslRepositorySupport implem
                             .BookViewCount(b.getBookViewCount())
                             .BookStock(b.getBookStock())
                             .BookAvgOfRate(b.getBookAvgOfRate())
-                            .DeletedAt(b.getDeletedAt())
                             .authorsDTOList(authorsMap.get(b.getBookId()))
                             .tagDTOList(tagMap.get(b.getBookId()))
                             .build();
