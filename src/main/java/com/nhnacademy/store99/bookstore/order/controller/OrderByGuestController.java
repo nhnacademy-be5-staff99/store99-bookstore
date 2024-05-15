@@ -1,7 +1,9 @@
 package com.nhnacademy.store99.bookstore.order.controller;
 
 import com.nhnacademy.store99.bookstore.order.dto.request.ConfirmPaymentRequest;
+import com.nhnacademy.store99.bookstore.order.dto.request.OrderInquiryByGuestRequest;
 import com.nhnacademy.store99.bookstore.order.dto.request.PaymentKeyRequest;
+import com.nhnacademy.store99.bookstore.order.dto.response.OrderInquiryResponse;
 import com.nhnacademy.store99.bookstore.order.service.OrderByGuestService;
 import com.nhnacademy.store99.bookstore.order.service.OrderQueryService;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +59,10 @@ public class OrderByGuestController {
     public void failPendingPayment(@PathVariable String orderId,
                                    @RequestBody PaymentKeyRequest paymentKeyRequest) {
         orderByGuestService.failPendingPayment(orderId, paymentKeyRequest.getPaymentKey());
+    }
+
+    @PostMapping("/guest")
+    public OrderInquiryResponse getOrderByGuest(@RequestBody OrderInquiryByGuestRequest orderInquiryRequest) {
+        return orderQueryService.getOrderByGuest(orderInquiryRequest);
     }
 }
