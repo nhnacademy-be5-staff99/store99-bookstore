@@ -1,7 +1,6 @@
 package com.nhnacademy.store99.bookstore.order.repository.impl;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.types.Projections.list;
 
 import com.nhnacademy.store99.bookstore.book.entity.QBook;
 import com.nhnacademy.store99.bookstore.consumer.entity.QConsumer;
@@ -11,6 +10,7 @@ import com.nhnacademy.store99.bookstore.order.entity.Order;
 import com.nhnacademy.store99.bookstore.order.entity.QOrder;
 import com.nhnacademy.store99.bookstore.order.repository.OrderRepositoryCustom;
 import com.nhnacademy.store99.bookstore.order_book.entity.QOrderBook;
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -44,7 +44,7 @@ public class OrderRepositoryImpl extends QuerydslRepositorySupport implements Or
                         order.orderUsePoint,
                         order.couponDiscount,
                         order.orderFinalCost,
-                        list(Projections.constructor(BookInOrderInquiryResponse.class,
+                        GroupBy.list(Projections.constructor(BookInOrderInquiryResponse.class,
                                 orderBook.book.id,
                                 orderBook.orderBookTitle,
                                 orderBook.orderBookQuantity,
