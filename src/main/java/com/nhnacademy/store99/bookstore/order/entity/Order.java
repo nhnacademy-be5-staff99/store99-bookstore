@@ -1,19 +1,26 @@
 package com.nhnacademy.store99.bookstore.order.entity;
 
+import com.nhnacademy.store99.bookstore.consumer.entity.Consumer;
 import com.nhnacademy.store99.bookstore.order.enums.OrderState;
 import com.nhnacademy.store99.bookstore.order.enums.OrderType;
+import com.nhnacademy.store99.bookstore.payment.entity.Payment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Order Entity
@@ -35,6 +42,7 @@ public class Order {
     @Column(name = "order_type", nullable = false, length = 10)
     private OrderType orderType;
 
+    @Builder.Default
     @Column(name = "order_at", nullable = false)
     private LocalDateTime orderAt = LocalDateTime.now();
 
@@ -62,6 +70,7 @@ public class Order {
     @Column(name = "order_total_cost", nullable = false)
     private Integer orderTotalCost;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "order_state", nullable = false, length = 20)
     private OrderState orderState;
@@ -72,7 +81,10 @@ public class Order {
     @Column(name = "coupon_id")
     private Long couponId;
 
-    @Column(name = "consumer_id", nullable = false)
-    private Long consumerId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "consumer_id", nullable = false)
+    private Consumer consumer;
 
+    @OneToOne(mappedBy = "order")
+    private Payment payment;
 }

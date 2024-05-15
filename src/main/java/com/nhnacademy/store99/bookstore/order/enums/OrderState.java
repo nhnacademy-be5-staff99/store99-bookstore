@@ -6,5 +6,5 @@ package com.nhnacademy.store99.bookstore.order.enums;
  * @author seunggyu-kim
  */
 public enum OrderState {
-    PENDING, TRANSIT, COMPLETED, RETURNED, CANCELLED
+    PAYMENT_PENDING, PAYMENT_COMPLETED, TRANSIT, COMPLETED, RETURNED, CANCELLED, PAYMENT_FAILED
 }
