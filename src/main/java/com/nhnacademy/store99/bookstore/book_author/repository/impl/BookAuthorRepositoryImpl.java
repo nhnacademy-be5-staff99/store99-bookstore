@@ -46,7 +46,6 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         QBookTag bookTags = QBookTag.bookTag;
 
         JPQLQuery<BookListElementDTO> bookQuery = from(book)
-
                 .select(Projections.bean(
                         BookListElementDTO.class,
                         book.id.as("bookId"),
@@ -67,7 +66,6 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
         List<BookListElementDTO> books =
                 Objects.requireNonNull(getQuerydsl()).applyPagination(pageable, bookQuery).fetch();
         List<Long> bookIds = books.stream().map(BookListElementDTO::getBookId).collect(Collectors.toList());
-
 
         Map<Long, List<BookListElementDTO.AuthorDTO>> authorsMap = from(bookAuthor)
                 .where(bookAuthor.book.id.in(bookIds))
@@ -112,7 +110,6 @@ public class BookAuthorRepositoryImpl extends QuerydslRepositorySupport implemen
                     tags
             );
         }).collect(Collectors.toList());
-
 
         long fetchCount = bookQuery.fetchCount();
         return new PageImpl<>(bookResponse, pageable, fetchCount);
