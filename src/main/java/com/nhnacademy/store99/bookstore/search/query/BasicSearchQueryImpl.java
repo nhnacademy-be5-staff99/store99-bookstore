@@ -43,6 +43,7 @@ public class BasicSearchQueryImpl extends QuerydslRepositorySupport implements B
 
         // 도서 기본 정보 조회
         JPQLQuery<Book> bookQuery = from(book)
+                .where(book.deletedAt.isNull())
                 .leftJoin(bookAuthor).on(book.id.eq(bookAuthor.book.id))
                 .leftJoin(author).on(bookAuthor.author.id.eq(author.id))
                 .where(book.bookTitle.contains(content)
