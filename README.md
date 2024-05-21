@@ -1,5 +1,7 @@
 # store99-bookstore
 
+# CI/CD 발표 테스트입니다
+
 ### DEV 환경
 
 | VM Option                 | Value                                                                                       |
